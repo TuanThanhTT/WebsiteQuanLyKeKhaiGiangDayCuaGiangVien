@@ -123,6 +123,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\GiangVienController.cs" />
+    <Compile Include="Areas\Admin\Controllers\KeKhaiController.cs" />
     <Compile Include="Controllers\GiangVienController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KeKhaiController.cs" />
@@ -174,6 +175,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Views\GiangVien\" />
+    <Folder Include="Areas\Admin\Views\KeKhai\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Data\" />
     <Folder Include="Models\" />
