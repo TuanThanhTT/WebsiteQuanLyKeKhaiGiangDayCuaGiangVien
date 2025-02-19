@@ -1,0 +1,156 @@
+﻿.main-content {
+    margin-top: 10px;
+    height: 130vh;
+}
+
+.main-content-head h6 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    font-size: x-large;
+}
+
+    .main-content-head h6 i {
+        font-size: 1.5em; /* Kích thước icon */
+        color: #2d87f0;
+    }
+
+.text-thongso {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    font-size: medium;
+    margin-left: 10px;
+}
+
+    .text-thongso span {
+        font-weight: lighter;
+    }
+
+
+.main-content-footer {
+    
+    overflow-y: auto;
+    overflow-x: auto;
+    max-height: 40%;
+    margin-top: 5%;
+}
+
+
+    .main-content-footer h6 {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: bold;
+        font-size: 20px;
+        text-align: center;
+    }
+
+.main-content-body {
+  
+   
+    overflow-x: auto;
+    max-height: 40%;
+      
+}
+
+    .main-content-body h6 {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: larger;
+        font-weight: bold;
+        text-align: center;
+    }
+
+.table-container {
+    max-width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px; /* Đảm bảo bảng không bị co lại */
+}
+
+thead {
+    background-color: #2d87f0;
+    color: white;
+    white-space: nowrap;
+    text-align: center;
+}
+
+th, td {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    word-wrap: break-word; /* Tự động xuống dòng nếu nội dung quá dài */
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Nút chức năng */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+    .action-buttons button {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.9em;
+        color: white;
+    }
+
+.btn-view {
+    background-color: #4caf50;
+}
+
+.btn-edit {
+    background-color: #ffa500;
+}
+
+.btn-done {
+    background-color: #296df6;
+}
+
+.btn-view:hover {
+    background-color: #45a049;
+}
+
+.btn-edit:hover {
+    background-color: #e69500;
+}
+
+.btn-delete:hover {
+    background-color: #d32f2f;
+}
+
+/* Thanh cuộn */
+.table-container::-webkit-scrollbar {
+    height: 3px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+}
+
+    .table-container::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+    }
+
+.phantrang {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#phanTrangTableChoDuyet {
+    list-style-type: none;
+    padding-left: 0; 
+}

@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" /> 
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/Content/css/Menu.css" />
+    <link rel="stylesheet" href="~/Content/css/Footer.css" />
+    @RenderSection("styles", required: false)
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <div class="caption-logo row">
+                <div class="col-2">
+                    <img class="logo-img" src="~/Content/Img/dthu.png">
+                </div>
+                <div class="col">
+                    <a href="~/Home/Home" class="title-caption">
+                        WEBSITE QUẢN LÝ KÊ KHAI GIẢNG DẠY
+                    </a>
+                    <a href="~/Home/Home" class="title-khoa">
+                        KHOA CÔNG NGHỆ VÀ KỸ THUẬT
+                    </a>
+                </div>
+
+
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01"
+                    aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 menu">
+                    <li class="nav-item">
+                        <a class="nav-link" href="~/Home/Home">Trang Chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="~/Home/thongTin">Tài Khoản</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Kê Khai
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="~/KeKhai/KeKhaiMonHoc">Kê Khai Học Phần</a></li>
+                            <li><a class="dropdown-item" href="#">Xem Đợt Kê Khai</a></li>
+                            <li><a class="dropdown-item" href="~/KeKhai/XemPhanCongHocPhan">Xem Phân Công</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Lịch Sử
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="~/KeKhai/CacMonDaKeKhai">Các Môn Đã Kê Khai</a></li>
+                            <li><a class="dropdown-item" href="#">Tra Cứu Kê Khai</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="d-flex me-3">
+                    @if (ViewBag.UserName != null)
+                    {
+                        <span>Xin chào: <strong style="color: blue">@ViewBag.UserName</strong></span>
+                    }
+                    else
+                    {
+                        <span></span>
+                    }
+
+                </div>
+                <div class="d-flex">
+                    <form action="~/Login/Logout" method="post">
+                        <button type="submit" class="btn btn-danger"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div>
+        @RenderBody()
+    </div>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section about">
+                <h4>Về Chúng Tôi</h4>
+                <p>
+                    Chúng tôi cung cấp các giải pháp phần mềm quản lý giảng dạy hiệu quả, giúp giảng viên dễ dàng kê khai, theo dõi và quản lý quá trình giảng dạy và học tập của sinh viên.
+                </p>
+            </div>
+            <div class="footer-section links">
+                <h4>Liên Kết Quan Trọng</h4>
+                <ul>
+                    <li><a href="#home">Trang Chủ</a></li>
+                    <li><a href="#about">Giới Thiệu</a></li>
+                    <li><a href="#contact">Liên Hệ</a></li>
+                    <li><a href="#privacy">Chính Sách Bảo Mật</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h4>Liên Hệ</h4>
+                <ul>
+                    <li><i class="fas fa-phone"></i> Hotline: 039 3524 531</li>
+                    <li><i class="fas fa-envelope"></i> Email: tuanthanh1810547@gmail.com</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Địa chỉ: Phạm Hữu Lầu, P.6, TP. Cao Lãnh, Đồng Tháp</li>
+                </ul>
+            </div>
+            <div class="footer-section social">
+                <h4>Chúng Tôi Trên Mạng Xã Hội</h4>
+                <div class="social-icons">
+                    <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Nguyen Tuan Thanh. All Rights Reserved.</p>
+        </div>
+    </footer>
+    @RenderSection("scripts", required: false)
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

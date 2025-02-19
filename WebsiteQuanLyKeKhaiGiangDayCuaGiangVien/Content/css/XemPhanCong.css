@@ -1,0 +1,8 @@
+﻿.active {
+    font-size: medium;
+    font-weight: bold;
+}
+.phantrang {
+    display: flex;
+    justify-content: flex-end;
+}

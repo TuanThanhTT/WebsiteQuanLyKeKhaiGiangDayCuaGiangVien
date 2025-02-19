@@ -1,0 +1,62 @@
+﻿.main-content {
+    height: 100vh;
+}
+
+
+.main-content-body {
+    width: 70%;
+    background-color: white;
+    margin: auto;
+    height: 47%;
+    margin-top: 5%;
+    border-radius: 10px;
+    border: solid;
+}
+
+.content-head h6 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    font-size: 25px;
+    text-align: center;
+    padding: 10px 10px 0px 10px;
+    color: black;
+}
+
+.content-body {
+    width: 100%;
+    padding: 10px;
+    padding-left: 20px;
+    align-items: center;
+    overflow-y: auto;
+    overflow-x: auto;
+    max-height: 180px;
+    word-wrap: break-word;
+    text-wrap: normal;
+}
+
+    .content-body p {
+        font-size: medium;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: bold;
+    }
+
+    .content-body span {
+        font-weight: lighter;
+        margin-left: 5px;
+    }
+
+.text-left {
+    align-items: center;
+}
+
+.content-footer a {
+    width: 120px;
+}
+
+.link-kekhai {
+    display: flex;
+    justify-items: right;
+    justify-content: right;
+    margin-right: 20px;
+    padding: 0;
+}

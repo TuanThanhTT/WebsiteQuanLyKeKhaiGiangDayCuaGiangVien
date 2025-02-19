@@ -1,0 +1,103 @@
+﻿
+@{
+    ViewBag.Title = "Trang Chủ";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+
+@section styles {
+    <link rel="stylesheet" href="~/Content/css/Home.css" />
+}
+
+<div class="slide-show">
+    <div class="slide-container">
+        <div class="slides">
+            <!-- Hình ảnh 1 -->
+            <div class="slide active" style="background-image: url('@Url.Content("~/Content/img/nen.jpg")');">
+                <div class="overlay"></div>
+                <div class="text-container">
+                    <h1 class="text">Tiết Kiệm Thời Gian Và Nâng Cao Hiệu Quả Quản Lý</h1>
+                    <p class="content-text">
+                        Tự động hóa, quản lý tập trung, báo cáo nhanh chóng.
+                    </p>
+                </div>
+            </div>
+            <!-- Hình ảnh 2 -->
+            <div class="slide" style="background-image: url('@Url.Content("~/Content/img/flyDTHU.jpg")');">
+                <div class="overlay"></div>
+                <div class="text-container">
+                    <h1 class="text">Tăng Cường Minh Bạch Và Chính Xác</h1>
+                    <p class="content-text">
+                        Dễ dàng xác minh, cập nhật liên tục.
+                    </p>
+                </div>
+            </div>
+            <!-- Hình ảnh 3 -->
+            <div class="slide" style="background-image: url('@Url.Content("~/Content/img/n.jpg")');">
+                <div class="overlay"></div>
+                <div class="text-container">
+                    <h1 class="text">Cải Thiện Tương Tác và Giao Tiếp</h1>
+                    <p class="content-text">
+                        Thống kê tự động, dễ dàng quản lý.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <span class="prev" onclick="changeSlide(-1)">&#10094;</span>
+            <span class="next" onclick="changeSlide(1)">&#10095;</span>
+        </div>
+
+    </div>
+</div>
+
+<div class="intro">
+    <div class="intro-content">
+        <h2>Chào Mừng Bạn Đến Với Trang Website Kê Khai Giảng Dạy</h2>
+        <p>
+            Đây là nền tảng giúp giảng viên dễ dàng quản lý và kê khai các thông tin giảng dạy, bao gồm các môn học, thời gian giảng dạy, và thông tin sinh viên. Trang web này được thiết kế để tối ưu hóa quy trình làm việc của giảng viên và tăng hiệu quả công việc.
+        </p>
+        <p>
+            Chúng tôi cung cấp các công cụ giúp giảng viên theo dõi tiến trình giảng dạy, quản lý lịch trình và hỗ trợ sinh viên trong suốt quá trình học tập.
+        </p>
+        <p>
+            Hãy khám phá các tính năng nổi bật mà chúng tôi cung cấp dưới đây:
+        </p>
+    </div>
+</div>
+
+<!-- Phần Giới thiệu các tính năng nổi bật -->
+<div class="features">
+    <div class="feature-item">
+        <img src="~/Content/img/lich.jpg" alt="Tính năng 1">
+        <h3>Quản lý Lịch Giảng Dạy</h3>
+        <p>
+            Cung cấp lịch giảng dạy chi tiết và dễ dàng cập nhật, giúp giảng viên tổ chức công việc một cách khoa học và hiệu quả.
+        </p>
+    </div>
+    <div class="feature-item">
+        <img src="~/Content/img/documnet.jpg" alt="Tính năng 2">
+        <h3>Quản Lý Thông Tin Kê Khai</h3>
+        <p>
+            Dễ dàng theo dõi và quản lý thông tin kê khai.
+        </p>
+    </div>
+    <div class="feature-item">
+        <img src="~/Content/img/ThongKe.png" alt="Tính năng 3">
+        <h3>Báo Cáo và Thống Kê</h3>
+        <p>
+            Các báo cáo học tập được tự động tạo ra, giúp giảng viên theo dõi tiến độ và hiệu quả học tập của sinh viên.
+        </p>
+    </div>
+</div>
+
+
+@section scripts {
+    <script src="~/Content/js/Home.js"></script>
+
+}
+
+
+
+

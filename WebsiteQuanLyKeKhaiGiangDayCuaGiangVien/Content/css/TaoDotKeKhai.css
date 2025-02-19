@@ -1,0 +1,163 @@
+﻿hr {
+    color: black;
+}
+
+.caption-tile .row h1 {
+    font-weight: bold;
+    font-size: large;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: green;
+    align-items: center;
+}
+
+.button-mau {
+    margin-left: 5px;
+}
+
+.table-phanCong thead {
+    background-color: blueviolet;
+    color: #ffff;
+}
+
+
+
+
+
+.main-table {
+    height: 50vh;
+    background-color: white;
+}
+
+.table-phanCong {
+    height: 100%;
+}
+
+
+.table-phanCong-wrapper {
+    width: 100%;
+    overflow-x: auto; /* Thanh cuộn ngang nếu bảng rộng */
+    margin-top: 20px;
+}
+
+.table-phanCong {
+    width: 100%;
+    table-layout: auto;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+    .table-phanCong th {
+        vertical-align: middle;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .table-phanCong td {
+        padding: 15px;
+        word-wrap: break-word;
+        white-space: normal;
+        border: 1px solid #ddd;
+        background-color: #fff;
+        vertical-align: middle;
+        text-align: center;
+    }
+
+
+    .table-phanCong tbody tr:hover {
+        background-color: #d8c1ff; /* Nổi bật dòng khi hover */
+    }
+
+
+.main-table {
+    background-color: white;
+    padding: 10px;
+}
+
+
+/* Thêm hiệu ứng cuộn */
+.main-table {
+    max-height: 50vh;
+    overflow-y: auto;
+    overflow-x: auto;
+    border: 1px solid #ddd;
+}
+
+tr > .text-none {
+    text-align: center;
+}
+
+
+.nav-phantrang {
+    display: flex;
+    justify-content: right;
+    padding: 0;
+}
+
+.table-caption {
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+
+.content{
+    height: 100vh;
+   
+}
+
+
+@media only screen and (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+        .navbar .user-actions {
+            display: flex;
+            flex-direction: column;
+        }
+
+    /*.sidebar {
+        display: none;*/ /* Ẩn sidebar trên màn hình nhỏ */
+    /*}*/
+
+    #menu-toggle {
+        display: block; /* Hiển thị nút mở menu */
+    }
+
+    .main {
+        margin: 0;
+        padding: 10px;
+    }
+
+    .form-main {
+        width: 100%;
+    }
+
+    .table-phanCong-wrapper {
+        overflow-x: auto; /* Đảm bảo bảng không bị tràn */
+    }
+
+    .table-phanCong td, .table-phanCong th {
+        font-size: 12px; /* Giảm kích thước font chữ */
+        padding: 8px; /* Giảm khoảng cách padding */
+    }
+
+    .table-caption {
+        font-size: 16px; /* Giảm kích thước tiêu đề */
+    }
+
+    .pagination {
+        justify-content: center; /* Căn giữa phân trang */
+    }
+
+    .modal-content {
+        width: 90%; /* Co modal lại cho phù hợp với màn hình nhỏ */
+    }
+}
+
+
+
+

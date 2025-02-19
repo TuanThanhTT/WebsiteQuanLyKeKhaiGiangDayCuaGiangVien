@@ -1,0 +1,95 @@
+﻿/* Modal */
+.modal-xem-lichsu-kekhai {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Nội dung Modal */
+.modal-xem-lichsu-kekhai-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Đã giảm kích thước modal */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    position: relative;
+}
+
+/* Tiêu đề Modal */
+.modal-xem-lichsu-kekhai h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Icon đóng Modal */
+.modal-xem-lichsu-kekhai-close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+}
+
+    /* Khi di chuột qua icon đóng */
+    .modal-xem-lichsu-kekhai-close:hover,
+    .modal-xem-lichsu-kekhai-close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+/* Cột trong modal */
+.modal-xem-lichsu-kekhai-body {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Giảm khoảng cách giữa các cột */
+}
+
+/* Cột trái và phải */
+.modal-xem-lichsu-kekhai-left-column, .modal-xem-lichsu-kekhai-right-column {
+    width: 45%;
+    padding: 10px;
+}
+
+/* Định dạng cho các phần trong modal */
+.modal-xem-lichsu-kekhai label {
+    font-size: 14px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.modal-xem-lichsu-kekhai p {
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+/* Nút đóng cuối Modal */
+.modal-xem-lichsu-kekhai-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Nút đóng */
+.modal-xem-lichsu-kekhai-close-btn {
+    padding: 10px 20px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    .modal-xem-lichsu-kekhai-close-btn:hover {
+        background-color: #d32f2f;
+    }

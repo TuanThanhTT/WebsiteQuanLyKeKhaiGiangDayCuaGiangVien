@@ -1,0 +1,46 @@
+﻿/* Modal */
+.themNamHocModalContent {
+    border-radius: 10px;
+}
+
+.themNamHocInput {
+    border-radius: 5px;
+}
+
+.themNamHocBtnClear {
+    background-color: #dc3545;
+    color: white;
+}
+
+    .themNamHocBtnClear:hover {
+        background-color: #bd2130;
+        border-color: #a71d2a;
+    }
+
+.themNamHocBtnSave {
+    background-color: #007bff;
+    color: white;
+}
+
+    .themNamHocBtnSave:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+
+/* Xóa nền và khung của button */
+button.close {
+    background: transparent;
+    /* Xóa nền */
+    border: none;
+    /* Xóa viền */
+    padding: 0;
+    /* Xóa khoảng cách padding */
+}
+
+    /* Tùy chỉnh thêm cho icon nếu cần */
+    button.close i {
+        font-size: 24px;
+        /* Kích thước icon */
+        color: #000;
+        /* Màu sắc icon */
+    }

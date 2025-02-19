@@ -1,0 +1,177 @@
+﻿.caption-tile h1 {
+    font-size: large;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: green;
+}
+
+.content {
+    background-color: rgb(237, 232, 232);
+}
+
+.main-chart {
+    background-color: rgba(255, 255, 255,0.5);
+    /*height: 60vh;*/
+    border-radius: 10px;
+}
+
+.main-chart-head {
+    padding: 10px;
+}
+
+.main-chart-body h6 {
+    text-align: center;
+    font-weight: bold;
+    font-size: large;
+}
+
+.detail-number {
+    margin-left: 5px;
+    background-color: rgba(255, 255, 255,0.5);
+    ;
+    height: 50vh;
+    border-radius: 10px;
+    overflow-x: auto;
+}
+
+.active {
+    font-size: medium;
+    font-weight: bold;
+}
+
+.detail-number-head {
+    padding: 15px 10px 10px 10px;
+}
+
+    .detail-number-head span {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: bold;
+        font-size: large;
+    }
+
+.detail-number-body a {
+    text-decoration: none;
+    color: blueviolet;
+    display: flex;
+    justify-content: center;
+}
+
+    .detail-number-body a :hover {
+        color: blue;
+    }
+
+.detail-number-body span {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.detail-number-body h1 {
+    text-align: center;
+}
+
+.detail-number-footer h6 {
+    text-align: center;
+    overflow-wrap: break-word;
+}
+
+.detail-number-footer .tendot {
+    overflow-x: auto;
+}
+
+.main-export {
+    background-color: rgba(255, 255, 255,0.5);
+    border-radius: 10px;
+}
+
+.main-table {
+    background-color: rgba(255, 255, 255,0.5);
+    height: 50vh;
+    border-radius: 10px;
+}
+
+.main-export-head h6 {
+    padding: 20px 0px 0px 12px;
+    font-size: large;
+}
+
+.main-table-head h6 {
+    padding: 20px 0px 0px 12px;
+    font-size: large;
+}
+
+.main-export-body p {
+    font-weight: bold;
+}
+
+.main-export-body span {
+    font-weight: lighter;
+}
+
+.content-main-part-2 {
+    margin-top: 15px;
+}
+
+.table-container {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.table-container {
+    overflow: hidden;
+}
+
+.scrollable {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.table-thongke td :hover {
+    background-color: #9caafa;
+    cursor: pointer;
+}
+
+.table-thongke th, .table-thongke td {
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.caption-table {
+    text-align: center;
+    font-size: large;
+}
+
+.table-thongke tr:hover {
+    background-color: #9caafa;
+}
+
+.btn-xuatfile {
+    margin-top: 20px;
+}
+
+.main-table-body p {
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.main-table-body-xuatfile p {
+    margin-top: 20px;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.btnXem{
+    text-align: center;
+}
+.phantrang {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.link-pageItem{
+    color: blue;
+    cursor: pointer;
+}
+.link-pageItem :hover {
+    color: blueviolet;
+}

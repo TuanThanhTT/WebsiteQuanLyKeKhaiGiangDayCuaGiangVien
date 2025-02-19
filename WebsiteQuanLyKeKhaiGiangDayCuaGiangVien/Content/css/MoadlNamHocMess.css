@@ -1,0 +1,50 @@
+﻿/* Bo góc cho toàn bộ modal */
+.modal-mess .modal-content {
+    border-radius: 10px;
+}
+
+/* Bo góc cho phần đầu modal */
+.modal-mess .modal-header {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Tiêu đề modal */
+.modal-mess .modal-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Icon đóng */
+.modal-mess .btn-close {
+    position: relative;
+    top: 0;
+    right: 0;
+    color: #ffff;
+    z-index: 10; 
+    margin-left: auto;
+    padding: 0.5rem;
+}
+
+/* Bo góc cho phần body modal */
+.modal-mess .modal-body {
+    padding: 20px;
+}
+
+/* Bo góc cho phần footer modal */
+.modal-mess .modal-footer {
+    padding: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+/* Đảm bảo modal mở rộng với chiều rộng phù hợp */
+.modal-mess .modal-dialog {
+    max-width: 500px; /* Kích thước modal có thể điều chỉnh */
+    margin: 30px auto; /* Căn giữa modal */
+}

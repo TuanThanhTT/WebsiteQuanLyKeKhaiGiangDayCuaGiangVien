@@ -1,0 +1,91 @@
+﻿
+/* CSS cho div bao bọc bảng */
+.table-bosungphancong {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    height: 50vh;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+/* CSS cho wrapper của bảng */
+.tbsPhanCong-wrapper {
+    margin-top: 20px;
+}
+
+/* Tiêu đề bảng */
+.tbsPhanCong-caption {
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+/* Kiểu dáng cho bảng */
+.tbsPhanCong {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+    /* Các thẻ trong bảng */
+    .tbsPhanCong th, .tbsPhanCong td {
+        padding: 12px;
+        text-align: center;
+    }
+
+    /* Nền màu cho các cột tiêu đề */
+    .tbsPhanCong th {
+        background-color: #f8f9fa;
+    }
+
+    /* Nền màu cho các ô dữ liệu */
+    .tbsPhanCong td {
+        background-color: #ffffff;
+    }
+
+/* Khi không có dữ liệu hiển thị */
+#tbsPhanCong-table td {
+    background-color: #f2f2f2;
+    color: #333;
+    font-style: italic;
+}
+
+
+
+/* Viền của bảng */
+.table-bosungphancong .table-bordered th,
+.table-bosungphancong .table-bordered td {
+    border: 1px solid #ddd;
+}
+
+/* Tăng độ rõ ràng cho viền bảng */
+.table-bosungphancong .table-bordered th {
+    border-top: 2px solid #ccc;
+    border-bottom: 2px solid #ccc;
+}
+
+.table-bosungphancong .table-bordered td {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.tbsPhanCong thead {
+    background-color: blueviolet;
+    word-wrap: break-word;
+}
+
+.tbsPhanCong th {
+    color: white;
+}
+
+.main-table {
+    height: 200px;
+}
+
+.hide {
+    display: none;
+}

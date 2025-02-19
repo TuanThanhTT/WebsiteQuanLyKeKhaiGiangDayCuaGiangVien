@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -45,10 +46,50 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=7.6.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.7.6.0\lib\net462\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus.Interfaces, Version=7.5.0.0, Culture=neutral, PublicKeyToken=a694d7f3b0907a61, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.Interfaces.7.5.0\lib\net462\EPPlus.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus.System.Drawing, Version=7.5.0.0, Culture=neutral, PublicKeyToken=2308d35469c9bac0, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.System.Drawing.7.5.0\lib\net462\EPPlus.System.Drawing.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.3.0.1\lib\netstandard2.0\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.5.0.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.8.0.4\lib\net462\System.Drawing.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -124,12 +165,91 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\GiangVienController.cs" />
     <Compile Include="Areas\Admin\Controllers\KeKhaiController.cs" />
+    <Compile Include="Areas\Admin\Controllers\KhoaController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NamHocController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ThongKeController.cs" />
     <Compile Include="Controllers\GiangVienController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KeKhaiController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountRole.cs">
+      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DotKeKhai.cs">
+      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DotPhanCong.cs">
+      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FilePhanCong.cs">
+      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GiangVien.cs">
+      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HocKy.cs">
+      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HocPhan.cs">
+      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KeKhai.cs">
+      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Khoa.cs">
+      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModelCustom\XemChiTietThongTinGiangVien.cs" />
+    <Compile Include="Models\NamHoc.cs">
+      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PhanCongHocPhan.cs">
+      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Quyen.cs">
+      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Role.cs">
+      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RolePermission.cs">
+      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams_Result.cs">
+      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TaiKhoan.cs">
+      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ThongKe.cs">
+      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ThongKeChiTiet.cs">
+      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WebSiteQuanLyKeKhaiGiangDay.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WebSiteQuanLyKeKhaiGiangDay.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WebSiteQuanLyKeKhaiGiangDay.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -138,13 +258,109 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\BangPhanCongBoSungHocPhan.css" />
+    <Content Include="Content\css\CacMonDaKeKhai.css" />
+    <Content Include="Content\css\CaiDatGiangVien.css" />
+    <Content Include="Content\css\CaiDatKhoa.css" />
+    <Content Include="Content\css\CaiDatNamHoc.css" />
+    <Content Include="Content\css\Dashborad.css" />
+    <Content Include="Content\css\DuyetKeKhai.css" />
+    <Content Include="Content\css\Footer.css" />
+    <Content Include="Content\css\Home.css" />
+    <Content Include="Content\css\KeKhaiHocPhan.css" />
+    <Content Include="Content\css\login.css" />
+    <Content Include="Content\css\Menu.css" />
+    <Content Include="Content\css\MoadlNamHocMess.css" />
+    <Content Include="Content\css\ModalChinhSuaKeKhai.css" />
+    <Content Include="Content\css\ModalKhoaDotKeKhai.css" />
+    <Content Include="Content\css\ModalMainErr.css" />
+    <Content Include="Content\css\ModalTaiBoSungFilePhanCong.css" />
+    <Content Include="Content\css\ModalTaoDotKeKhai.css" />
+    <Content Include="Content\css\ModalThemHocKy.css" />
+    <Content Include="Content\css\ModalThemNamHoc.css" />
+    <Content Include="Content\css\ModalXemChiTietThongKe.css" />
+    <Content Include="Content\css\ModalXemKeKhai.css" />
+    <Content Include="Content\css\ModalXemKeKhaiHoanThanh.css" />
+    <Content Include="Content\css\ModalXemPhanCong.css" />
+    <Content Include="Content\css\site.css" />
+    <Content Include="Content\css\TaoDotKeKhai.css" />
+    <Content Include="Content\css\ThongBaoDotKeKhai.css" />
+    <Content Include="Content\css\ThongKe.css" />
+    <Content Include="Content\css\ThongTin.css" />
+    <Content Include="Content\css\XemPhanCong.css" />
+    <Content Include="Content\css\XemPhanCongHocPhan.css" />
+    <Content Include="Content\Img\book.png" />
+    <Content Include="Content\Img\documnet.jpg" />
+    <Content Include="Content\Img\dthu.png" />
+    <Content Include="Content\Img\flyDTHU.jpg" />
+    <Content Include="Content\Img\lich.jpg" />
+    <Content Include="Content\Img\n.jpg" />
+    <Content Include="Content\Img\nen.jpg" />
+    <Content Include="Content\Img\ThongKe.png" />
+    <Content Include="Content\Img\white-outline.png" />
+    <Content Include="Content\js\Account\QuanLyTaiKhoan.js" />
+    <Content Include="Content\js\CaiDatNamHoc.js" />
+    <Content Include="Content\js\GiangVien\CaiDatGiangVien.js" />
+    <Content Include="Content\js\GiangVien\DanhSachGiangVienDaKhoa.js" />
+    <Content Include="Content\js\GiangVien\ThongTinGiangVien.js" />
+    <Content Include="Content\js\HocPhan\CaiDatHocPhan.js" />
+    <Content Include="Content\js\Home.js" />
+    <Content Include="Content\js\Kekhai\BoSungPhanCong.js" />
+    <Content Include="Content\js\Kekhai\CacHocPhanDaKeKhai.js" />
+    <Content Include="Content\js\Kekhai\CountDown.js" />
+    <Content Include="Content\js\Kekhai\DuyetKeKhai.js" />
+    <Content Include="Content\js\Kekhai\KeKhaiHocPhan.js" />
+    <Content Include="Content\js\Kekhai\TaoDotKeKhai.js" />
+    <Content Include="Content\js\Kekhai\TaoDotKeKhaiBoSung.js" />
+    <Content Include="Content\js\Kekhai\XemPhanCongKeKhai.js" />
+    <Content Include="Content\js\Kekhai\XemPhanCongKeKhaiAdmin.js" />
+    <Content Include="Content\js\Khoa\ThemKhoa.js" />
+    <Content Include="Content\js\login.js" />
+    <Content Include="Content\js\ModalBoSungPhanCongHocPhan.js" />
+    <Content Include="Content\js\ModalChinhSuaDotKeKhai.js" />
+    <Content Include="Content\js\ModalChinhSuaKeKhai.js" />
+    <Content Include="Content\js\ModalDuyetKeKhai.js" />
+    <Content Include="Content\js\ModalKhoaDotKeKhai.js" />
+    <Content Include="Content\js\ModalMessErr.js" />
+    <Content Include="Content\js\ModalThemHocKy.js" />
+    <Content Include="Content\js\ModalThemNamHoc.js" />
+    <Content Include="Content\js\ModalXemDotKeKhai.js" />
+    <Content Include="Content\js\ModalXemKeKhai.js" />
+    <Content Include="Content\js\ModalXemKeKhaiHoanThanh.js" />
+    <Content Include="Content\js\ModalXemPhanCong.js" />
+    <Content Include="Content\js\NamHoc\ModalMessNamHoc.js" />
+    <Content Include="Content\js\NamHoc\ThemNamHoc.js" />
+    <Content Include="Content\js\site.js" />
+    <Content Include="Content\js\TaoDotKeKhai.js" />
+    <Content Include="Content\js\ThongKe.js" />
+    <Content Include="Content\js\ThongKe\GiangVienChuaHoanThanhKeKhai.js" />
+    <Content Include="Content\js\ThongKe\GiangVienHoanThanhKeKhai.js" />
+    <Content Include="Content\js\ThongKe\ThongKe.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Models\WebSiteQuanLyKeKhaiGiangDay.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.edmx</DependentUpon>
+      <LastGenOutput>WebSiteQuanLyKeKhaiGiangDay.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\WebSiteQuanLyKeKhaiGiangDay.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.edmx</DependentUpon>
+      <LastGenOutput>WebSiteQuanLyKeKhaiGiangDay.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\Shared\_LayoutAdmin.cshtml" />
+    <EntityDeploy Include="Models\WebSiteQuanLyKeKhaiGiangDay.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>WebSiteQuanLyKeKhaiGiangDay.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\WebSiteQuanLyKeKhaiGiangDay.edmx.diagram">
+      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -170,15 +386,22 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutUser.cshtml" />
+    <Content Include="Views\Home\TrangChu.cshtml" />
+    <Content Include="Views\Home\ThongTin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Views\GiangVien\" />
     <Folder Include="Areas\Admin\Views\KeKhai\" />
-    <Folder Include="Areas\Admin\Views\Shared\" />
+    <Folder Include="Areas\Admin\Views\Khoa\" />
+    <Folder Include="Areas\Admin\Views\NamHoc\" />
+    <Folder Include="Areas\Admin\Views\ThongKe\" />
+    <Folder Include="Content\FileExport\" />
+    <Folder Include="Content\FileUpload\" />
+    <Folder Include="Content\ImgAvartar\" />
     <Folder Include="Data\" />
-    <Folder Include="Models\" />
     <Folder Include="Views\GiangVien\" />
     <Folder Include="Views\KeKhai\" />
     <Folder Include="Views\Login\" />
@@ -195,6 +418,9 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -229,7 +455,10 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.targets'))" />
   </Target>
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

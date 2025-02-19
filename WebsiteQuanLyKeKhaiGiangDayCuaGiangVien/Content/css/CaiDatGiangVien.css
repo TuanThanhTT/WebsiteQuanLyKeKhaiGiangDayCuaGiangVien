@@ -1,0 +1,33 @@
+﻿.panel-table-GiangVien {
+    max-height: 500px;
+    overflow-x: auto;
+}
+
+.title-modalThemGinagVien {
+    background-color: rgb(80, 80, 247);
+    color: white;
+}
+
+#giangVienTable {
+    white-space: nowrap;
+}
+
+    #giangVienTable thead {
+        background-color: blueviolet;
+    }
+
+    #giangVienTable th {
+        color: white;
+    }
+
+.title-table-themGiangVienFile {
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 0px;
+}
+.phantrang {
+    display: flex;
+    justify-content: flex-end;
+}

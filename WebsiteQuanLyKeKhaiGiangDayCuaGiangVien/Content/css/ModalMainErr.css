@@ -1,0 +1,17 @@
+﻿.custom-modal-dialog {
+    max-width: 500px; /* Đặt kích thước tùy chỉnh */
+    margin: auto; /* Căn giữa */
+   
+}
+
+.Modal-main-err-header {
+    background-color: #dc3545;
+    color: white;
+}
+
+.Modal-main-err-body {
+    font-size: 16px;
+}
+.modal-content{
+    padding: 0px;
+}

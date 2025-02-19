@@ -1,0 +1,229 @@
+﻿
+
+
+/* Cấu hình chung */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    font-family: 'Arial', sans-serif;
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.slides {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.slide {
+    min-width: 100%;
+    height: 100%;
+    position: absolute;
+    opacity: 0;
+    background-size: cover;
+    background-position: center;
+    transition: opacity 1s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    clip-path: ellipse(0% 50% at 50% 50%); /* Đặt kiểu sóng */
+}
+
+    .slide.active {
+        opacity: 1;
+        clip-path: ellipse(100% 50% at 50% 50%); /* Mở rộng từ giữa */
+    }
+
+/* Lớp phủ mờ */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+/* Bố cục và căn chỉnh nội dung */
+.text-container {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: white;
+    padding: 20px;
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+/* Tiêu đề slide */
+.text {
+    font-size: 3.5em;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    line-height: 1.2;
+    letter-spacing: 1px;
+}
+
+/* Nội dung chi tiết */
+.content-text {
+    font-size: 1.5em;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+    opacity: 0.9;
+}
+
+/* Điều chỉnh các nút điều khiển */
+.controls {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+.prev, .next {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 20px;
+    cursor: pointer;
+    font-size: 2.5em;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+}
+
+    .prev:hover, .next:hover {
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+/* Hiệu ứng chuyển ảnh với sóng */
+/* Hiệu ứng chuyển ảnh với sóng */
+@keyframes waveEffect {
+    0% {
+        clip-path: ellipse(0% 50% at 50% 50%); /* Thu hẹp từ giữa */
+    }
+
+    50% {
+        clip-path: ellipse(100% 50% at 50% 50%); /* Mở rộng ra */
+    }
+
+    100% {
+        clip-path: ellipse(0% 50% at 50% 50%); /* Thu lại */
+    }
+}
+
+.slide {
+    animation: waveEffect 20s ease-in-out infinite; /* Tăng thời gian hiệu ứng lên 4s */
+}
+
+
+
+
+
+/* Phần giới thiệu */
+.intro {
+    background-color: #f4f4f4;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.intro-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.intro h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: bold;
+}
+
+.intro p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.intro .btn {
+    display: inline-block;
+    padding: 15px 30px;
+    background-color: #2d87f0;
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    font-size: 1.2em;
+    transition: background-color 0.3s ease;
+}
+
+    .intro .btn:hover {
+        background-color: #1f61c7;
+    }
+
+
+
+/* Phần giới thiệu tính năng nổi bật */
+.features {
+    display: flex;
+    justify-content: space-around;
+    margin: 40px 0;
+    padding: 20px;
+    background-color: #f8f8f8;
+}
+
+.feature-item {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    width: 30%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .feature-item img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 5px;
+    }
+
+    .feature-item h3 {
+        font-size: 1.5em;
+        margin: 15px 0;
+        color: #333;
+    }
+
+    .feature-item p {
+        font-size: 1em;
+        color: #555;
+    }
+
+    .feature-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+/* Điều chỉnh với màn hình nhỏ */
+@media (max-width: 768px) {
+    .features {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .feature-item {
+        width: 80%;
+        margin-bottom: 20px;
+    }
+}

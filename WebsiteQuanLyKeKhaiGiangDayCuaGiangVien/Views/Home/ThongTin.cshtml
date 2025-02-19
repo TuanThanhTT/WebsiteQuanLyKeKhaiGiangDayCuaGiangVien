@@ -1,0 +1,182 @@
+﻿@model WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom.XemChiTietThongTinGiangVien
+
+@{
+    ViewBag.Title = "Thông Tin Giảng Viên";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+@section styles {
+    <link rel="stylesheet" href="~/Content/css/ThongTin.css" />
+}
+
+
+
+<div class="main-info">
+    <div class="main-info-head row">
+        <div class="main-info-head-account col-md-6">
+            <div class="main-info-head-account-head row">
+                <h6>Thông Tin Cá Nhân</h6>
+            </div>
+            <hr>
+            @if (Model != null)
+            {
+                <div class="main-info-head-account-body row">
+                    <div class="col">
+                        <p>Mã Giảng Viên: <span id="maGv">@Model.maGV</span></p>
+                        <p>Tên Giảng Viên: <span id="tenGv">@Model.tenGV</span></p>
+                        <p>Ngày Sinh: <span id="ngaySinh">@Model.ngaySinh</span></p>
+                        <p>Giới Tính: <span id="gioiTinh">@Model.gioiTinh</span></p>
+                        <p>Email: <span id="email">@Model.email</span></p>
+                        <p>Điện Thoại: <span id="soDienThoai">@Model.soDienThoai</span></p>
+                    </div>
+                    <div class="col">
+                        <p>Chức Vụ: <span id="chucVu">@Model.chucVu</span></p>
+                        <p>Địa Chỉ: <span id="diaChi">@Model.diaChi</span></p>
+                        <p>Trình Độ: <span id="trinhDo">@Model.trinhDo</span></p>
+                        <p>Loại Hình Đào Tạo: <span id="loaiHinhDaoTao">@Model.loaiHinhDaoTao</span></p>
+                        <p>Hệ Số Lương: <span id="heSoLuong">@Model.heSoLuong</span></p>
+                        <p>Chuyên Nghành: <span id="chuyenNghanh">@Model.chuyenNghanh</span></p>
+                        <p>Khoa: <span id="khoa">@Model.tenKhoa</span></p>
+
+                    </div>
+                </div>
+
+            }
+            else
+            {
+                <div class="main-info-head-account-body row">
+                    <div class="col">
+                        <p>Mã Giảng Viên: <span id="maGv"></span></p>
+                        <p>Tên Giảng Viên: <span id="tenGv"></span></p>
+                        <p>Ngày Sinh: <span id="ngaySinh"></span></p>
+                        <p>Giới Tính: <span id="gioiTinh"></span></p>
+                        <p>Email: <span id="email"></span></p>
+                        <p>Điện Thoại: <span id="soDienThoai"></span></p>
+                    </div>
+                    <div class="col">
+                        <p>Chức Vụ: <span id="chucVu"></span></p>
+                        <p>Địa Chỉ: <span id="diaChi"></span></p>
+                        <p>Trình Độ: <span id="trinhDo"></span></p>
+                        <p>Loại Hình Đào Tạo: <span id="loaiHinhDaoTao"></span></p>
+                        <p>Hệ Số Lương: <span id="heSoLuong"></span></p>
+                        <p>Chuyên Nghành: <span id="chuyenNghanh"></span></p>
+                        <p>Khoa: <span id="khoa"></span></p>
+
+                    </div>
+                </div>
+
+            }
+
+        </div>
+        <div class="main-info-avartar col-md-4">
+            <div class="row part-1">
+                <div class="main-info-avartar-head row">
+                    <h6>Thông Tin Tài Khoản</h6>
+                </div>
+                <hr>
+                <div class="main-info-avartar-body row">
+                    <div class="avatar col">
+                        @if (ViewBag.Avartar != null)
+                        {
+                            <img id="imgAvartar" src="~/Conttent/ImgAvartar/@ViewBag.Avartar">
+                        }
+                        else
+                        {
+                            <img id="imgAvartar" src="~/Content/img/book.png">
+                        }
+
+                    </div>
+                    @if (ViewBag.TenDangNhap != null && ViewBag.LoaiTaiKhoan != null)
+                    {
+                        <div class="col">
+                            <p>Tên tài khoản: <span id="userName">@ViewBag.TenDangNhap</span></p>
+                            <p>Loại tài khoản: <span id="userRole">@ViewBag.LoaiTaiKhoan</span></p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col">
+                            <p>Tên tài khoản: <span id="userName"></span></p>
+                            <p>Loại tài khoản: <span id="userRole"></span></p>
+                        </div>
+                    }
+
+                </div>
+            </div>
+            <div class="row part-2">
+                <div class="col">
+                    <p class="doianh">Đổi hình ảnh</p>
+                    <input id="imgFile" type="file">
+                    <div class="save">
+                        <button id="btnLuuAvartar" class="btn btn-primary">Lưu</button>
+                    </div>
+                </div>
+                <div class="col">
+
+                </div>
+            </div>
+        </div>
+        <div class="main-info-countdown col">
+            <div class="main-info-countdown-head row">
+                <h6>Thông tin đợt kê khai</h6>
+            </div>
+            <hr>
+            <div class="main-info-countdown-body row">
+
+                <p class="textMessBox" id="thongTinDotKeKhai">@ViewBag.ThongBaoKeKhai</p>
+            </div>
+            <div class="main-info-countdown-footer row">
+                <a href="~/KeKhai/ThongBaoDotKeKhai">Xem chi tiết</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="main-info-body row" style="margin-top: 20px;">
+        <div class="main-info-body-kekhai col">
+            <div class="main-head row">
+                <h6>Kê Khai Học Phần</h6>
+            </div>
+            <hr>
+            <div class="main-body row">
+                <i class="fa fa-edit"></i>
+            </div>
+            <div class="main-footer row">
+                <a href="~/KeKhai/KeKhaiMonHoc">Xem chi tiết</a>
+            </div>
+
+        </div>
+        <div class="main-info-body-xemphancong col">
+            <div class="main-head row">
+                <h6>Xem Phân Công Học Phần</h6>
+            </div>
+            <hr>
+            <div class="main-body row">
+                <i class="fa fa-tasks"></i>
+            </div>
+            <div class="main-footer row">
+                <a href="~/KeKhai/XemPhanCongHocPhan">Xem chi tiết</a>
+            </div>
+        </div>
+        <div class="main-info-body-xemkekhaihoanthanh col">
+            <div class="main-head row">
+                <h6>Học Phần Đã Kê khai</h6>
+            </div>
+            <hr>
+
+            <div class="main-body row">
+                <i class="fa fa-book"></i>
+            </div>
+
+            <div class="main-footer row">
+                <a href="~/KeKhai/CacMonDaKeKhai">Xem chi tiết</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+
+    <script src="~/Content/js/GiangVien/ThongTinGiangVien.js"></script>
+
+}

@@ -1,0 +1,87 @@
+﻿.modal-xem-kekhai {
+    display: none; /* Ẩn modal theo mặc định */
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Màu nền mờ */
+}
+
+.modal-xem-kekhai-content {
+    background: white;
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 60%; /* Độ rộng modal */
+    position: relative; /* Để định vị nút X */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Nút "X" ở góc trên bên phải */
+.modal-xem-kekhai-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.5em;
+    color: #333;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-weight: bold;
+}
+
+    .modal-xem-kekhai-close:hover {
+        color: #ff0000;
+    }
+
+.modal-xem-kekhai-header {
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+    color: #2d87f0;
+    margin-bottom: 15px;
+}
+
+.modal-xem-kekhai-body {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.modal-xem-kekhai-column {
+    flex: 1;
+    font-size: 1em;
+}
+
+.modal-xem-kekhai-row {
+    margin-bottom: 10px;
+}
+
+.modal-xem-kekhai-label {
+    font-weight: bold;
+    color: #333;
+}
+
+.modal-xem-kekhai-value {
+    color: #555;
+}
+
+.modal-xem-kekhai-footer {
+    text-align: right;
+    margin-top: 20px;
+}
+
+    .modal-xem-kekhai-footer button {
+        padding: 8px 15px;
+        border: none;
+        border-radius: 5px;
+        background-color: #2d87f0;
+        color: white;
+        cursor: pointer;
+    }
+
+        .modal-xem-kekhai-footer button:hover {
+            background-color: #1b5dab;
+        }

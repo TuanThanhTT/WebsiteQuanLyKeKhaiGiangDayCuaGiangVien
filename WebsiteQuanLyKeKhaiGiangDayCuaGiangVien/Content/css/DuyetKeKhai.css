@@ -1,0 +1,13 @@
+﻿.active {
+    font-weight: bold;
+    font-size: medium;
+}
+
+.modal-header {
+    background-color: rgb(141, 141, 246);
+    color: #fff;
+}
+.phantrang {
+    display: flex;
+    justify-content: flex-end;
+}

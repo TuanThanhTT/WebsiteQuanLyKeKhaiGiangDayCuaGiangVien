@@ -1,0 +1,8 @@
+﻿.table-modal-xemchitiet {
+    background-color: blue;
+    color: #fff;
+}
+
+.table-modal-XCT tr:hover {
+    background-color: rgb(244, 187, 254);
+}

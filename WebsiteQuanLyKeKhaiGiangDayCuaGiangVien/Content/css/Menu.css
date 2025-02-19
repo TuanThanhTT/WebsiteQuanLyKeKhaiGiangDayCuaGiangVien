@@ -1,0 +1,66 @@
+﻿.logo-img {
+    width: 80px;
+    height: 80px;
+}
+
+.caption-logo {
+    font-weight: bold;
+    font-size: 25px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.menu {
+    margin-left: 10px;
+}
+
+    .menu li {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: 500;
+        font-size: medium;
+        height: 40px;
+        padding: 0;
+    }
+
+        .menu li:hover {
+            background-color: rgb(182, 196, 251);
+        }
+.caption-logo{
+    padding-top: 10px;
+    align-items:center
+}
+.caption-logo a {
+    text-decoration: none;
+    display: block;
+    text-align: center;
+}
+.title-khoa{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bolder;
+    font-size: 17px;
+    color: red;
+    margin-bottom: 0px;
+}
+.title-caption {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bolder;
+    font-size: 20px;
+    color: blue;
+    margin-top: 0px;
+}
+
+
+@media (max-width: 768px) {
+    .caption-logo {
+        font-size: 17px;
+    }
+
+    .title-caption {
+        font-size: 17px;
+    }
+
+    .title-khoa {
+        font-size: 17px;
+    }
+}

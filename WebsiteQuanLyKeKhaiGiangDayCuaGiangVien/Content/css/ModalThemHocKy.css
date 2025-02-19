@@ -1,0 +1,75 @@
+﻿/* Modal Thêm Học Kỳ */
+.themHocKyModalContent {
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.themHocKyLabel {
+    font-weight: bold;
+    color: #495057;
+}
+
+.themHocKyInput {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.themHocKyInfo p {
+    font-size: 16px;
+    color: #495057;
+    margin: 5px 0;
+}
+
+/* Cải thiện bảng */
+.themHocKyTableContainer {
+    max-height: 200px;
+    /* Set chiều cao tối đa cho bảng */
+    overflow-y: auto;
+    /* Thêm cuộn dọc nếu dữ liệu quá nhiều */
+    margin-top: 20px;
+}
+
+.themHocKyTable {
+    width: 100%;
+    border-radius: 8px;
+    border-collapse: collapse;
+}
+
+    .themHocKyTable th,
+    .themHocKyTable td {
+        padding: 10px;
+        text-align: center;
+        color: #495057;
+    }
+
+    .themHocKyTable th {
+        background-color: #f8f9fa;
+        font-weight: bold;
+        color: #343a40;
+    }
+
+    .themHocKyTable tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+/* Nút Thêm và Đóng */
+.themHocKyBtnClose {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+    .themHocKyBtnClose:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+    }
+
+.themHocKyBtnAdd {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+    .themHocKyBtnAdd:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }

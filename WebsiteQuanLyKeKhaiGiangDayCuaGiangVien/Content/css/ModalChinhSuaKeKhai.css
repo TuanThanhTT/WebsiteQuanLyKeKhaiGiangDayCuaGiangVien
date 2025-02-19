@@ -1,0 +1,97 @@
+﻿/* Định dạng chung cho Modal */
+.modal-chinhsua-kekhai {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-chinhsua-kekhai-content {
+    background: white;
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 60%;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-chinhsua-kekhai-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.5em;
+    color: #333;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-weight: bold;
+}
+
+    .modal-chinhsua-kekhai-close:hover {
+        color: #ff0000;
+    }
+
+.modal-chinhsua-kekhai-header {
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+    color: #2d87f0;
+    margin-bottom: 15px;
+}
+
+.modal-chinhsua-kekhai-body {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.modal-chinhsua-kekhai-column {
+    flex: 1;
+}
+
+.modal-chinhsua-kekhai-row {
+    margin-bottom: 10px;
+}
+
+.modal-chinhsua-kekhai-label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.modal-chinhsua-kekhai-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+    .modal-chinhsua-kekhai-input[readonly] {
+        background-color: #f5f5f5;
+        color: #888;
+        cursor: not-allowed;
+    }
+
+.modal-chinhsua-kekhai-footer {
+    text-align: right;
+    margin-top: 20px;
+}
+
+    .modal-chinhsua-kekhai-footer button {
+        padding: 8px 15px;
+        border: none;
+        border-radius: 5px;
+        background-color: #2d87f0;
+        color: white;
+        cursor: pointer;
+    }
+
+        .modal-chinhsua-kekhai-footer button:hover {
+            background-color: #1b5dab;
+        }
