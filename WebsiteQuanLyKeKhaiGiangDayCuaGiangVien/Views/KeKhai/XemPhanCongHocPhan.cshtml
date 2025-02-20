@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewBag.Title = "XemPhanCongHocPhan";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+@section styles {
+    <link rel="stylesheet" href="~/Content/css/XemPhanCongHocPhan.css" />
+}
+
+
+
+<div class="main-content">
+    <div class="main-content-head row">
+        <div class="col-md-4 col-12 col-sm-12 col-lg-4">
+            <h6>
+                <i class="fas fa-book-open"></i> Xem Học Phần Phân Công
+            </h6>
+        </div>
+        <div class="col-md-2 col-12 col-sm-12 col-lg-2">
+            <span>Năm học: </span>
+            <select class="form-select" id="namHoc">
+            </select>
+        </div>
+        <div class="col-md-2 col-12 col-ms-12 col-lg-2">
+            <span>Học kỳ: </span>
+            <select class="form-select" id="hocKy">
+            </select>
+        </div>
+        <div class="col-md-4 col-lg-4 col-12 col-sm-12">
+            <span>Đợt Kê Khai: </span>
+            <div class="row">
+                <select class="form-select col" id="dotKeKhai">
+                </select>
+                <button id="xemPhanCong" class="btn btn-primary col-md-2 col-6 col-sm-6 col-lg-2">Xem</button>
+            </div>
+
+        </div>
+
+    </div>
+    <hr>
+    <div class="main-content-body">
+
+        <div class="row">
+            <h6>Bảng Phân Công Học Phần</h6>
+        </div>
+        <div id="thongTinPhanCong" class="row" style="visibility: hidden">
+
+            <div class="col thongso">
+                <p>Số lượng: <span id="soLuongPhanCong"></span></p>
+            </div>
+            <div class="col">
+                <div class="btn-xuatfile">
+                    <p>Xuất file phân công: </p>
+                    <button id="XuatFilePhanCong" class="btn btn-success">Xuất file</button>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Mã Học Phần</th>
+                        <th>Tên Học Phần</th>
+                        <th>Thời Gian Dạy</th>
+                        <th>Tên Lớp</th>
+                        <th>Sĩ Số</th>
+                        <th>Học Kỳ</th>
+                        <th>Năm Học</th>
+                        <th>Hình Thức Dạy</th>
+                    </tr>
+                </thead>
+                <tbody id="tableDotKeKhai">
+                    <!-- Dữ liệu mẫu -->
+                    <tr>
+                        <td colspan="9" style="text-align: center;">Không có dữ liệu hiện thị!</td>
+                    </tr>
+                    <!-- Thêm nhiều dòng dữ liệu nếu cần -->
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+@section scripts{
+    <script src="~/Content/js/Kekhai/XemPhanCongKeKhai.js"></script>
+}

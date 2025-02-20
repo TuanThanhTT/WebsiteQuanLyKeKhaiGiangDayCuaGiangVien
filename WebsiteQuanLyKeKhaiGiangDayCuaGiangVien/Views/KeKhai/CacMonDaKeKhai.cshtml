@@ -1,0 +1,137 @@
+﻿
+@{
+    ViewBag.Title = "CacMonDaKeKhai";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+@section styles {
+    <link rel="stylesheet" href="~/Content/css/ModalXemKeKhaiHoanThanh.css" />
+    <link rel="stylesheet" href="~/Content/css/CacMonDaKeKhai.css" />
+}
+
+
+<div class="main-content-HocPhanKEKhai">
+    <div class="main-content-HocPhanKEKhai-head">
+        <div class="main-content-HocPhanKEKhai-head-caption row">
+            <div class="col-12 col-md-3 col-lg-3 col-sm-12">
+                <h6><i class="fas fa-history"></i> Lịch Sử Kê Khai</h6>
+            </div>
+            <div class="col-md-3 col-12 col-sm-12 col-lg-3">
+
+                <span>Năm Học: </span>
+                <select class="form-select" id="namHoc">
+                </select>
+
+            </div>
+            <div class="col-md-3 col-12 col-sm-12 col-lg-3">
+                <span>Học Kỳ: </span>
+                <select class="form-select" id="hocKy">
+                </select>
+            </div>
+            <div class="col-md-3 col-12 col-sm-12 col-lg-3">
+                <span>Đợt Kê Khai: </span>
+                <div class="row">
+                    <select class="form-select col" id="dotKeKhai">
+                    </select>
+                    <button id="btnXemKeKhai" class="col btn btn-primary">Xem</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="main-content-HocPhanKEKhai-body">
+        <div class="main-content-HocPhanKEKhai-body-caption row">
+            <h6>
+                Lịch Sử Kê Khai
+            </h6>
+        </div>
+        <div class="main-content-HocPhanKEKhai-body-thongso row">
+            <div class="col-12 col-sm-12 col-md-3 col-lg-3">
+                <p>Số lượng kê khai: <span id="soLuongkeKhaiDaHoanThanh">10</span></p>
+            </div>
+
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 xuatFile" id="xuatFile" style="display: none">
+                <span>Xuất thông tin: </span>
+                <button id="btnXuatFileKeKhai" class="btn btn-success">Xuất file</button>
+            </div>
+            <div class="col-12 col-md-5 col-lg-5 col-sm-12 ms-auto">
+                <ul class="pagination phantrang text-end">
+                </ul>
+            </div>
+        </div>
+        <div class="main-content-HocPhanKEKhai-body-table">
+            <table id="ke-khai-bang" border="1">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Mã Học Phần</th>
+                        <th>Tên Học Phần</th>
+                        <th>Tên Lớp</th>
+                        <th>Chức Năng</th>
+                    </tr>
+                </thead>
+                <tbody id="tableKeKhai">
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <div class="main-content-HocPhanKEKhai-footer">
+    </div>
+
+
+</div>
+
+<!--Modal xem lich su ke khai-->
+<div id="modal-xem-lichsu-kekhai" class="modal-xem-lichsu-kekhai">
+    <div class="modal-xem-lichsu-kekhai-content">
+        <!-- Icon đóng Modal -->
+        <span class="modal-xem-lichsu-kekhai-close" onclick="closeModal()">&times;</span>
+
+        <!-- Tiêu đề Modal -->
+        <h2>Xem Lịch Sử Kê Khai</h2>
+
+        <!-- Nội dung Modal: chia thành 2 cột -->
+        <div class="modal-xem-lichsu-kekhai-body">
+            <div class="modal-xem-lichsu-kekhai-left-column">
+                <p><strong>Mã Giảng Viên: </strong><span id="ma-giang-vien">GV001</span></p>
+
+                <p><strong>Tên Giảng Viên: </strong><span id="ten-giang-vien">Nguyễn Văn A</span></p>
+
+                <p><strong>Học Kỳ: </strong><span id="hoc-ky">2023-2024</span></p>
+
+                <p><strong>Năm Học: </strong><span id="nam-hoc">2023</span></p>
+
+                <p><strong>Người Duyệt: </strong><span id="ngay-duyet">05/12/2023</span></p>
+                <p><strong>Thời Gian Dạy: </strong><span id="ngay-day">15/01/2024</span></p>
+            </div>
+            <div class="modal-xem-lichsu-kekhai-right-column">
+                <p><strong>Mã Học Phần: </strong><span id="ma-hoc-phan">HP001</span></p>
+
+                <p><strong>Tên Học Phần: </strong><span id="ten-hoc-phan">Toán Cao Cấp</span></p>
+
+                <p><strong>Hình Thức Dạy: </strong><span id="hinh-thuc-day">Lý thuyết + Thực hành</span></p>
+
+                <p><strong>Tên Lớp: </strong><span id="ten-lop">K21A</span></p>
+
+                <p><strong>Sĩ Số: </strong><span id="si-so">35</span></p>
+
+                <p><strong>Ngày Kê Khai: </strong><span id="ngay-ke-khai">01/12/2023</span></p>
+
+
+            </div>
+        </div>
+
+        <!-- Nút đóng cuối Modal -->
+        <div class="modal-xem-lichsu-kekhai-footer">
+            <button class="modal-xem-lichsu-kekhai-close-btn" onclick="closeModal()">Đóng</button>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    <script src="~/Content/js/ModalXemKeKhaiHoanThanh.js"></script>
+    <script src="~/Content/js/Kekhai/CacHocPhanDaKeKhai.js"></script>
+}

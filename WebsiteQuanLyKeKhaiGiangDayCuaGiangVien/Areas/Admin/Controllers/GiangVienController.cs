@@ -18,7 +18,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Areas.Admin.Controllers
             try
             {
                 int soLuong = 0;
-                using (var context = new WebsiteQuanLyKeKhaiGiangDayEntities())
+                using (var context = new WebsiteQuanLyKeKhaiGiangDayEntities1())
                 {
                     soLuong = context.GiangViens.ToList().Count();
 

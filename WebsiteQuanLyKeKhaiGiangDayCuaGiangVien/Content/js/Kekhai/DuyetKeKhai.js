@@ -63,10 +63,10 @@ function handleLocClick() {
     if (selectedId !== "") {
         if (dotKeKhai.value) {
             // Lọc theo khoa và đợt
-            loadTableGiangVienKeKhaiTheoDotVaKhoa(selectedId, dotKeKhai.value);
+            loadTableGiangVienKeKhaiTheoDotVaKhoa();
         } else {
             // Lọc theo khoa
-            loadDataTableKeKhaiTheoKhoa(selectedId);
+            loadDataTableKeKhaiTheoKhoa();
         }
     }
 }
@@ -261,12 +261,16 @@ function loadDataTableDanhSachGiangVienChoDuyet(page = 1,pageSize = 5) {
         contentType: false,
         processData: false,
         success: function (response) {
+            var duyetTatCa = document.getElementById("duyetTatCa");
+
             console.log("Duyet ke khai dot moi nhat");
             if (response.success) {
                 var mainTable = document.getElementById("tableGiangVienChoDuyet");
                 mainTable.innerHTML = '';
                 var data = response.data;
                 if (data.length > 0) {
+                    duyetTatCa.style.display = 'block';
+
                     var soLuongGiangVienChoDuyet = document.getElementById("soLuongGiangVienChoDuyet");
                     soLuongGiangVienChoDuyet.innerHTML = '';
                     soLuongGiangVienChoDuyet.innerHTML = data.length;
@@ -289,9 +293,11 @@ function loadDataTableDanhSachGiangVienChoDuyet(page = 1,pageSize = 5) {
                     var row = document.createElement('tr');
                     row.innerHTML = '<td colspan="6" style="text-align: center;">Không có dữ liệu hiện thị!</td>';
                     mainTable.appendChild(row);
+                    duyetTatCa.style.display = 'none';
+
                 }
              
-                updatePhanTrangTableKeKhai(response.totalPages, response.currentPage)
+                updatePhanTrangTableChoDuyetKeKhai(response.totalPages, response.currentPage)
 
 
             } 
@@ -302,9 +308,54 @@ function loadDataTableDanhSachGiangVienChoDuyet(page = 1,pageSize = 5) {
     });
 }
 
+
+function updatePhanTrangTableChoDuyetKeKhai(totalPages, currentPage) {
+
+    var pagination = document.querySelector(".pagination");
+    pagination.innerHTML = ''; // Xóa nội dung phân trang cũ
+
+    function createPageItem(page, isActive = false, isDisabled = false) {
+        var li = document.createElement('li');
+        li.className = "page-item" + (isActive ? " active" : "") + (isDisabled ? " disabled" : "");
+        li.innerHTML = isDisabled
+            ? '<span class="page-link">...</span>'
+            : '<a class="page-link" href="#" onclick="loadDataTableDanhSachGiangVienChoDuyet(' + page + ')">' + page + '</a>';
+        pagination.appendChild(li);
+    }
+
+    var pagination = document.querySelector(".pagination");
+    pagination.innerHTML = ''; // Xóa nội dung phân trang cũ
+
+    function createPageItem(page, label, isActive = false, isDisabled = false) {
+        var li = document.createElement('li');
+        li.className = "page-item" + (isActive ? " active" : "") + (isDisabled ? " disabled" : "");
+        li.innerHTML = isDisabled
+            ? '<span class="page-link">' + label + '</span>'
+            : '<a class="page-link" href="#" onclick="loadDataTableDanhSachGiangVienChoDuyet(' + page + ')">' + label + '</a>';
+        pagination.appendChild(li);
+    }
+
+    // Nút "Trước" (Về trang đầu)
+    createPageItem(1, "Trước", false, currentPage === 1);
+
+    // Hiển thị tối đa 3 trang gần currentPage
+    let startPage = Math.max(1, currentPage - 1);
+    let endPage = Math.min(totalPages, currentPage + 1);
+
+    for (let i = startPage; i <= endPage; i++) {
+        createPageItem(i, i, currentPage === i);
+    }
+
+    // Nút "Sau" (Về trang cuối)
+    createPageItem(totalPages, "Sau", false, currentPage === totalPages);
+}
+
+
+
 function loadDataTableKeKhaiTheoKhoa(maKhoa, page = 1, pageSize = 5) {
+    var mainKhoa = document.getElementById("khoa");
     var formData = new FormData();
-    formData.append("maKhoa", maKhoa);
+    formData.append("maKhoa", mainKhoa.value);
     formData.append("page", page);
     formData.append("pageSize", pageSize);
 
@@ -315,6 +366,8 @@ function loadDataTableKeKhaiTheoKhoa(maKhoa, page = 1, pageSize = 5) {
         contentType: false,
         processData: false,
         success: function (response) {
+            var duyetTatCa = document.getElementById("duyetTatCa");
+
             if (response.success) {
                 var mainTable = document.getElementById("tableGiangVienChoDuyet");
                 mainTable.innerHTML = '';
@@ -322,6 +375,7 @@ function loadDataTableKeKhaiTheoKhoa(maKhoa, page = 1, pageSize = 5) {
                 console.log("so luong la: " + data.length);
 
                 if (data.length > 0) {
+                    duyetTatCa.style.display = 'block';
                     var soLuongGiangVienChoDuyet = document.getElementById("soLuongGiangVienChoDuyet");
                     soLuongGiangVienChoDuyet.innerHTML = data.length;
                     console.log("loc theo ma khoa: " + JSON.stringify(response));
@@ -361,6 +415,7 @@ function loadDataTableKeKhaiTheoKhoa(maKhoa, page = 1, pageSize = 5) {
                     var row = document.createElement('tr');
                     row.innerHTML = '<td colspan="6" style="text-align: center;">Không có dữ liệu hiện thị!</td>';
                     mainTable.appendChild(row);
+                    duyetTatCa.style.display = 'none';
                 }
 
             } else {
@@ -379,28 +434,44 @@ function loadDataTableKeKhaiTheoKhoa(maKhoa, page = 1, pageSize = 5) {
 }
 
 function updatePhanTrangTableKeKhai(totalPages, currentPage) {
+   
     var pagination = document.querySelector(".pagination");
     pagination.innerHTML = ''; // Xóa nội dung phân trang cũ
 
-    // Nút Previous
-    var prev = document.createElement('li');
-    prev.className = "page-item" + (currentPage === 1 ? " disabled" : "");
-    prev.innerHTML = '<a class="page-link" href="#" onclick="loadTableHocPhanDuocPhanCong(' + (currentPage - 1) + ')">Trước</a>';
-    pagination.appendChild(prev);
-
-    // Các trang
-    for (let i = 1; i <= totalPages; i++) {
-        var page = document.createElement('li');
-        page.className = "page-item" + (i === currentPage ? " active" : ""); // Đặt lớp active cho trang hiện tại
-        page.innerHTML = '<a class="page-link" href="#" onclick="loadTableHocPhanDuocPhanCong(' + i + ')">' + i + '</a>';
-        pagination.appendChild(page);
+    function createPageItem(page, isActive = false, isDisabled = false) {
+        var li = document.createElement('li');
+        li.className = "page-item" + (isActive ? " active" : "") + (isDisabled ? " disabled" : "");
+        li.innerHTML = isDisabled
+            ? '<span class="page-link">...</span>'
+            : '<a class="page-link" href="#" onclick="loadDataTableKeKhaiTheoKhoa(' + page + ')">' + page + '</a>';
+        pagination.appendChild(li);
     }
 
-    // Nút Next
-    var next = document.createElement('li');
-    next.className = "page-item" + (currentPage === totalPages ? " disabled" : "");
-    next.innerHTML = '<a class="page-link" href="#" onclick="loadTableHocPhanDuocPhanCong(' + (currentPage + 1) + ')">Sau</a>';
-    pagination.appendChild(next);
+    var pagination = document.querySelector(".pagination");
+    pagination.innerHTML = ''; // Xóa nội dung phân trang cũ
+
+    function createPageItem(page, label, isActive = false, isDisabled = false) {
+        var li = document.createElement('li');
+        li.className = "page-item" + (isActive ? " active" : "") + (isDisabled ? " disabled" : "");
+        li.innerHTML = isDisabled
+            ? '<span class="page-link">' + label + '</span>'
+            : '<a class="page-link" href="#" onclick="loadDataTableKeKhaiTheoKhoa(' + page + ')">' + label + '</a>';
+        pagination.appendChild(li);
+    }
+
+    // Nút "Trước" (Về trang đầu)
+    createPageItem(1, "Trước", false, currentPage === 1);
+
+    // Hiển thị tối đa 3 trang gần currentPage
+    let startPage = Math.max(1, currentPage - 1);
+    let endPage = Math.min(totalPages, currentPage + 1);
+
+    for (let i = startPage; i <= endPage; i++) {
+        createPageItem(i, i, currentPage === i);
+    }
+
+    // Nút "Sau" (Về trang cuối)
+    createPageItem(totalPages, "Sau", false, currentPage === totalPages);
 }
 
 
@@ -492,7 +563,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("Đợt kê khai đã thay đổi: " + dotKeKhaiChon.value);
             
             xemKeKhaiTheoDot.addEventListener("click", function () {
-                loadTableGiangVienKeKhaiTheoDot(dotKeKhaiChon.value);
+                loadTableGiangVienKeKhaiTheoDot();
             });
         });
     }
@@ -507,9 +578,10 @@ function lamMoiTrang() {
 
 
 
-function loadTableGiangVienKeKhaiTheoDot(maDotKeKhai, page=1, pageSize = 5) {
+function loadTableGiangVienKeKhaiTheoDot(maDotKeKhai, page = 1, pageSize = 5) {
+    var dotKeKhaiChon = document.getElementById("dotKeKhai");
     var formData = new FormData();
-    formData.append("maDotKeKhai", maDotKeKhai);
+    formData.append("maDotKeKhai", dotKeKhaiChon.value);
     formData.append("page", page);
     formData.append("pageSize", pageSize);
     $.ajax({
@@ -519,11 +591,14 @@ function loadTableGiangVienKeKhaiTheoDot(maDotKeKhai, page=1, pageSize = 5) {
         contentType: false,
         processData: false,
         success: function (response) {
+            var duyetTatCa = document.getElementById("duyetTatCa");
+
             if (response.success) {
                 var mainTable = document.getElementById("tableGiangVienChoDuyet");
                 mainTable.innerHTML = '';
                 var data = response.data;
                 if (data.length > 0) {
+                    duyetTatCa.style.display = 'block';
                     console.log(JSON.stringify(response));
                     for (let i = 0; i < data.length; i++) {
                         var row = document.createElement('tr');
@@ -548,9 +623,10 @@ function loadTableGiangVienKeKhaiTheoDot(maDotKeKhai, page=1, pageSize = 5) {
                     var row = document.createElement('tr');
                     row.innerHTML = '<td colspan="6" style="text-align: center;">Không có dữ liệu hiện thị!</td>';
                     mainTable.appendChild(row);
+                    duyetTatCa.style.display = "none";
                 }
               
-                updatePhanTrangTableKeKhai(response.totalPages, response.currentPage)
+                updatePhanTrangTableGiangVienKeKhaiTheoDot(response.totalPages, response.currentPage)
 
 
             }
@@ -562,12 +638,58 @@ function loadTableGiangVienKeKhaiTheoDot(maDotKeKhai, page=1, pageSize = 5) {
 }
 
 
+function updatePhanTrangTableGiangVienKeKhaiTheoDot(totalPages, currentPage) {
+
+    var pagination = document.querySelector(".pagination");
+    pagination.innerHTML = ''; // Xóa nội dung phân trang cũ
+
+    function createPageItem(page, isActive = false, isDisabled = false) {
+        var li = document.createElement('li');
+        li.className = "page-item" + (isActive ? " active" : "") + (isDisabled ? " disabled" : "");
+        li.innerHTML = isDisabled
+            ? '<span class="page-link">...</span>'
+            : '<a class="page-link" href="#" onclick="loadTableGiangVienKeKhaiTheoDot(' + page + ')">' + page + '</a>';
+        pagination.appendChild(li);
+    }
+
+    var pagination = document.querySelector(".pagination");
+    pagination.innerHTML = ''; // Xóa nội dung phân trang cũ
+
+    function createPageItem(page, label, isActive = false, isDisabled = false) {
+        var li = document.createElement('li');
+        li.className = "page-item" + (isActive ? " active" : "") + (isDisabled ? " disabled" : "");
+        li.innerHTML = isDisabled
+            ? '<span class="page-link">' + label + '</span>'
+            : '<a class="page-link" href="#" onclick="loadTableGiangVienKeKhaiTheoDot(' + page + ')">' + label + '</a>';
+        pagination.appendChild(li);
+    }
+
+    // Nút "Trước" (Về trang đầu)
+    createPageItem(1, "Trước", false, currentPage === 1);
+
+    // Hiển thị tối đa 3 trang gần currentPage
+    let startPage = Math.max(1, currentPage - 1);
+    let endPage = Math.min(totalPages, currentPage + 1);
+
+    for (let i = startPage; i <= endPage; i++) {
+        createPageItem(i, i, currentPage === i);
+    }
+
+    // Nút "Sau" (Về trang cuối)
+    createPageItem(totalPages, "Sau", false, currentPage === totalPages);
+}
 
 
-function loadTableGiangVienKeKhaiTheoDotVaKhoa(maKhoa,maDotKeKhai, page = 1, pageSize = 5) {
+
+
+
+
+function loadTableGiangVienKeKhaiTheoDotVaKhoa(page = 1, pageSize = 5) {
+    var mainKhoa = document.getElementById("khoa");
+    var dotKeKhai = document.getElementById("dotKeKhai");
     var formData = new FormData();
-    formData.append("maKhoa", maKhoa);
-    formData.append("maDotKeKhai", maDotKeKhai);
+    formData.append("maKhoa", mainKhoa.value);
+    formData.append("maDotKeKhai", dotKeKhai.value);
     formData.append("page", page);
     formData.append("pageSize", pageSize);
     $.ajax({
@@ -577,12 +699,15 @@ function loadTableGiangVienKeKhaiTheoDotVaKhoa(maKhoa,maDotKeKhai, page = 1, pag
         contentType: false,
         processData: false,
         success: function (response) {
+            var duyetTatCa = document.getElementById("duyetTatCa");
+
             console.log("Duyet theo khoa")
             if (response.success) {
                 var mainTable = document.getElementById("tableGiangVienChoDuyet");
                 mainTable.innerHTML = '';
                 var data = response.data;
                 if (data.length > 0) {
+                    duyetTatCa.style.display = 'block';
                     console.log(JSON.stringify(response));
                     for (let i = 0; i < data.length; i++) {
                         var row = document.createElement('tr');
@@ -603,15 +728,58 @@ function loadTableGiangVienKeKhaiTheoDotVaKhoa(maKhoa,maDotKeKhai, page = 1, pag
                     var row = document.createElement('tr');
                     row.innerHTML = '<td colspan="6" style="text-align: center;">Không có dữ liệu hiện thị!</td>';
                     mainTable.appendChild(row);
+                    duyetTatCa.style.display = 'none';
                 }
 
-                updatePhanTrangTableKeKhai(response.totalPages, response.currentPage)
+                updatePhanTrangTableGiangVienKeKhaiTheoDotVaKhoa(response.totalPages, response.currentPage)
             }
         },
         error: function (xhr, status, error) {
             alert("Có lỗi xảy ra: " + error);
         }
     });
+}
+
+
+function updatePhanTrangTableGiangVienKeKhaiTheoDotVaKhoa(totalPages, currentPage) {
+
+    var pagination = document.querySelector(".pagination");
+    pagination.innerHTML = ''; // Xóa nội dung phân trang cũ
+
+    function createPageItem(page, isActive = false, isDisabled = false) {
+        var li = document.createElement('li');
+        li.className = "page-item" + (isActive ? " active" : "") + (isDisabled ? " disabled" : "");
+        li.innerHTML = isDisabled
+            ? '<span class="page-link">...</span>'
+            : '<a class="page-link" href="#" onclick="loadTableGiangVienKeKhaiTheoDotVaKhoa(' + page + ')">' + page + '</a>';
+        pagination.appendChild(li);
+    }
+
+    var pagination = document.querySelector(".pagination");
+    pagination.innerHTML = ''; // Xóa nội dung phân trang cũ
+
+    function createPageItem(page, label, isActive = false, isDisabled = false) {
+        var li = document.createElement('li');
+        li.className = "page-item" + (isActive ? " active" : "") + (isDisabled ? " disabled" : "");
+        li.innerHTML = isDisabled
+            ? '<span class="page-link">' + label + '</span>'
+            : '<a class="page-link" href="#" onclick="loadTableGiangVienKeKhaiTheoDotVaKhoa(' + page + ')">' + label + '</a>';
+        pagination.appendChild(li);
+    }
+
+    // Nút "Trước" (Về trang đầu)
+    createPageItem(1, "Trước", false, currentPage === 1);
+
+    // Hiển thị tối đa 3 trang gần currentPage
+    let startPage = Math.max(1, currentPage - 1);
+    let endPage = Math.min(totalPages, currentPage + 1);
+
+    for (let i = startPage; i <= endPage; i++) {
+        createPageItem(i, i, currentPage === i);
+    }
+
+    // Nút "Sau" (Về trang cuối)
+    createPageItem(totalPages, "Sau", false, currentPage === totalPages);
 }
 
 
@@ -752,7 +920,69 @@ function DuyetToanBoKeKhai() {
             alert("Có lỗi xảy ra: " + error);
         }
     });
+}
+//duyet tat ca ke khai
+document.addEventListener("DOMContentLoaded", function () {
+    duyetTatCa.addEventListener("click", DuyetTatCaKeKhaiHienTai);
+});
+
+function DuyetTatCaKeKhaiHienTai() {
+
+    var listIdKeKhai = getIdKeKhaiFromTable();
+
+    $.ajax({
+        url: "/Admin/KeKhai/DuyetTatCaKeKhai",
+        type: 'POST',
+        data: JSON.stringify(listIdKeKhai),
+        contentType: 'application/json',
+        success: function (response) {
 
 
+            if (response.success) {
+                var elements = document.getElementsByClassName("Modal-main-err-header");
+                for (var i = 0; i < elements.length; i++) {
+                    elements[i].style.backgroundColor = "Green";
+                }
+                const errorModal = new bootstrap.Modal(document.getElementById("Modal-main-err"));
+                errorModal.show();
 
+                var title = document.getElementById("Modal-main-err-Label");
+                title.innerHTML = '';
+                title.innerHTML = "Thành Công";
+                var textmain = document.getElementById("text-main");
+                textmain.innerHTML = response.message;
+
+                var maGV = document.getElementById("modal-duyetKK-maGiangVien");
+
+                xemDanhSachKeKaiChoDuyetCuaGiangVien(maGV.textContent);
+
+                var dotKeKhai = document.getElementById("dotKeKhai");
+                if (dotKeKhai.value) {
+                    loadTableGiangVienKeKhaiTheoDot(dotKeKhai.value);
+                } else {
+                    loadDataTableDanhSachGiangVienChoDuyet();
+                }
+
+            } else {
+                var elements = document.getElementsByClassName("Modal-main-err-header");
+                for (var i = 0; i < elements.length; i++) {
+                    elements[i].style.backgroundColor = "Red";
+                }
+                const errorModal = new bootstrap.Modal(document.getElementById("Modal-main-err"));
+                errorModal.show();
+
+                var title = document.getElementById("Modal-main-err-Label");
+                title.innerHTML = '';
+                title.innerHTML = "Lỗi";
+                var textmain = document.getElementById("text-main");
+                textmain.innerHTML = response.message;
+            }
+
+
+        },
+
+        error: function (xhr, status, error) {
+            alert("Có lỗi xảy ra: " + error);
+        }
+    });
 }

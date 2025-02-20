@@ -15,10 +15,10 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class WebsiteQuanLyKeKhaiGiangDayEntities : DbContext
+    public partial class WebsiteQuanLyKeKhaiGiangDayEntities1 : DbContext
     {
-        public WebsiteQuanLyKeKhaiGiangDayEntities()
-            : base("name=WebsiteQuanLyKeKhaiGiangDayEntities")
+        public WebsiteQuanLyKeKhaiGiangDayEntities1()
+            : base("name=WebsiteQuanLyKeKhaiGiangDayEntities1")
         {
         }
     

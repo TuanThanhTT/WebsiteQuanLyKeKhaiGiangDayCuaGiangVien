@@ -1,0 +1,85 @@
+﻿@model WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom.ThongBaoDotKeKhai
+
+@{ 
+    ViewBag.Title = "ThongBaoDotKeKhai";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+
+@section styles {
+    <link rel="stylesheet" href="~/Content/css/ThongBaoDotKeKhai.css" />
+}
+
+
+<div class="main-content">
+    <div class="main-content-body">
+        <div class="content-head row">
+            <h6>Đợt Kê Khai Hiện Tại</h6>
+        </div>
+        <hr>
+
+        <div class="content-body row">
+            @if (Model != null && Model.hocKy!=null && ViewBag.ThongBaoMo == null)
+            {
+                <div class="col-md-6 col-lg-6 col-sm-12 col-12 text-left">
+                    <p>Tên đợt kê khai: <span>@Model.tenDotKeKhai</span></p>
+                    <p>Ngày bắt đầu: <span>@Model.ngayBatDau</span></p>
+                    <p>Ngày kết thúc: <span>@Model.ngayKetThuc</span></p>
+                    <p>Người tạo: <span>@Model.nguoiTao</span></p>
+
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-12 col-12 text-right">
+                    <p>Trạng thái: <span>@Model.trangThai</span></p>
+                    <p>Năm học: <span>@Model.namHoc</span></p>
+
+                    <p>Học kỳ: <span>@Model.hocKy</span></p>
+                    <p>Ghi chú: <span>@Model.ghiChu </span></p>
+                </div>
+            }
+            else if (Model != null && Model.hocKy != null && ViewBag.ThongBaoMo != null)
+            {
+                <div class="col-md-12 col-lg-12 col-sm-12 col-12">
+                    <p style="text-align:center;">@ViewBag.ThongBaoMo</p>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-12 col-12 text-left">
+                    <p>Tên đợt kê khai: <span>@Model.tenDotKeKhai</span></p>
+                    <p>Ngày bắt đầu: <span>@Model.ngayBatDau</span></p>
+                    <p>Ngày kết thúc: <span>@Model.ngayKetThuc</span></p>
+                    <p>Người tạo: <span>@Model.nguoiTao</span></p>
+
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-12 col-12 text-right">
+                    <p>Trạng thái: <span>@Model.trangThai</span></p>
+                    <p>Năm học: <span>@Model.namHoc</span></p>
+
+                    <p>Học kỳ: <span>@Model.hocKy</span></p>
+                    <p>Ghi chú: <span>@Model.ghiChu </span></p>
+                </div>
+            }
+            else
+            {
+                <div class="col-md-12 col-lg-12 col-sm-12 col-12">
+                    <p style="text-align:center;">Không có đợt kê khai nào đang mở!</p>
+                </div>
+            }
+
+        </div>
+        <hr>
+        <div class="content-footer row">
+            @if (Model != null && Model.hocKy != null && ViewBag.ThongBaoMo == null)
+            {
+                <div class="col link-kekhai">
+                    <a class="btn btn-primary" href="~/KeKhai/KeKhaiHocPhan">Đến kê khai</a>
+                </div>
+            }
+            else
+            {
+                <div class="col link-kekhai">
+                    <a class="btn btn-primary" href="~/Home/TrangChu">Trở về</a>
+                </div>
+            }
+
+
+        </div>
+    </div>
+</div>

@@ -144,6 +144,8 @@ function updatePagination(currentPage, totalRecords, pageSize) {
     } else {
         paginationContainer.innerHTML += '<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>';
     }
+    
+
 }
 
 

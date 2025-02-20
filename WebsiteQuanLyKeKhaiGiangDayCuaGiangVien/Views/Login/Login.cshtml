@@ -1,0 +1,266 @@
+﻿
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập</title>
+
+    <!--import boxicon-->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href='~/Content/css/login.css' rel='stylesheet'>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <!-- Bootstrap JavaScript (yêu cầu Popper.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+
+</head>
+<style>
+    .error-message {
+        margin-top: 5px;
+        display: block;
+    }
+    /* Nền mờ phía sau modal */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 1000;
+    }
+
+    /* Khung modal */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #fff;
+        padding: 20px 30px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        z-index: 1001;
+        min-width: 300px;
+    }
+
+    /* Nút đóng */
+    .modal-close {
+        position: absolute;
+        top: 8px;
+        right: 10px;
+        background: none;
+        border: none;
+        font-size: 18px;
+        cursor: pointer;
+    }
+
+    /* Nội dung modal */
+    .modal-content {
+        font-size: 16px;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    /* Nút hành động */
+    .modal-ok {
+        background-color: #f44336;
+        color: #fff;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+        .modal-ok:hover {
+            background-color: #d32f2f;
+        }
+</style>
+
+<body>
+    <div class="form-container">
+        <div class="col col-1">
+            <div class="img-layer">
+                <img src="~/Content/Img/white-outline.png" class="form-img-main">
+                <img src="~/Content/Img/book.png" class="form-img book">
+
+            </div>
+            <p class="hello">Chào mừng bạn đến Website kê khai giảng dạy Dthu!</p>
+        </div>
+        <div class="col col-2">
+            <div class="btn-box">
+                <button type="button" id="login" class="btn btn-1">Đăng Nhập</button>
+                <button type="button" id="reset" class="btn btn-2">Quên Mật Khẩu</button>
+
+            </div>
+
+            <div class="login-form">
+                <div class="form-title">
+                    <span>Đăng Nhập</span>
+                </div>
+                <div class="form-input">
+                    <div class="input-box">
+                        <input type="text" id="userName" class="input-field" placeholder="Mã giảng viên" required>
+                        <i class="bx bx-user icon"></i>
+                    </div>
+                    <div class="input-box">
+                        <input type="password" id="passWord" class="input-field" placeholder="Mật khẩu" required>
+                        <i class="bx bx-lock-alt icon"></i>
+
+
+
+                    </div>
+                    <div class="input-box">
+                        <button onclick="dangnhap()" type="button" class="input-submit">
+                            <span>Đăng Nhập</span>
+                            <i class="bx bx-right-arrow-alt"></i>
+
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reset-form">
+                <div class="form-title">
+                    <span>Đặt Lại Mật Khẩu</span>
+                </div>
+                <div class="form-input">
+                    <div class="input-box">
+                        <input type="text" class="input-field" placeholder="Mã giảng viên" required>
+                        <i class="bx bx-user icon"></i>
+                    </div>
+                    <div class="input-box">
+                        <input type="email" class="input-field" placeholder="email" required>
+                        <i class="bx bx-envelope icon"></i>
+                    </div>
+                    <div class="input-box">
+                        <button class="input-submit">
+                            <span>Đặt Lại</span>
+                            <i class="bx bx-right-arrow-alt"></i>
+
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal-overlay"></div>
+    <div class="modal">
+        <button class="modal-close">&times;</button>
+        <div class="modal-content">Đây là thông báo lỗi!</div>
+        <button class="modal-ok">OK</button>
+    </div>
+
+
+    <script src="~/Content/js/login.js"></script>
+    <script>
+        function showErrorModal(message) {
+            const modalOverlay = document.querySelector('.modal-overlay');
+            const modal = document.querySelector('.modal');
+            const modalContent = document.querySelector('.modal-content');
+
+            // Gán nội dung thông báo
+            modalContent.textContent = message;
+
+            // Hiển thị modal và overlay
+            modalOverlay.style.display = 'block';
+            modal.style.display = 'block';
+
+            // Đóng modal khi bấm nút OK hoặc nút đóng
+            const closeButtons = document.querySelectorAll('.modal-close, .modal-ok');
+            closeButtons.forEach(button => {
+                button.onclick = () => {
+                    modalOverlay.style.display = 'none';
+                    modal.style.display = 'none';
+                };
+            });
+
+            // Đóng modal khi nhấn bên ngoài
+            modalOverlay.onclick = () => {
+                modalOverlay.style.display = 'none';
+                modal.style.display = 'none';
+            };
+        }
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const loginButton = document.querySelector(".input-submit");
+            const inputs = document.querySelectorAll(".input-field");
+
+            loginButton.addEventListener("click", function (e) {
+                e.preventDefault(); // Ngăn việc submit form khi có lỗi
+
+                // Xóa thông báo lỗi cũ
+                document.querySelectorAll(".error-message").forEach((msg) => msg.remove());
+
+                let hasError = false;
+
+                inputs.forEach((input) => {
+                    if (!input.value.trim()) {
+                        hasError = true;
+
+                        // Tạo thông báo lỗi
+                        const errorMessage = document.createElement("span");
+                        errorMessage.classList.add("error-message");
+                        errorMessage.textContent = `Vui lòng nhập ${input.placeholder.toLowerCase()}!`;
+                        errorMessage.style.color = "red";
+                        errorMessage.style.fontSize = "12px";
+
+                        // Thêm thông báo lỗi ngay bên dưới input
+                        input.parentElement.appendChild(errorMessage);
+                    }
+                });
+
+                // Nếu không có lỗi, có thể xử lý đăng nhập tại đây
+                if (!hasError) {
+                    console.log("co chay");
+                    dangnhap();
+                }
+            });
+        });
+        function dangnhap(){
+            console.log("co chay ajax")
+            var formData = new FormData();
+            var userName = document.getElementById("userName").value;
+            var passWord = document.getElementById("passWord").value;
+            formData.append("userName", userName);
+            formData.append("passWord", passWord);
+
+            $.ajax({
+                url: '/Login/Login',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    console.log("co goi api")
+                    console.log(JSON.stringify(response))
+                    if (response.success) {
+                        window.location.href = response.urlPath;
+                    } else {
+
+
+                        showErrorModal(response.message);
+
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("Có lỗi xảy ra: " + error);
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

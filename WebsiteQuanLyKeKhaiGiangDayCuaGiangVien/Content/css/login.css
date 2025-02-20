@@ -6,7 +6,7 @@
 }
 
 body {
-    background-image: url(../img/nen.jpg);
+    background-image: url(/Content/Img/nen.jpg);
     background-position: center;
     background-size: cover;
     background-attachment: fixed;

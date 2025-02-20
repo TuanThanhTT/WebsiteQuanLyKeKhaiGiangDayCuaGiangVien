@@ -123,7 +123,7 @@
           <Property Name="MaDotKeKhai" Type="int" />
           <Property Name="TrangThai" Type="nvarchar" MaxLength="200" />
           <Property Name="HinhThucDay" Type="nvarchar" MaxLength="200" />
-          <Property Name="MaFilePhanCong" Type="int" Nullable="false" />
+          <Property Name="MaFilePhanCong" Type="int" />
           <Property Name="HocKy" Type="nvarchar" MaxLength="100" />
           <Property Name="NamHoc" Type="nvarchar" MaxLength="100" />
           <Property Name="ThoiGianDay" Type="nvarchar" MaxLength="500" />
@@ -368,7 +368,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_phanCongHocPhan_FilePhanCong">
-          <End Role="FilePhanCong" Type="Self.FilePhanCong" Multiplicity="1" />
+          <End Role="FilePhanCong" Type="Self.FilePhanCong" Multiplicity="0..1" />
           <End Role="PhanCongHocPhan" Type="Self.PhanCongHocPhan" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FilePhanCong">
@@ -736,7 +736,7 @@
           <Property Name="MaDotKeKhai" Type="Int32" />
           <Property Name="TrangThai" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="HinhThucDay" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="MaFilePhanCong" Type="Int32" Nullable="false" />
+          <Property Name="MaFilePhanCong" Type="Int32" />
           <Property Name="HocKy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="NamHoc" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="ThoiGianDay" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
@@ -936,7 +936,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_phanCongHocPhan_FilePhanCong">
-          <End Role="FilePhanCong" Type="Self.FilePhanCong" Multiplicity="1" />
+          <End Role="FilePhanCong" Type="Self.FilePhanCong" Multiplicity="0..1" />
           <End Role="PhanCongHocPhan" Type="Self.PhanCongHocPhan" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FilePhanCong">
@@ -1079,7 +1079,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="WebsiteQuanLyKeKhaiGiangDayEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="WebsiteQuanLyKeKhaiGiangDayEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AccountRoles" EntityType="Self.AccountRole" />
           <EntitySet Name="DotKeKhais" EntityType="Self.DotKeKhai" />
           <EntitySet Name="DotPhanCongs" EntityType="Self.DotPhanCong" />
@@ -1229,7 +1229,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="WebsiteQuanLyKeKhaiGiangDayModelStoreContainer" CdmEntityContainer="WebsiteQuanLyKeKhaiGiangDayEntities">
+        <EntityContainerMapping StorageEntityContainer="WebsiteQuanLyKeKhaiGiangDayModelStoreContainer" CdmEntityContainer="WebsiteQuanLyKeKhaiGiangDayEntities1">
           <EntitySetMapping Name="AccountRoles">
             <EntityTypeMapping TypeName="WebsiteQuanLyKeKhaiGiangDayModel.AccountRole">
               <MappingFragment StoreEntitySet="AccountRole">

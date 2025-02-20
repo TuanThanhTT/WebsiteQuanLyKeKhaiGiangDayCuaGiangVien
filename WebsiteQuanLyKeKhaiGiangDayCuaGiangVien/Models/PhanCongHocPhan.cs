@@ -29,7 +29,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models
         public Nullable<int> MaDotKeKhai { get; set; }
         public string TrangThai { get; set; }
         public string HinhThucDay { get; set; }
-        public int MaFilePhanCong { get; set; }
+        public Nullable<int> MaFilePhanCong { get; set; }
         public string HocKy { get; set; }
         public string NamHoc { get; set; }
         public string ThoiGianDay { get; set; }

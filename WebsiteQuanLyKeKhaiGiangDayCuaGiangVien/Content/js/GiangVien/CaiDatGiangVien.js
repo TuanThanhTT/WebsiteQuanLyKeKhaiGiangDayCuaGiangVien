@@ -189,28 +189,65 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 function updatePhanTrangTableGiangVien(totalPages, currentPage) {
+    //var pagination = document.querySelector(".pagination");
+    //pagination.innerHTML = ''; // Xóa nội dung phân trang cũ
+
+    //// Nút Previous
+    //var prev = document.createElement('li');
+    //prev.className = "page-item" + (currentPage === 1 ? " disabled" : "");
+    //prev.innerHTML = '<a class="page-link" href="#" onclick="loadDanhSachGiangVien(' + (currentPage - 1) + ')">Trước</a>';
+    //pagination.appendChild(prev);
+
+    //// Các trang
+    //for (let i = 1; i <= totalPages; i++) {
+    //    var page = document.createElement('li');
+    //    page.className = "page-item" + (i === currentPage ? " active" : ""); // Đặt lớp active cho trang hiện tại
+    //    page.innerHTML = '<a class="page-link" href="#" onclick="loadDanhSachGiangVien(' + i + ')">' + i + '</a>';
+    //    pagination.appendChild(page);
+    //}
+
+    //// Nút Next
+    //var next = document.createElement('li');
+    //next.className = "page-item" + (currentPage === totalPages ? " disabled" : "");
+    //next.innerHTML = '<a class="page-link" href="#" onclick="loadDanhSachGiangVien(' + (currentPage + 1) + ')">Sau</a>';
+    //pagination.appendChild(next);
     var pagination = document.querySelector(".pagination");
     pagination.innerHTML = ''; // Xóa nội dung phân trang cũ
 
-    // Nút Previous
-    var prev = document.createElement('li');
-    prev.className = "page-item" + (currentPage === 1 ? " disabled" : "");
-    prev.innerHTML = '<a class="page-link" href="#" onclick="loadDanhSachGiangVien(' + (currentPage - 1) + ')">Trước</a>';
-    pagination.appendChild(prev);
-
-    // Các trang
-    for (let i = 1; i <= totalPages; i++) {
-        var page = document.createElement('li');
-        page.className = "page-item" + (i === currentPage ? " active" : ""); // Đặt lớp active cho trang hiện tại
-        page.innerHTML = '<a class="page-link" href="#" onclick="loadDanhSachGiangVien(' + i + ')">' + i + '</a>';
-        pagination.appendChild(page);
+    function createPageItem(page, isActive = false, isDisabled = false) {
+        var li = document.createElement('li');
+        li.className = "page-item" + (isActive ? " active" : "") + (isDisabled ? " disabled" : "");
+        li.innerHTML = isDisabled
+            ? '<span class="page-link">...</span>'
+            : '<a class="page-link" href="#" onclick="loadDanhSachGiangVien(' + page + ')">' + page + '</a>';
+        pagination.appendChild(li);
     }
 
-    // Nút Next
-    var next = document.createElement('li');
-    next.className = "page-item" + (currentPage === totalPages ? " disabled" : "");
-    next.innerHTML = '<a class="page-link" href="#" onclick="loadDanhSachGiangVien(' + (currentPage + 1) + ')">Sau</a>';
-    pagination.appendChild(next);
+    var pagination = document.querySelector(".pagination");
+    pagination.innerHTML = ''; // Xóa nội dung phân trang cũ
+
+    function createPageItem(page, label, isActive = false, isDisabled = false) {
+        var li = document.createElement('li');
+        li.className = "page-item" + (isActive ? " active" : "") + (isDisabled ? " disabled" : "");
+        li.innerHTML = isDisabled
+            ? '<span class="page-link">' + label + '</span>'
+            : '<a class="page-link" href="#" onclick="loadDanhSachGiangVien(' + page + ')">' + label + '</a>';
+        pagination.appendChild(li);
+    }
+
+    // Nút "Trước" (Về trang đầu)
+    createPageItem(1, "Trước", false, currentPage === 1);
+
+    // Hiển thị tối đa 3 trang gần currentPage
+    let startPage = Math.max(1, currentPage - 1);
+    let endPage = Math.min(totalPages, currentPage + 1);
+
+    for (let i = startPage; i <= endPage; i++) {
+        createPageItem(i, i, currentPage === i);
+    }
+
+    // Nút "Sau" (Về trang cuối)
+    createPageItem(totalPages, "Sau", false, currentPage === totalPages);
 }
 
 
@@ -1018,3 +1055,389 @@ function xoaDanhSach(idGiangViens) {
         }
     });
 }
+
+//load khoa
+
+document.addEventListener("DOMContentLoaded", function () {
+    loadDanhSachKhoa();
+    var btnLamMoi = document.getElementById("btnLamMoi");
+    btnLamMoi.addEventListener("click", function () {
+        reloadPage();
+    });
+});
+
+
+
+function loadDanhSachKhoa() {
+    $.ajax({
+        url: '/Admin/KeKhai/loadThongTinKhoa',
+        type: 'POST',
+        success: function (response) {
+            var mainKhoa = document.getElementById("khoa");
+            mainKhoa.innerHTML = ''; // Làm trống dropdown trước khi thêm mới
+
+            if (response.success) {
+                var data = response.data;
+
+                var chonKhoa = document.createElement("option");
+                chonKhoa.selected = true;
+                chonKhoa.value = "";
+                chonKhoa.textContent = "Chọn khoa";
+
+                mainKhoa.appendChild(chonKhoa);
+
+                if (data.length > 0) {
+                    // Thêm các lựa chọn khoa vào dropdown
+                    for (let i = 0; i < data.length; i++) {
+                        var option = document.createElement("option");
+                        option.value = data[i].maKhoa;
+                        option.textContent = data[i].tenKhoa;
+                        mainKhoa.appendChild(option);
+                    }
+                }
+            }
+
+            // Lưu lại sự kiện xử lý để đảm bảo removeEventListener hoạt động chính xác
+            function handleLocPhanTheoKhoa() {
+                loadDanhSachGiangVienTheoKhoa();   
+            }
+
+            function handleLocPhanTheoKhoaVaChuoiTim() {
+                loadDanhSachGiangVienTheoChuoiTimVaKhoa();
+            }
+
+            // Sự kiện khi chọn Khoa
+            mainKhoa.addEventListener("change", function () {
+                var selectedId = mainKhoa.value.trim();
+                var btnLocPhanTheoKhoa = document.getElementById("btnLocPhanTheoKhoa");
+                var chuoiTim = document.getElementById("txtChuoiTim").value.trim();
+
+                // Xóa tất cả sự kiện click trước đó để tránh đăng ký nhiều lần
+                btnLocPhanTheoKhoa.removeEventListener("click", handleLocPhanTheoKhoa);
+                btnLocPhanTheoKhoa.removeEventListener("click", handleLocPhanTheoKhoaVaChuoiTim);
+
+                if (selectedId !== "" && chuoiTim === "") {
+                    btnLocPhanTheoKhoa.disabled = false;
+                    btnLocPhanTheoKhoa.addEventListener("click", handleLocPhanTheoKhoa);
+                } else if (selectedId !== "" && chuoiTim !== "") {
+                    btnLocPhanTheoKhoa.disabled = false;
+                    btnLocPhanTheoKhoa.addEventListener("click", handleLocPhanTheoKhoaVaChuoiTim);
+                } else {
+                    btnLocPhanTheoKhoa.disabled = true;
+                }
+            });
+        },
+        error: function (xhr, status, error) {
+            alert("Có lỗi xảy ra: " + error);
+        }
+    });
+}
+//lam moi trang
+function reloadPage() {
+    location.reload();
+}
+
+
+//loc theo khoa
+
+function loadDanhSachGiangVienTheoKhoa(page = 1, pageSize = 5) {
+    var khoa = document.getElementById("khoa");
+    var formData = new FormData();
+    formData.append("maKhoa", khoa.value);
+    formData.append("page", page);
+    formData.append("pageSize", pageSize);
+    $.ajax({
+        url: '/Admin/GiangVien/laodTableGiangVienTheoKhoa',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+
+            if (response.success) {
+                var data = response.data;
+                var mainTable = document.getElementById("maintableGiangVien");
+                mainTable.innerHTML = '';
+                if (data.length > 0) {
+
+                    for (let i = 0; i < data.length; i++) {
+                        var row = document.createElement('tr');
+
+                        row.innerHTML = '<td><input type="checkbox" value="' + data[i].maGV + '" class="rowCheckbox"></td>' +
+                            '<td>' + ((page - 1) * pageSize + 1 + i) + '</td>' +
+                            '<td>' + data[i].maGV + '</td>' +
+                            '<td>' + data[i].tenGV + '</td>' +
+                            '<td>' + data[i].tenKhoa + '</td>' +
+                            '<td>' + data[i].ngaySinh + '</td>' +
+                            '<td>' +
+                            '<button class="btn btn-primary" onclick="XemChiTietGiangVien(\'' + data[i].maGV + '\')" data-bs-toggle="modal" data-bs-target="#modalXemChiTiet">Xem</button>' +
+                            '<button class="btn btn-warning" onclick="loadThongTinCapNhatGiangVien(\'' + data[i].maGV + '\')">Cập nhật</button>' +
+                            '</td>';
+
+                        mainTable.appendChild(row);
+                    }
+                    updatePhanTrangTableGiangVienTheoKhoa(response.totalPages, response.currentPage);
+
+                } else {
+                    var row = document.createElement('tr');
+                    row.innerHTML = '<td colspan= "7" style="text-align: center;">Không có dữ liệu hiện thị</td>'
+                }
+            }
+        },
+        error: function (xhr, status, error) {
+            alert("Có lỗi xảy ra: " + error);
+        }
+    });
+}
+
+
+function updatePhanTrangTableGiangVienTheoKhoa(totalPages, currentPage) {
+   
+    var pagination = document.querySelector(".pagination");
+    pagination.innerHTML = ''; // Xóa nội dung phân trang cũ
+
+    function createPageItem(page, isActive = false, isDisabled = false) {
+        var li = document.createElement('li');
+        li.className = "page-item" + (isActive ? " active" : "") + (isDisabled ? " disabled" : "");
+        li.innerHTML = isDisabled
+            ? '<span class="page-link">...</span>'
+            : '<a class="page-link" href="#" onclick="loadDanhSachGiangVienTheoKhoa(' + page + ')">' + page + '</a>';
+        pagination.appendChild(li);
+    }
+
+    var pagination = document.querySelector(".pagination");
+    pagination.innerHTML = ''; // Xóa nội dung phân trang cũ
+
+    function createPageItem(page, label, isActive = false, isDisabled = false) {
+        var li = document.createElement('li');
+        li.className = "page-item" + (isActive ? " active" : "") + (isDisabled ? " disabled" : "");
+        li.innerHTML = isDisabled
+            ? '<span class="page-link">' + label + '</span>'
+            : '<a class="page-link" href="#" onclick="loadDanhSachGiangVienTheoKhoa(' + page + ')">' + label + '</a>';
+        pagination.appendChild(li);
+    }
+
+    // Nút "Trước" (Về trang đầu)
+    createPageItem(1, "Trước", false, currentPage === 1);
+
+    // Hiển thị tối đa 3 trang gần currentPage
+    let startPage = Math.max(1, currentPage - 1);
+    let endPage = Math.min(totalPages, currentPage + 1);
+
+    for (let i = startPage; i <= endPage; i++) {
+        createPageItem(i, i, currentPage === i);
+    }
+
+    // Nút "Sau" (Về trang cuối)
+    createPageItem(totalPages, "Sau", false, currentPage === totalPages);
+}
+
+//tim kiem theo chuoi tim
+function loadDanhSachGiangVienTheoChuoiTim(page = 1, pageSize = 5) {
+    var chuoiTim = document.getElementById("txtChuoiTim").value;
+    var formData = new FormData();
+    formData.append("chuoiTim", chuoiTim);
+    formData.append("page", page);
+    formData.append("pageSize", pageSize);
+    $.ajax({
+        url: '/Admin/GiangVien/laodTableGiangVienTheoChuoiTim',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+
+            if (response.success) {
+                var data = response.data;
+                var mainTable = document.getElementById("maintableGiangVien");
+                mainTable.innerHTML = '';
+                if (data.length > 0) {
+
+                    for (let i = 0; i < data.length; i++) {
+                        var row = document.createElement('tr');
+
+                        row.innerHTML = '<td><input type="checkbox" value="' + data[i].maGV + '" class="rowCheckbox"></td>' +
+                            '<td>' + ((page - 1) * pageSize + 1 + i) + '</td>' +
+                            '<td>' + data[i].maGV + '</td>' +
+                            '<td>' + data[i].tenGV + '</td>' +
+                            '<td>' + data[i].tenKhoa + '</td>' +
+                            '<td>' + data[i].ngaySinh + '</td>' +
+                            '<td>' +
+                            '<button class="btn btn-primary" onclick="XemChiTietGiangVien(\'' + data[i].maGV + '\')" data-bs-toggle="modal" data-bs-target="#modalXemChiTiet">Xem</button>' +
+                            '<button class="btn btn-warning" onclick="loadThongTinCapNhatGiangVien(\'' + data[i].maGV + '\')">Cập nhật</button>' +
+                            '</td>';
+
+                        mainTable.appendChild(row);
+                    }
+                    updatePhanTrangTableGiangVienTheoChuoiTim(response.totalPages, response.currentPage);
+
+                } else {
+                    var row = document.createElement('tr');
+                    row.innerHTML = '<td colspan= "7" style="text-align: center;">Không có dữ liệu hiện thị</td>'
+                }
+            }
+        },
+        error: function (xhr, status, error) {
+            alert("Có lỗi xảy ra: " + error);
+        }
+    });
+}
+
+
+function updatePhanTrangTableGiangVienTheoChuoiTim(totalPages, currentPage) {
+
+    var pagination = document.querySelector(".pagination");
+    pagination.innerHTML = ''; // Xóa nội dung phân trang cũ
+
+    function createPageItem(page, isActive = false, isDisabled = false) {
+        var li = document.createElement('li');
+        li.className = "page-item" + (isActive ? " active" : "") + (isDisabled ? " disabled" : "");
+        li.innerHTML = isDisabled
+            ? '<span class="page-link">...</span>'
+            : '<a class="page-link" href="#" onclick="loadDanhSachGiangVienTheoChuoiTim(' + page + ')">' + page + '</a>';
+        pagination.appendChild(li);
+    }
+
+    var pagination = document.querySelector(".pagination");
+    pagination.innerHTML = ''; // Xóa nội dung phân trang cũ
+
+    function createPageItem(page, label, isActive = false, isDisabled = false) {
+        var li = document.createElement('li');
+        li.className = "page-item" + (isActive ? " active" : "") + (isDisabled ? " disabled" : "");
+        li.innerHTML = isDisabled
+            ? '<span class="page-link">' + label + '</span>'
+            : '<a class="page-link" href="#" onclick="loadDanhSachGiangVienTheoChuoiTim(' + page + ')">' + label + '</a>';
+        pagination.appendChild(li);
+    }
+
+    // Nút "Trước" (Về trang đầu)
+    createPageItem(1, "Trước", false, currentPage === 1);
+
+    // Hiển thị tối đa 3 trang gần currentPage
+    let startPage = Math.max(1, currentPage - 1);
+    let endPage = Math.min(totalPages, currentPage + 1);
+
+    for (let i = startPage; i <= endPage; i++) {
+        createPageItem(i, i, currentPage === i);
+    }
+
+    // Nút "Sau" (Về trang cuối)
+    createPageItem(totalPages, "Sau", false, currentPage === totalPages);
+}
+
+//tim kiem theo chuoi tim va khoa
+function loadDanhSachGiangVienTheoChuoiTimVaKhoa(page = 1, pageSize = 5) {
+    var khoa = document.getElementById("khoa");
+    var chuoiTim = document.getElementById("txtChuoiTim").value;
+
+    var formData = new FormData();
+    formData.append("chuoiTim", chuoiTim);
+    formData.append("maKhoa", khoa.value);
+    formData.append("page", page);
+    formData.append("pageSize", pageSize);
+    $.ajax({
+        url: '/Admin/GiangVien/laodTableGiangVienTheoKhoaVaChuoiTim',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+
+            if (response.success) {
+                var data = response.data;
+                var mainTable = document.getElementById("maintableGiangVien");
+                mainTable.innerHTML = '';
+                if (data.length > 0) {
+
+                    for (let i = 0; i < data.length; i++) {
+                        var row = document.createElement('tr');
+
+                        row.innerHTML = '<td><input type="checkbox" value="' + data[i].maGV + '" class="rowCheckbox"></td>' +
+                            '<td>' + ((page - 1) * pageSize + 1 + i) + '</td>' +
+                            '<td>' + data[i].maGV + '</td>' +
+                            '<td>' + data[i].tenGV + '</td>' +
+                            '<td>' + data[i].tenKhoa + '</td>' +
+                            '<td>' + data[i].ngaySinh + '</td>' +
+                            '<td>' +
+                            '<button class="btn btn-primary" onclick="XemChiTietGiangVien(\'' + data[i].maGV + '\')" data-bs-toggle="modal" data-bs-target="#modalXemChiTiet">Xem</button>' +
+                            '<button class="btn btn-warning" onclick="loadThongTinCapNhatGiangVien(\'' + data[i].maGV + '\')">Cập nhật</button>' +
+                            '</td>';
+
+                        mainTable.appendChild(row);
+                    }
+                    updatePhanTrangTableGiangVienTheoChuoiTimVaKhoa(response.totalPages, response.currentPage);
+
+                } else {
+                    var row = document.createElement('tr');
+                    row.innerHTML = '<td colspan= "7" style="text-align: center;">Không có dữ liệu hiện thị</td>'
+                }
+            }
+        },
+        error: function (xhr, status, error) {
+            alert("Có lỗi xảy ra: " + error);
+        }
+    });
+}
+
+
+function updatePhanTrangTableGiangVienTheoChuoiTimVaKhoa(totalPages, currentPage) {
+
+    var pagination = document.querySelector(".pagination");
+    pagination.innerHTML = ''; // Xóa nội dung phân trang cũ
+
+    function createPageItem(page, isActive = false, isDisabled = false) {
+        var li = document.createElement('li');
+        li.className = "page-item" + (isActive ? " active" : "") + (isDisabled ? " disabled" : "");
+        li.innerHTML = isDisabled
+            ? '<span class="page-link">...</span>'
+            : '<a class="page-link" href="#" onclick="loadDanhSachGiangVienTheoChuoiTimVaKhoa(' + page + ')">' + page + '</a>';
+        pagination.appendChild(li);
+    }
+
+    var pagination = document.querySelector(".pagination");
+    pagination.innerHTML = ''; // Xóa nội dung phân trang cũ
+
+    function createPageItem(page, label, isActive = false, isDisabled = false) {
+        var li = document.createElement('li');
+        li.className = "page-item" + (isActive ? " active" : "") + (isDisabled ? " disabled" : "");
+        li.innerHTML = isDisabled
+            ? '<span class="page-link">' + label + '</span>'
+            : '<a class="page-link" href="#" onclick="loadDanhSachGiangVienTheoChuoiTimVaKhoa(' + page + ')">' + label + '</a>';
+        pagination.appendChild(li);
+    }
+
+    // Nút "Trước" (Về trang đầu)
+    createPageItem(1, "Trước", false, currentPage === 1);
+
+    // Hiển thị tối đa 3 trang gần currentPage
+    let startPage = Math.max(1, currentPage - 1);
+    let endPage = Math.min(totalPages, currentPage + 1);
+
+    for (let i = startPage; i <= endPage; i++) {
+        createPageItem(i, i, currentPage === i);
+    }
+
+    // Nút "Sau" (Về trang cuối)
+    createPageItem(totalPages, "Sau", false, currentPage === totalPages);
+}
+
+
+//tim kiem
+document.addEventListener("DOMContentLoaded", function () {
+    var txtChuoiTim = document.getElementById("txtChuoiTim");
+    var btnTimKiemPhanCong = document.getElementById("btnTimKiemPhanCong");
+    function timKiemGiangVien() {
+        loadDanhSachGiangVienTheoChuoiTim();
+    }
+
+    txtChuoiTim.addEventListener("input", function () {
+        if (txtChuoiTim.value.trim() !== "") {
+
+            btnTimKiemPhanCong.disabled = false;
+            btnTimKiemPhanCong.addEventListener("click", timKiemGiangVien);
+        } else {
+            btnTimKiemPhanCong.disabled = true;
+            btnTimKiemPhanCong.removeEventListener("click", timKiemGiangVien);
+        }
+    });
+});

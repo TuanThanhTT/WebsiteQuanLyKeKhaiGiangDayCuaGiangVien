@@ -168,7 +168,7 @@
     <Compile Include="Areas\Admin\Controllers\KhoaController.cs" />
     <Compile Include="Areas\Admin\Controllers\NamHocController.cs" />
     <Compile Include="Areas\Admin\Controllers\ThongKeController.cs" />
-    <Compile Include="Controllers\GiangVienController.cs" />
+    <Compile Include="Authorzies\XacThucTaiKhoan.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KeKhaiController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -176,82 +176,128 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountRole.cs">
-      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+      <DependentUpon>ModelKeKhaiGiangDay.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DotKeKhai.cs">
-      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+      <DependentUpon>ModelKeKhaiGiangDay.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DotPhanCong.cs">
-      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+      <DependentUpon>ModelKeKhaiGiangDay.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\FilePhanCong.cs">
-      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+      <DependentUpon>ModelKeKhaiGiangDay.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GiangVien.cs">
-      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+      <DependentUpon>ModelKeKhaiGiangDay.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HocKy.cs">
-      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+      <DependentUpon>ModelKeKhaiGiangDay.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HocPhan.cs">
-      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+      <DependentUpon>ModelKeKhaiGiangDay.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\KeKhai.cs">
-      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+      <DependentUpon>ModelKeKhaiGiangDay.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Khoa.cs">
-      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+      <DependentUpon>ModelKeKhaiGiangDay.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ModelCustom\ChiTietDotPhanCong.cs" />
+    <Compile Include="Models\ModelCustom\ChiTietKeKhaiChoDuyet.cs" />
+    <Compile Include="Models\ModelCustom\DanhSachMonHocThogKeTienDo.cs" />
+    <Compile Include="Models\ModelCustom\GiangVienHoanThanhKeKhai.cs" />
+    <Compile Include="Models\ModelCustom\GiangVienTheoKhoa.cs" />
+    <Compile Include="Models\ModelCustom\HocPhanDaPhanCong.cs" />
+    <Compile Include="Models\ModelCustom\ThongBaoDotKeKhai.cs" />
+    <Compile Include="Models\ModelCustom\ThongTinChiTietTienDo.cs" />
+    <Compile Include="Models\ModelCustom\ThongTinDotKeKhaiGanNhat.cs" />
+    <Compile Include="Models\ModelCustom\ThongTinHocPhan.cs" />
+    <Compile Include="Models\ModelCustom\ThongTinKhoa.cs" />
+    <Compile Include="Models\ModelCustom\ThongTinPhanCong.cs" />
+    <Compile Include="Models\ModelCustom\ThongTinPhanCongGiangVien.cs" />
+    <Compile Include="Models\ModelCustom\ThongTinTaiKhoanGiangVien.cs" />
+    <Compile Include="Models\ModelCustom\ThongTinTaoDotKeKhai.cs" />
+    <Compile Include="Models\ModelCustom\ThongTinUpLoadGiangVien.cs" />
+    <Compile Include="Models\ModelCustom\ThongTinUploadHocPhan.cs" />
     <Compile Include="Models\ModelCustom\XemChiTietThongTinGiangVien.cs" />
+    <Compile Include="Models\ModelCustom\XemHocPhan.cs" />
+    <Compile Include="Models\ModelCustom\XemHocPhanPhanCongCuaGiangVien.cs" />
+    <Compile Include="Models\ModelCustom\XemKeKhaiChoDuyetTheoGiangVien.cs" />
+    <Compile Include="Models\ModelCustom\XemThongTinDotKeKhai.cs" />
+    <Compile Include="Models\ModelCustom\XemThongTinHocPhanDuocPhanCong.cs" />
+    <Compile Include="Models\ModelCustom\XemThongTinKeKhaiDaDuyet.cs" />
+    <Compile Include="Models\ModelCustom\XoaNamHocRequest.cs" />
+    <Compile Include="Models\ModelKeKhaiGiangDay.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelKeKhaiGiangDay.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModelKeKhaiGiangDay.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelKeKhaiGiangDay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModelKeKhaiGiangDay.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelKeKhaiGiangDay.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\NamHoc.cs">
-      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+      <DependentUpon>ModelKeKhaiGiangDay.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PhanCongHocPhan.cs">
-      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+      <DependentUpon>ModelKeKhaiGiangDay.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Quyen.cs">
-      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+      <DependentUpon>ModelKeKhaiGiangDay.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Role.cs">
-      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+      <DependentUpon>ModelKeKhaiGiangDay.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RolePermission.cs">
-      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+      <DependentUpon>ModelKeKhaiGiangDay.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+      <DependentUpon>ModelKeKhaiGiangDay.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_helpdiagrams_Result.cs">
-      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+      <DependentUpon>ModelKeKhaiGiangDay.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+      <DependentUpon>ModelKeKhaiGiangDay.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TaiKhoan.cs">
-      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+      <DependentUpon>ModelKeKhaiGiangDay.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ThongKe.cs">
-      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
+      <DependentUpon>ModelKeKhaiGiangDay.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ThongKeChiTiet.cs">
-      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\WebSiteQuanLyKeKhaiGiangDay.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\WebSiteQuanLyKeKhaiGiangDay.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\WebSiteQuanLyKeKhaiGiangDay.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.edmx</DependentUpon>
+      <DependentUpon>ModelKeKhaiGiangDay.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AccountService\AccountService.cs" />
+    <Compile Include="Services\AccountService\IAccountServic.cs" />
+    <Compile Include="Services\DotPhanCongService\DotPhanCongService.cs" />
+    <Compile Include="Services\DotPhanCongService\IDotPhanCongServic.cs" />
+    <Compile Include="Services\FileService\FileUpload.cs" />
+    <Compile Include="Services\FileService\IFileUpload.cs" />
+    <Compile Include="Services\FileService\IReadFileExcel.cs" />
+    <Compile Include="Services\FileService\ReadFileExcel.cs" />
+    <Compile Include="Services\GiangVien\GiangVienService.cs" />
+    <Compile Include="Services\GiangVien\IGiangVienService.cs" />
+    <Compile Include="Services\HocPhanService\HocPhanService.cs" />
+    <Compile Include="Services\HocPhanService\IHocPhanService.cs" />
+    <Compile Include="Services\KeKhaiService\DotKeKhaiService.cs" />
+    <Compile Include="Services\KeKhaiService\IDotKeKhai.cs" />
+    <Compile Include="Services\KeKhaiService\IKeKhaiHocPhan.cs" />
+    <Compile Include="Services\KeKhaiService\KeKhaiHocPhan.cs" />
+    <Compile Include="Services\KhoaService\IKhoaService.cs" />
+    <Compile Include="Services\KhoaService\KhoaService.cs" />
+    <Compile Include="Services\NamHocService\INamHocService.cs" />
+    <Compile Include="Services\NamHocService\NamHocService.cs" />
+    <Compile Include="Services\ThongKe\IThongKeService.cs" />
+    <Compile Include="Services\ThongKe\ThongKe.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -340,26 +386,26 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\WebSiteQuanLyKeKhaiGiangDay.Context.tt">
+    <Content Include="Models\ModelKeKhaiGiangDay.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.edmx</DependentUpon>
-      <LastGenOutput>WebSiteQuanLyKeKhaiGiangDay.Context.cs</LastGenOutput>
+      <DependentUpon>ModelKeKhaiGiangDay.edmx</DependentUpon>
+      <LastGenOutput>ModelKeKhaiGiangDay.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\WebSiteQuanLyKeKhaiGiangDay.tt">
+    <Content Include="Models\ModelKeKhaiGiangDay.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.edmx</DependentUpon>
-      <LastGenOutput>WebSiteQuanLyKeKhaiGiangDay.cs</LastGenOutput>
+      <DependentUpon>ModelKeKhaiGiangDay.edmx</DependentUpon>
+      <LastGenOutput>ModelKeKhaiGiangDay.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\Shared\_LayoutAdmin.cshtml" />
-    <EntityDeploy Include="Models\WebSiteQuanLyKeKhaiGiangDay.edmx">
+    <EntityDeploy Include="Models\ModelKeKhaiGiangDay.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>WebSiteQuanLyKeKhaiGiangDay.Designer.cs</LastGenOutput>
+      <LastGenOutput>ModelKeKhaiGiangDay.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\WebSiteQuanLyKeKhaiGiangDay.edmx.diagram">
-      <DependentUpon>WebSiteQuanLyKeKhaiGiangDay.edmx</DependentUpon>
+    <Content Include="Models\ModelKeKhaiGiangDay.edmx.diagram">
+      <DependentUpon>ModelKeKhaiGiangDay.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -389,6 +435,10 @@
     <Content Include="Views\Shared\_LayoutUser.cshtml" />
     <Content Include="Views\Home\TrangChu.cshtml" />
     <Content Include="Views\Home\ThongTin.cshtml" />
+    <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\KeKhai\ThongBaoDotKeKhai.cshtml" />
+    <Content Include="Views\KeKhai\XemPhanCongHocPhan.cshtml" />
+    <Content Include="Views\KeKhai\CacMonDaKeKhai.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -403,8 +453,6 @@
     <Folder Include="Content\ImgAvartar\" />
     <Folder Include="Data\" />
     <Folder Include="Views\GiangVien\" />
-    <Folder Include="Views\KeKhai\" />
-    <Folder Include="Views\Login\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
