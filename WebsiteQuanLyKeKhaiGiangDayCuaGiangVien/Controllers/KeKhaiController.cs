@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom;
 using WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.FileService;
@@ -301,6 +302,331 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Controllers
                 message = "Có lỗi xảy ra, vui lòng thử lại sau!"
             });
         }
+
+        [HttpPost]
+        public JsonResult XemKeKhaiDaDuyetTheoMaKeKhai(int maKeKhai)
+        {
+            try
+            {
+                KeKhaiHocPhan keKhaiHocPhan = new KeKhaiHocPhan();
+                string maGV = Session["UserName"] as string;
+                string tenGV = "";
+
+                using (var context = new WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.WebsiteQuanLyKeKhaiGiangDayEntities1())
+                {
+                    var giangVien = context.GiangViens.Find(maGV);
+                    if (giangVien != null)
+                    {
+                        tenGV = giangVien.TenGV;
+                    }
+                }
+
+                var thongTinKeKhai = keKhaiHocPhan.getThongTinKeKhaiDaDuyetTheoMa(maKeKhai, maGV);
+                if (thongTinKeKhai != null)
+                {
+                    return Json(new
+                    {
+                        success = 1,
+                        data = thongTinKeKhai,
+                        maGV = maGV,
+                        tenGV = tenGV,
+                        message = "Lấy thông tin kê khai thành công"
+                    }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return Json(new
+            {
+                success = 0,
+                message = "Có lỗi xảy ra vui lòng thử lại sau!"
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult XuatDanhSachKeKhaiTheoDot(int maDotKeKhai)
+        {
+            try
+            {
+                string maGV = Session["UserName"] as string;
+                KeKhaiHocPhan keKhaiHocPhan = new KeKhaiHocPhan();
+                List<XemThongTinKeKhaiDaDuyet> danhSachKeKhai = new List<XemThongTinKeKhaiDaDuyet>();
+                string tenDotKeKhai = "";
+
+                if (maDotKeKhai == 0)
+                {
+                    var result = keKhaiHocPhan.getAllHocPhanDaDuyetTheoDotGanNhat(maGV);
+                    danhSachKeKhai = result.Item1;
+                    tenDotKeKhai = result.Item2;
+                }
+                else
+                {
+                    var result = keKhaiHocPhan.getAllHocPhanDaDuyetTheoDot(maGV, maDotKeKhai);
+                    danhSachKeKhai = result.Item1;
+                    tenDotKeKhai = result.Item2;
+                }
+
+                FileUpload fileUpload = new FileUpload();
+                string fileName = fileUpload.XuatFileKeKhaiCuaGiangVienTheoDot(maGV, danhSachKeKhai, tenDotKeKhai);
+                string fileUrl = Url.Content("~/FileExport/" + fileName);
+
+                if (string.IsNullOrEmpty(fileUrl))
+                {
+                    return Json(new { success = false, message = "Không thể tạo file Excel!" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { success = true, fileUrl = fileUrl }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return Json(new
+            {
+                success = 0,
+                message = "Có lỗi xảy ra, vui lòng thử lại sau!"
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult XoaFileTam(string fileName)
+        {
+            try
+            {
+                // Lấy đường dẫn thư mục chứa file
+                string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Content/FileExport", fileName);
+
+                Console.WriteLine("File đã truyền vào: " + fileName);
+
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                    return Json(new { success = true, message = "File đã được xóa." }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { success = false, message = "File không tồn tại." }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Lỗi xóa file! " + ex.Message);
+                return Json(new { success = false, message = "Có lỗi xảy ra khi xóa file." }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult KeKhaiHocPhan()
+        {
+            ViewBag.UserName = Session["FullName"] as string;
+          
+            return View();
+        }
+
+        public ActionResult KeKhaiMonHoc()
+        {
+            return RedirectToAction("ThongBaoDotKeKhai", "KeKhai");
+        }
+
+        [HttpPost]
+        public ActionResult LoadTableHocPhanKeKhai(int page = 1, int pageSize = 5)
+        {
+            try
+            {
+                KeKhaiHocPhan keKhaiHocPhan = new KeKhaiHocPhan();
+                string maGV = Session["UserName"] as string;
+
+                // Gọi phương thức bất đồng bộ và chờ kết quả (do .NET Framework không hỗ trợ async tốt)
+                var result = Task.Run(() => keKhaiHocPhan.getHocPhanDuocPhanCongChuaHoanThanhCuaGiangVien(maGV, page, pageSize)).Result;
+                var dsPhanCong = result.Item1;
+                var totalRecords = result.Item2;
+
+                if (dsPhanCong != null)
+                {
+                    return Json(new
+                    {
+                        success = 1,
+                        data = dsPhanCong,
+                        soLuong = totalRecords,
+                        totalRecords = totalRecords,
+                        totalPages = (int)Math.Ceiling((double)totalRecords / pageSize),
+                        currentPage = page,
+                        message = "Lấy danh sách phân công thành công!"
+                    }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return Json(new
+            {
+                success = 0,
+                message = "Có lỗi xảy ra!"
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult XemThongTinPhanCongHocPhan(int maPhanCong)
+        {
+            try
+            {
+                KeKhaiHocPhan keKhaiHocPhan = new KeKhaiHocPhan();
+
+                // Gọi phương thức async bằng Task.Run().Result để đảm bảo đồng bộ
+                var thongTinHocPhan = Task.Run(() => keKhaiHocPhan.XemThongTinPhanCongHocPhanTheoMa(maPhanCong)).Result;
+
+                return Json(new
+                {
+                    success = 1,
+                    data = thongTinHocPhan,
+                    message = "Lấy thông tin học phần phân công thành công!"
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return Json(new
+            {
+                success = 0,
+                message = "Có lỗi xảy ra"
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult HoanThanhKeKhai(int maPhanCong)
+        {
+            try
+            {
+                DotKeKhaiService dotKeKhaiService = new DotKeKhaiService();
+
+                // Gọi phương thức async bằng Task.Run().Result để đảm bảo đồng bộ
+                bool dotKeKhaiDangMo = Task.Run(() => dotKeKhaiService.KiemTraDotKeKhaiDangMo()).Result;
+                if (!dotKeKhaiDangMo)
+                {
+                    return Json(new
+                    {
+                        success = 0,
+                        message = "Cập nhật không thành công! Không có đợt kê khai nào đang mở."
+                    }, JsonRequestBehavior.AllowGet);
+                }
+
+                KeKhaiHocPhan keKhaiHocPhan = new KeKhaiHocPhan();
+                string maGV = Session["UserName"] as string;
+
+                bool hoanThanh = Task.Run(() => keKhaiHocPhan.HoanThanhKeKhai(maPhanCong, maGV)).Result;
+                if (hoanThanh)
+                {
+                    return Json(new
+                    {
+                        success = 1,
+                        message = "Kê khai thành công! Vui lòng chờ quản trị viên duyệt."
+                    }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return Json(new
+            {
+                success = 0,
+                message = "Cập nhật không thành công"
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult CapNhatThongTinPhanCong(int maPhanCong, string tenLop, int siSo, string hinhThucDay)
+        {
+            try
+            {
+                DotKeKhaiService dotKeKhaiService = new DotKeKhaiService();
+
+                // Gọi phương thức async theo cách đồng bộ
+                bool dotKeKhaiDangMo = Task.Run(() => dotKeKhaiService.KiemTraDotKeKhaiDangMo()).Result;
+                if (!dotKeKhaiDangMo)
+                {
+                    return Json(new
+                    {
+                        success = 0,
+                        message = "Cập nhật thông tin không thành công. Không có đợt kê khai nào đang mở để cập nhật!"
+                    }, JsonRequestBehavior.AllowGet);
+                }
+
+                KeKhaiHocPhan keKhaiHocPhan = new KeKhaiHocPhan();
+
+                // Gọi phương thức async theo cách đồng bộ
+                bool capNhatThanhCong = Task.Run(() => keKhaiHocPhan.CapNhatThongTinHocPhanPhanCong(maPhanCong, tenLop, siSo, hinhThucDay)).Result;
+                if (capNhatThanhCong)
+                {
+                    return Json(new
+                    {
+                        success = 1,
+                        message = "Cập nhật thông tin thành công!"
+                    }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return Json(new
+            {
+                success = 0,
+                message = "Cập nhật thông tin không thành công. Vui lòng thử lại sau."
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult loadPhanCongHocPhanChoKeKhai(int page = 1, int pageSize = 5)
+        {
+            try
+            {
+                string maGV = HttpContext.Session["UserName"] as string;
+                KeKhaiHocPhan keKhaiHocPhan = new KeKhaiHocPhan();
+
+                // Gọi phương thức async theo cách đồng bộ
+                var result = Task.Run(() => keKhaiHocPhan.getHocPhanDaKeKhaiChoDuyet(maGV, page, pageSize)).Result;
+                var dsSachPhanCongChoDuyet = result.Item1;
+                var totalRecords = result.Item2;
+
+                if (dsSachPhanCongChoDuyet != null)
+                {
+                    return Json(new
+                    {
+                        success = 1,
+                        soLuong = totalRecords,
+                        data = dsSachPhanCongChoDuyet,
+                        totalRecords = totalRecords,
+                        totalPages = (int)Math.Ceiling((double)totalRecords / pageSize),
+                        currentPage = page,
+                        message = "Load dữ liệu thành công!"
+                    }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return Json(new
+            {
+                success = 0,
+                message = "Có lỗi xảy ra! Vui lòng thử lại sau."
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+
 
 
     }

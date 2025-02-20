@@ -163,7 +163,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\GiangVienController.cs" />
+    <Compile Include="Areas\Admin\Controllers\HocPhanController.cs" />
     <Compile Include="Areas\Admin\Controllers\KeKhaiController.cs" />
     <Compile Include="Areas\Admin\Controllers\KhoaController.cs" />
     <Compile Include="Areas\Admin\Controllers\NamHocController.cs" />
@@ -407,6 +409,16 @@
     <Content Include="Models\ModelKeKhaiGiangDay.edmx.diagram">
       <DependentUpon>ModelKeKhaiGiangDay.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Admin\Views\Account\QuanLyTaiKhoan.cshtml" />
+    <Content Include="Areas\Admin\Views\GiangVien\CaiDatGiangVien.cshtml" />
+    <Content Include="Areas\Admin\Views\GiangVien\DanhSachGiangVienDaKhoa.cshtml" />
+    <Content Include="Areas\Admin\Views\HocPhan\CaiDatHocPhan.cshtml" />
+    <Content Include="Areas\Admin\Views\KeKhai\TaoDotKeKhai.cshtml" />
+    <Content Include="Areas\Admin\Views\KeKhai\BoSungPhanCongHocPhan.cshtml" />
+    <Content Include="Areas\Admin\Views\KeKhai\TaoDotKeKhaiBoSung.cshtml" />
+    <Content Include="Areas\Admin\Views\KeKhai\XemPhanCongKeKhai.cshtml" />
+    <Content Include="Areas\Admin\Views\KeKhai\DuyetKeKhai.cshtml" />
+    <Content Include="Areas\Admin\Views\Khoa\CaiDatKhoa.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -439,13 +451,11 @@
     <Content Include="Views\KeKhai\ThongBaoDotKeKhai.cshtml" />
     <Content Include="Views\KeKhai\XemPhanCongHocPhan.cshtml" />
     <Content Include="Views\KeKhai\CacMonDaKeKhai.cshtml" />
+    <Content Include="Views\KeKhai\KeKhaiHocPhan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Views\GiangVien\" />
-    <Folder Include="Areas\Admin\Views\KeKhai\" />
-    <Folder Include="Areas\Admin\Views\Khoa\" />
     <Folder Include="Areas\Admin\Views\NamHoc\" />
     <Folder Include="Areas\Admin\Views\ThongKe\" />
     <Folder Include="Content\FileExport\" />

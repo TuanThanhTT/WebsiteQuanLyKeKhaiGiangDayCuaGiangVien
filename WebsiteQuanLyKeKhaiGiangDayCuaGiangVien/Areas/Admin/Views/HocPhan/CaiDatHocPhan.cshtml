@@ -1,0 +1,369 @@
+﻿
+@{
+    ViewBag.Title = "CaiDatHocPhan";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+@section styles{
+    <link rel="stylesheet" href="~/Content/css/CaiDatNamHoc.css" />
+    <link rel="stylesheet" href="~/Content/css/CaiDatKhoa.css" />
+    <link rel="stylesheet" href="~/Content/css/CaiDatGiangVien.css" />
+    <link rel="stylesheet" href="~/Content/css/ModalKhoaDotKeKhai.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <!-- Thêm JavaScript của flatpickr -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <style>
+        .error {
+            border-color: red;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+    </style>
+}
+
+<!-- Content -->
+<div class="content">
+    <div class="row captionKhoa">
+        <h6>Quản lý thông tin học phần</h6>
+        <hr>
+    </div>
+    <div class="row main-button">
+        <div class="col-12 col-md-12 col-sm-12 col-lg-12">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                    data-bs-target="#modalAddHocPhan">
+                <i class="fas fa-user-plus"></i> Thêm học phàn
+            </button>
+
+
+            <button id="tbsPhanCongUploadFile" class="btn btn-success" data-bs-toggle="modal"
+                    data-bs-target="#modal-uploadFileGiangVien">
+                <i class="fa-solid fa-upload"></i>Tải File
+            </button>
+            <button id="btnMauFile" class="btn btn-success">
+                <i class="fa-solid fa-download"></i>Mẫu File
+            </button>
+
+            <button id="btnXoaHocPhan" type="button" class="btn btn-danger">
+                <i class="fa-solid fa-trash"></i> Xóa học phần
+            </button>
+        </div>
+
+    </div>
+    <div class="row">
+        <h6 class="table-title">Thông tin học phần</h6>
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-6 col-sm-12 ms-auto">
+                <ul class="pagination phantrang text-end">
+                </ul>
+            </div>
+        </div>
+        <div class="panel-table-namhoc ">
+            <div class="panel-table-namhoc panel-table-GiangVien">
+                <table class="table table-bordered table-namhoc">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="selectAll"></th>
+                            <th>STT</th>
+                            <th>Mã học phần</th>
+                            <th>Tên học phần</th>
+                            <th>Chi tiết</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="maintableHocPhan">
+                        <tr>
+                            <td><input type="checkbox" class="rowCheckbox"></td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>2024-2025</td>
+                            <td>
+                                <button class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#modalXemChiTiet">
+                                    Xem
+                                </button>
+                                <button class="btn btn-warning">Cập nhật</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Model them hoc phan-->
+<div class="modal fade" id="modalAddHocPhan" tabindex="-1" aria-labelledby="modalAddHocPhanLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header title-modalThemGinagVien">
+                <h5 class="modal-title" id="modalAddGiangVienLabel">Thêm Học Phần</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!-- Cột bên trái -->
+                    <div class="col-md-6">
+
+                        <div class="mb-3">
+                            <label for="maHocPhan" class="form-label">Mã Học Phần</label>
+                            <input type="text" class="form-control" id="maHocPhan" required>
+                            <div id="maHocPhanError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="tenHocPhan" class="form-label">Tên Học Phần</label>
+                            <input type="text" class="form-control" id="tenHocPhan" required>
+                            <div id="tenHocPhanError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="soTinChi" class="form-label">Số tín chỉ</label>
+                            <input type="number" min="1" step="1" class="form-control" id="soTinChi" required>
+                            <div id="soTinChiError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+                    </div>
+
+                    <!-- Cột bên phải -->
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="lyThuyet" class="form-label">Lý Thuyết</label>
+                            <input type="number" step="1" min="1" class="form-control" id="lyThuyet" required>
+                            <div id="lyThuyetError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="thucHanh" class="form-label">Thực Hành</label>
+                            <input type="number" step="1" min="1" class="form-control" id="thucHanh" required>
+                            <div id="thucHanhError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="ghiChu" class="form-label">Ghi Chú</label>
+                            <input type="text" class="form-control" id="ghiChu" required>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Nút Lưu -->
+                <div class="mb-3 text-end">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                    <button type="button" class="btn btn-primary" id="btnSave">Lưu</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal xem thong tin hoc phan-->
+<div class="modal fade" id="modalXemChiTiet" tabindex="-1" aria-labelledby="modalGiangVienLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalGiangVienLabel">Thông tin học phần</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!-- Bên trái -->
+                    <div class="col-md-6">
+                        <p><strong>Mã học phần:</strong> <span id="xemMaHocPhan"></span></p>
+                        <p><strong>Tên học phần:</strong> <span id="xemTenHocPhan"></span></p>
+                        <p><strong>Số tín chỉ:</strong> <span id="xemSoTinChi"></span></p>
+
+                    </div>
+                    <!-- Bên phải -->
+                    <div class="col-md-6">
+                        <p><strong>Lý thuyết:</strong> <span id="xemLyThuyet"></span></p>
+                        <p><strong>Thực hành:</strong> <span id="xemThucHanh"></span></p>
+                        <p><strong>Ghi chú:</strong> <span id="xemGhiChu"></span></p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal tai file-->
+
+<div class="modal fade" id="modal-uploadFileGiangVien" tabindex="-1"
+     aria-labelledby="modal-uploadFileGiangVienLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-uploadFileGiangVienLabel">Tải File Excel</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Form chọn file -->
+                <div class="mb-3">
+                    <label for="fileExcel" class="form-label">Chọn File Excel</label>
+                    <div class="d-flex align-items-center">
+                        <input type="file" class="form-control me-3" id="fileInput" accept=".xlsx, .xls" required>
+                        <button id="btnTaiFile" type="button" class="btn btn-primary">Tải</button>
+                    </div>
+                    <div id="errMess" style="color: red; display: none;"></div>
+                </div>
+                <div class="mb-3">
+                    <h6 class="title-table-themGiangVienFile">Thông tin học phần tải lên</h6>
+                </div>
+                <div class="mb-3">
+                    <strong id="soLuongTailen" style="display: none;">Số lượng: <span id="soLuongHocPhan"></span></strong>
+                </div>
+
+                <!-- Bảng hiển thị dữ liệu -->
+                <div class="table-responsive" style="max-height: 400px; overflow-y: auto; overflow-x: auto;">
+                    <table class="table table-bordered mt-4" id="giangVienTable">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Mã Học Phần</th>
+                                <th>Tên Học Phần</th>
+                                <th>Số Tín Chỉ</th>
+                                <th>Lý Thuyết</th>
+                                <th>Thực Hành</th>
+                                <th>Ghi Chú</th>
+                                <th>Thông Báo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="filePreviewTable">
+                            <!-- Dữ liệu từ file sẽ được hiển thị ở đây -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Nút Thoát và Lưu -->
+                <div class="mb-3 text-end">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                    <button type="button" class="btn btn-success" id="saveFileData" data-bs-dismiss="modal" style="visibility: hidden;">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Modal cap nhat hoc phan-->
+<div class="modal fade" id="modalUpdateHocPhan" tabindex="-1" aria-labelledby="modalAddHocPhanLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header title-modalThemGinagVien">
+                <h5 class="modal-title" id="modalAddGiangVienLabel">Cập nhật thông tin</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!-- Cột bên trái -->
+                    <div class="col-md-6">
+
+                        <div class="mb-3">
+                            <label for="editmaHocPhan" class="form-label">Mã Học Phần</label>
+                            <input type="text" class="form-control" id="editmaHocPhan" readonly required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="edittenHocPhan" class="form-label">Tên Học Phần</label>
+                            <input type="text" class="form-control" id="edittenHocPhan" required>
+                            <div id="edittenHocPhanError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="editsoTinChi" class="form-label">Số tín chỉ</label>
+                            <input type="number" min="1" step="1" class="form-control" id="editsoTinChi" required>
+                            <div id="editsoTinChiError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+                    </div>
+
+                    <!-- Cột bên phải -->
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="editlyThuyet" class="form-label">Lý Thuyết</label>
+                            <input type="number" step="1" min="1" class="form-control" id="editlyThuyet" required>
+                            <div id="editlyThuyetError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="editthucHanh" class="form-label">Thực Hành</label>
+                            <input type="number" step="1" min="1" class="form-control" id="editthucHanh" required>
+                            <div id="editthucHanhError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="editghiChu" class="form-label">Ghi Chú</label>
+                            <input type="text" class="form-control" id="editghiChu" required>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Nút Lưu -->
+                <div class="mb-3 text-end">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                    <button type="button" class="btn btn-primary" id="btneditSave">Lưu</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal xac nhan xoa-->
+<div id="modalConfirmKhoa" class="modal-khoa">
+    <div class="modal-khoa-content">
+        <div class="modal-khoa-header">
+            <span>Thông báo</span>
+            <button type="button" class="btn-close" id="closeModalConfirm"></button>
+        </div>
+        <div class="modal-khoa-body">
+            <p>Bạn có chắc chắn muốn khóa không?</p>
+        </div>
+        <div class="modal-khoa-footer">
+            <button class="close-khoa-btn" id="cancelBtn">Hủy</button>
+            <button class="confirm-btn" id="confirmBtn">Khóa</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal loi -->
+<div class="modal fade modal-mess" id="custom-error-modal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-mess-header">
+                <h5 class="modal-title" id="errorModalLabel">Thông Báo</h5>
+                <button id="iconModalErr" type="button" class="btn-close btn-close-mess" data-bs-dismiss="modal" aria-label="Close" style="color:#ffff"></button>
+            </div>
+            <div class="modal-body modal-mess-body" id="text-main">
+                <!-- Thông báo sẽ được hiển thị tại đây -->
+            </div>
+            <div class="modal-footer modal-mess-footer">
+                <button type="button" class="btn btn-secondary btn-secondary-mess" id="dongModalBaoLoi" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    <script>
+        // Chọn hoặc bỏ chọn tất cả
+        document.getElementById("selectAll").addEventListener("change", function () {
+            const checkboxes = document.querySelectorAll(".rowCheckbox");
+            checkboxes.forEach(cb => cb.checked = this.checked);
+        });
+
+    </script>
+    <script src="~/Content/js/HocPhan/CaiDatHocPhan.js"></script>
+}
+

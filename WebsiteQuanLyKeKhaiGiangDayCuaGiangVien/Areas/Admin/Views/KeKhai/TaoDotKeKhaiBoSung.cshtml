@@ -1,0 +1,355 @@
+﻿
+@{
+    ViewBag.Title = "TaoDotKeKhaiBoSung";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+@section styles {
+    <link rel="stylesheet" href="~/Content/css/ModalKhoaDotKeKhai.css" />
+    <link rel="stylesheet" href="~/Content/css/ModalTaoDotKeKhai.css" />
+    <link rel="stylesheet" href="~/Content/css/TaoDotKeKhai.css" />
+    <link rel="stylesheet" href="~/Content/css/ModalMainErr.css" />
+    <link rel="stylesheet" href="~/Content/css/BangPhanCongBoSungHocPhan.css" />
+    <link rel="stylesheet" href="~/Content/css/ModalTaiBoSungFilePhanCong.css" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .error {
+            border: 1px solid red;
+        }
+    </style>
+}
+
+
+<!-- Content -->
+<div class="content">
+    <div class="caption-tile">
+        <div class="row">
+            <div class="col-md-9">
+                <h1>Tạo Đợt Kê Khai Bổ Sung</h1>
+            </div>
+            <div class="col-md-3">
+                <h6 id="countDownPanel" style="display: none"> <span id="titleCounDown">Thời gian kê khai còn lại: </span> <span id="ngayKeKhai"></span>:<span id="gioiKeKhai"></span>:<span id="phutKeKhai"></span>:<span id="giayKeKhai"></span></h6>
+            </div>
+        </div>
+
+    </div>
+
+    <hr>
+    <div class="form-main">
+
+        <div class="mb-3 col">
+
+            <div class="row">
+                <button id="openModal" class="col-md-2 me-2 btn btn-primary button-mau">
+                    <i class="fas fa-calendar-plus"></i> Tạo Lịch Kê Khai
+                </button>
+
+                @*  <button id="btnBoSungPhanCong" onclick="BoSungPhanCongHocPhan()" class="col-md-2 btn btn-success button-mau" style="display: none; margin-right: 5px;">
+                        <i class="fas fa-plus-circle"></i> Bổ Sung Phân Công
+                    </button>*@
+
+                <button id="btnXemDotKeKhaiHienTai" onclick="XemDotKeKhaiHienTaiDangMo()" class="col-md-2 btn btn-warning">
+                    <i class="fas fa-eye"></i> Xem Đợt Kê Khai
+                </button>
+
+
+            </div>
+        </div>
+
+        <div class="main-table">
+
+            <div class="table-phanCong-wrapper">
+                <h5 class="table-caption">Đợt kê khai đang mở</h5>
+                <table class="table table-phanCong table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">STT</th>
+                            <th scope="col">Tên Đợt Kê Khai</th>
+                            <th scope="col">Ngày Bắt Đầu</th>
+                            <th scope="col">Ngày Kết Thúc</th>
+                            <th scope="col">Học Kỳ</th>
+                            <th scope="col">Năm Học</th>
+                            <th scope="col">Người Tạo</th>
+
+                            <th scope="col">Chức Năng</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-dotKeKhai">
+
+
+                        <tr>
+                            <td class="text-none" colspan="12">Không có dữ liệu hiện thị</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+
+        <div id="phancongbosung" class="table-bosungphancong hide">
+            <div class="tbsPhanCong-wrapper">
+                <h5 class="tbsPhanCong-caption">Bảng Phân công học phần</h5>
+                <table class="table tbsPhanCong table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">STT</th>
+                            <th scope="col">Mã Giảng Viên</th>
+                            <th scope="col">Tên Giảng Viên</th>
+                            <th scope="col">Mã Học Phần</th>
+                            <th scope="col">Tên Học Phần</th>
+                            <th scope="col">Tên Lớp</th>
+                            <th scope="col">Số Lượng</th>
+                            <th scope="col">Học Kỳ</th>
+                            <th scope="col">Năm Học</th>
+                            <th scope="col">Hình Thức Dạy</th>
+                            <th scope="col">Thời Gian Dạy</th>
+                            <th scope="col">Ghi Chú</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="tbsPhanCong-table">
+                        <!-- Dữ liệu sẽ được chèn ở đây -->
+                        <tr>
+                            <td colspan="12" class="text-center">Không có dữ liệu hiển thị</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div id="modalTaoDotKeKhai" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            Thêm mới đợt kê khai
+            <button type="button" class="btn-close" id="closeModalHeader"></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="tbsTenDot">Tên đợt kê khai:</label>
+                <input type="text" id="tbsTenDot" placeholder="Nhập tên đợt kê khai">
+                <span id="tbsTenDotError" class="error-message"></span> <!-- Phần tử lỗi -->
+            </div>
+            <div class="form-group">
+                <label for="startDate">Ngày bắt đầu:</label>
+                <input type="datetime-local" id="startDate" class="date-input">
+                <span id="startDateError" class="error-message"></span> <!-- Phần tử lỗi -->
+            </div>
+            <div class="form-group">
+                <label for="endDate">Ngày kết thúc:</label>
+                <input type="datetime-local" id="endDate" class="date-input">
+                <span id="endDateError" class="error-message"></span> <!-- Phần tử lỗi -->
+            </div>
+            <div class="form-group">
+
+                <label for="tbsnamHoc">Năm học:</label>
+                <select id="tbsnamHoc">
+                </select>
+                <span id="tbsnamHocError" class="error-message"></span> <!-- Phần tử lỗi -->
+
+            </div>
+            <div class="form-group">
+                <label for="tbshocKy">Học kỳ:</label>
+                <select id="tbshocKy">
+                </select>
+                <span id="tbshocKyError" class="error-message"></span> <!-- Phần tử lỗi -->
+            </div>
+            <div class="form-group">
+                <label for="tbsghiChu">Ghi chú:</label>
+                <input type="text" id="tbsghiChu" placeholder="Nhập ghi chú">
+                <span id="tbsghiChuError" class="error-message"></span> <!-- Phần tử lỗi -->
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="close-btn" id="closeModal">Đóng</button>
+            <button class="save-btn" id="tbssaveModal">Lưu</button>
+        </div>
+    </div>
+</div>
+
+<!--Modal chinh sua-->
+<div id="modalChinhSuaDotKeKhai" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            Cập nhật đợt kê khai
+            <button type="button" class="btn-close" id="closeModalChinhSuaHeader"></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="edit-tenDot">Tên đợt kê khai:</label>
+                <input type="text" id="edit-tenDot" placeholder="Nhập tên đợt kê khai" readonly>
+            </div>
+            <div class="form-group">
+                <label for="edit-startDate">Ngày bắt đầu:</label>
+                <input type="text" id="edit-startDate" class="date-input" readonly>
+            </div>
+            <div class="form-group">
+                <label for="edit-endDate">Ngày kết thúc:</label>
+                <input type="datetime-local" id="edit-endDate" class="date-input">
+                <span id="edit-startDateError" class="error-message"></span>
+            </div>
+            <div class="form-group">
+                <label for="edit-namHoc">Năm học:</label>
+                <input type="text" id="edit-namHoc" placeholder="Nhập tên đợt kê khai" readonly>
+            </div>
+            <div class="form-group">
+                <label for="edit-hocKy">Học kỳ:</label>
+                <input type="text" id="edit-hocKy" placeholder="Nhập tên đợt kê khai" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="edit-ghiChu">Ghi chú:</label>
+                <input type="text" id="edit-ghiChu" placeholder="Nhập ghi chú">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="close-btn" id="closeModalChinhSua">Đóng</button>
+            <button class="save-btn" id="edit-saveModal">Lưu</button>
+        </div>
+    </div>
+</div>
+
+
+<!--Modal xem DOt ke khai hien tai-->
+<div id="modalXemDotKeKhai" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            Thông Tin đợt kê khai
+            <button type="button" class="btn-close" id="closeModalXemDotKeKhaiHeader"></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="read-tenDot">Tên đợt kê khai:</label>
+                <input type="text" id="read-tenDot" readonly>
+            </div>
+            <div class="form-group">
+                <label for="read-startDate">Ngày bắt đầu:</label>
+                <input type="text" id="read-startDate" class="date-input" readonly>
+            </div>
+            <div class="form-group">
+                <label for="read-endDate">Ngày kết thúc:</label>
+                <input type="text" id="read-endDate" class="date-input" readonly>
+            </div>
+            <div class="form-group">
+                <label for="read-hocKy">Học kỳ:</label>
+                <input type="text" id="read-hocKy" readonly>
+            </div>
+            <div class="form-group">
+                <label for="read-namHoc">Năm học:</label>
+                <input type="text" id="read-namHoc" readonly>
+            </div>
+            <div class="form-group">
+                <label for="read-nguoiTao">Người Tạo:</label>
+                <input type="text" id="read-nguoiTao" readonly>
+            </div>
+            <div class="form-group">
+                <label for="read-ghiChu">Ghi chú:</label>
+                <input type="text" id="read-ghiChu" readonly>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="close-btn" id="closeModalXemDotKeKhai">Đóng</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Confirm khóa -->
+<div id="modalConfirmKhoa" class="modal-khoa">
+    <div class="modal-khoa-content">
+        <div class="modal-khoa-header">
+            <span>Thông báo</span>
+            <button type="button" class="btn-close" id="closeModalConfirm"></button>
+        </div>
+        <div class="modal-khoa-body">
+            <p>Bạn có chắc chắn muốn khóa không?</p>
+        </div>
+        <div class="modal-khoa-footer">
+            <button class="close-khoa-btn" id="cancelBtn">Hủy</button>
+            <button class="confirm-btn" id="confirmBtn">Khóa</button>
+        </div>
+    </div>
+</div>
+
+<!--Modal loi-->
+<div class="modal fade"
+     id="Modal-main-err"
+     tabindex="-1"
+     aria-labelledby="Modal-main-err-Label"
+     aria-hidden="true">
+    <div class="modal-dialog custom-modal-dialog">
+        <div class="modal-content Modal-main-err-content">
+            <div class="modal-header Modal-main-err-header">
+                <h5 class="modal-title" id="Modal-main-err-Label">Lỗi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body Modal-main-err-body">
+                <p id="text-main"></p>
+            </div>
+            <div class="modal-footer Modal-main-err-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Modal bo sung phan cong -->
+@*<div class="modal fade" id="tbsPhanCongHP-modal" tabindex="-1" role="dialog" aria-labelledby="tbsPhanCongHP-modalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tbsPhanCongHP-modalLabel">Tải lên File Excel</h5>
+                    <!-- Dấu "X" để đóng modal -->
+                    <button type="button" id="icon-DongModalPhanCongBoSung" class="btn-close" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="tbsPhanCongHP-form">
+                        <div class="mb-3">
+                            <label for="tbsPhanCongHP-inputFile" class="form-label">Chọn file Excel</label>
+                            <input type="file" class="form-control" id="tbsPhanCongHP-inputFile" name="tbsPhanCongHP-file" accept=".xls, .xlsx" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <!-- Nút Hủy -->
+                    <button type="button" id="tbsPhanCongHP-huy" class="btn btn-secondary">Hủy</button>
+                    <button type="button" onclick="UploadFileBoSungPhanCongHocPhan()" form="tbsPhanCongHP-form" class="btn btn-primary">Tải lên</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+*@
+
+
+@section scripts {
+    <script src="~/Content/js/ModalKhoaDotKeKhai.js"></script>
+    <script src="~/Content/js/ModalChinhSuaDotKeKhai.js"></script>
+    <script src="~/Content/js/TaoDotKeKhai.js"></script>
+    <script src="~/Content/js/Kekhai/TaoDotKeKhaiBoSung.js"></script>
+    <script src="~/Content/js/Kekhai/CountDown.js"></script>
+    <script src="~/Content/js/ModalXemDotKeKhai.js"></script>
+    <script src="~/Content/js/ModalBoSungPhanCongHocPhan.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+}

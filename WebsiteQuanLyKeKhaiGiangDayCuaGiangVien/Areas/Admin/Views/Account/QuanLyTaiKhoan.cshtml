@@ -1,0 +1,151 @@
+﻿
+@{
+    ViewBag.Title = "QuanLyTaiKhoan";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section styles{
+    <link rel="stylesheet" href="~/Content/css/CaiDatNamHoc.css" />
+    <link rel="stylesheet" href="~/Content/css/CaiDatKhoa.css" />
+    <link rel="stylesheet" href="~/Content/css/CaiDatGiangVien.css" />
+    <link rel="stylesheet" href="~/Content/css/ModalKhoaDotKeKhai.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <!-- Thêm JavaScript của flatpickr -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <style>
+        .error {
+            border-color: red;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+    </style>
+}
+
+<!-- Content -->
+<div class="content">
+    <div class="row captionKhoa">
+        <div class=" col-12 col-sm-12 col-md-6 col-lg-6">
+
+            <h6>Quản lý thông tin giảng viên</h6>
+        </div>
+        <div class=" col-12 col-sm-12 col-md-6 col-lg-6 text-end">
+
+            <button id="btnreload" class="btn btn-primary"><i class="fa-solid fa-rotate-right"></i>Làm mới </button>
+        </div>
+
+        <hr>
+    </div>
+    <div class="row main-button">
+
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 d-flex align-items-center">
+            <input type="text" class="border-dark form-control me-2" id="txtTimKiem" placeholder="Mã giảng viên/ tên giảng viên...">
+            <button id="btnTimKiem" disabled class="btn btn-primary">
+                Tìm
+            </button>
+        </div>
+
+
+    </div>
+    <div class="row">
+        <h6 class="table-title">Thông tin giảng viên</h6>
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+
+                <div class="d-flex align-items-center">
+                    <select class="form-select me-2" id="khoa">
+                    </select>
+                    <button id="btnLocPhanTheoKhoa" disabled class="btn btn-secondary">Lọc</button>
+
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-6 col-sm-12 ms-auto">
+                <ul class="pagination phantrang text-end">
+                </ul>
+            </div>
+        </div>
+        <div class="panel-table-namhoc ">
+            <div class="panel-table-namhoc panel-table-GiangVien">
+                <table class="table table-bordered table-namhoc">
+                    <thead>
+                        <tr>
+
+                            <th>STT</th>
+                            <th>Mã giảng viên</th>
+                            <th>Họ tên</th>
+                            <th>Khoa</th>
+                            <th>Loại Tài Khoản</th>
+                            <th>Quyền truy cập </th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="tableTaiKhoanh">
+                        <tr>
+
+                            <td>1</td>
+                            <td>1</td>
+                            <td>2024-2025</td>
+                            <td>2024-2025</td>
+                            <td>2024-2025</td>
+
+                            <td>
+                                <button data-bs-toggle="modal" data-bs-target="#modal-messAddDepartment" class="btn btn-warning"> Quyền</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal cap nhat quyen-->
+<div class="modal fade" id="modal-messAddDepartment" tabindex="-1" aria-labelledby="modalAddDepartmentLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAddDepartmentLabel">Chinh sửa quyền</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <form id="formAddDepartment">
+                    <div class="mb-3">
+                        <label for="departmentName" class="form-label">Loại tài khoản</label>
+                        <select class="form-select" id="loaiTaiKhoan" required>
+                            <option value="1">Administartor</option>
+                            <option value="2">Admin</option>
+                            <option value="3">User</option>
+                        </select>
+                        <input type="text" style="display: none;" id="maTaiKhoan" value="" />
+                    </div>
+                </form>
+            </div>
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                <button type="button" class="btn btn-primary" id="btnLuuThayDoi">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts {
+    <script src="~/Content/js/Account/QuanLyTaiKhoan.js"></script>
+}
+
+
+

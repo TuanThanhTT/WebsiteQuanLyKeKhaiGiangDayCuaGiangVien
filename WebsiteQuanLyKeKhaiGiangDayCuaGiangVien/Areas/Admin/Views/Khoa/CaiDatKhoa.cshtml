@@ -1,0 +1,245 @@
+﻿
+@{
+    ViewBag.Title = "CaiDatKhoa";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section styles {
+    <link rel="stylesheet" href="~/Content/css/CaiDatNamHoc.css" />
+    <link rel="stylesheet" href="~/Content/css/CaiDatKhoa.css" />
+    <link rel="stylesheet" href="~/Content/css/ModalKhoaDotKeKhai.css" />
+
+    <style>
+        .is-invalid {
+            border-color: #dc3545;
+        }
+
+        .error-message {
+            font-size: 0.9rem;
+            display: none;
+        }
+    </style>
+}
+
+<div class="content">
+    <div class="row captionKhoa">
+        <h6>Cài đặt khoa</h6>
+        <hr>
+    </div>
+    <div class="row main-button">
+        <div class="col-12 col-md-12 col-sm-12 col-lg-12">
+            <button class="btn btn-success mr-2" data-bs-toggle="modal"
+                    data-bs-target="#modal-messAddDepartment">
+                <i class="fa-solid fa-plus"></i> Thêm khoa
+            </button>
+            <button id="tbsPhanCongUploadFile" class="btn btn-success mr-2" data-bs-toggle="modal"
+                    data-bs-target="#modal-messUploadFile">
+                <i class="fa-solid fa-plus"></i> Tải file
+            </button>
+            <button id="btnMauKhoa" class="btn btn-success mr-2">
+                <i class="fa-solid fa-download"></i> Mẫu file
+            </button>
+            <button id="xoaKhoa" type="button" class="btn btn-danger">
+                <i class="fa-solid fa-trash"></i> Xóa nhiều dòng
+            </button>
+        </div>
+
+    </div>
+    <div class="row">
+        <h6 class="table-title">Thông tin khoa</h6>
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-6 col-sm-12 ms-auto">
+                <ul class="pagination phantrang text-end">
+                </ul>
+            </div>
+        </div>
+        <div class="panel-table-namhoc">
+            <div class="panel-table-namhoc">
+                <table class="table table-bordered table-namhoc">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="selectAll"></th>
+                            <th>STT</th>
+                            <th>Mã khoa</th>
+                            <th>Tên khoa</th>
+                            <th>Chức năng</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableKhoa">
+                        <tr>
+                            <td><input type="checkbox" class="rowCheckbox"></td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>2024-2025</td>
+                            <td>
+                                <button class="btn btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#modal-messUpdateDepartment">
+                                    Cập nhật
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal them khoa-->
+<div class="modal fade" id="modal-messAddDepartment" tabindex="-1" aria-labelledby="modalAddDepartmentLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAddDepartmentLabel">Thêm Khoa Mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <form id="formAddDepartment">
+                    <div class="mb-3">
+                        <label for="departmentName" class="form-label">Tên Khoa</label>
+                        <input type="text" class="form-control" id="tenKhoa" placeholder="Nhập tên khoa"
+                               required>
+                    </div>
+                    <div class="error-message text-danger mt-2" style="display: none;">Tên khoa không được để trống!</div>
+                </form>
+            </div>
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                <button type="button" class="btn btn-primary" id="btnLuuKhoa">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal loi -->
+<div class="modal fade modal-mess" id="custom-error-modal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-mess-header">
+                <h5 class="modal-title" id="errorModalLabel">Thông Báo</h5>
+                <button id="iconModalErr" type="button" class="btn-close btn-close-mess" data-bs-dismiss="modal" aria-label="Close" style="color:#ffff"></button>
+            </div>
+            <div class="modal-body modal-mess-body" id="text-main">
+                <!-- Thông báo sẽ được hiển thị tại đây -->
+            </div>
+            <div class="modal-footer modal-mess-footer">
+                <button type="button" class="btn btn-secondary btn-secondary-mess" id="dongModalBaoLoi" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal cap nhat-->
+<div class="modal fade" id="modal-messUpdateDepartment" tabindex="-1" aria-labelledby="modalUpdateDepartmentLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalUpdateDepartmentLabel">Cập nhật thông tin khoa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <form id="formUpdateDepartment">
+                    <div class="mb-3">
+                        <label for="updateDepartmentName" class="form-label">Tên Khoa</label>
+                        <input type="text" class="form-control" id="updateDepartmentName"
+                               placeholder="Nhập tên khoa mới" required>
+                    </div>
+                    <span id="update-maKhoa" style="display: none;"></span>
+                    <div id="update-err" class="error-message text-danger mt-2" style="display: none;">Tên khoa không được để trống!</div>
+                </form>
+            </div>
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                <button type="button" class="btn btn-primary" id="updateDepartment">Cập nhật</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--modal upload file -->
+<div class="modal fade" id="modal-messUploadFile" tabindex="-1" aria-labelledby="modalUploadFileLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalUploadFileLabel">Tải File Khoa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <form id="formUploadFile">
+                    <div class="mb-3">
+                        <label for="fileInput" class="form-label">Chọn file Excel</label>
+                        <div class="d-flex align-items-center">
+                            <input type="file" class="form-control me-3" id="fileInput" accept=".xlsx, .xls"
+                                   required>
+                            <button id="btnTaiFile" type="button" class="btn btn-primary">Tải</button>
+                        </div>
+                        <div id="errMess" style="color: red; display: none;"></div>
+                    </div>
+                </form>
+                <div class="table-responsive mt-4" style="max-height: 400px; overflow-y: auto;">
+                    <table class="table table-bordered tableUploadFile">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên Khoa</th>
+                                <th>Ghi Chú</th>
+                            </tr>
+                        </thead>
+                        <tbody id="filePreviewTable">
+                            <!-- Preview rows will be dynamically added here -->
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="saveFileData">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Modal xac nhan xoa-->
+<div id="modalConfirmKhoa" class="modal-khoa">
+    <div class="modal-khoa-content">
+        <div class="modal-khoa-header">
+            <span>Thông báo</span>
+            <button type="button" class="btn-close" id="closeModalConfirm"></button>
+        </div>
+        <div class="modal-khoa-body">
+            <p>Bạn có chắc chắn muốn khóa không?</p>
+        </div>
+        <div class="modal-khoa-footer">
+            <button class="close-khoa-btn" id="cancelBtn">Hủy</button>
+            <button class="confirm-btn" id="confirmBtn">Khóa</button>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    <script>
+         // Chọn hoặc bỏ chọn tất cả
+            document.getElementById("selectAll").addEventListener("change", function () {
+                const checkboxes = document.querySelectorAll(".rowCheckbox");
+                checkboxes.forEach(cb => cb.checked = this.checked);
+            });
+    </script>
+    <script src="~/Content/js/Khoa/ThemKhoa.js"></script>
+
+}
+

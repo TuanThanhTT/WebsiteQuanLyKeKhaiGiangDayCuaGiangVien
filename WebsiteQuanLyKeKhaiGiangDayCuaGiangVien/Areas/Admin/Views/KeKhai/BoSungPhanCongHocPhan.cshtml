@@ -1,0 +1,573 @@
+﻿
+@{
+    ViewBag.Title = "BoSungPhanCongHocPhan";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+
+@section styles {
+    <link rel="stylesheet" href="~/Content/css/CaiDatNamHoc.css" />
+    <link rel="stylesheet" href="~/Content/css/ModalKhoaDotKeKhai.css" />
+    <link rel="stylesheet" href="~/Content/css/ModalTaoDotKeKhai.css" />
+    <link rel="stylesheet" href="~/Content/css/TaoDotKeKhai.css" />
+    <link rel="stylesheet" href="~/Content/css/ModalMainErr.css" />
+    <link rel="stylesheet" href="~/Content/css/BangPhanCongBoSungHocPhan.css" />
+    <link rel="stylesheet" href="~/Content/css/ModalTaiBoSungFilePhanCong.css" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .error {
+            border: 1px solid red;
+        }
+
+        .phantrang {
+            display: flex;
+            justify-content: flex-end;
+        }
+    </style>
+}
+
+
+<!-- Content -->
+<div class="content">
+    <div class="caption-tile">
+        <div class="row">
+            <div class="col-md-9">
+                <h1>Tạo Phân Công Học Phần Bổ Sung</h1>
+            </div>
+            <div class="col-md-3">
+                <h6 id="countDownPanel" style="display: none"> <span id="titleCounDown">Thời gian kê khai còn lại: </span> <span id="ngayKeKhai"></span>:<span id="gioiKeKhai"></span>:<span id="phutKeKhai"></span>:<span id="giayKeKhai"></span></h6>
+            </div>
+        </div>
+
+    </div>
+
+    <hr>
+    <div class="form-main">
+
+        <div class="mb-3 col">
+
+            <div class="row">
+                <button id="btnBoSungPhanCong" data-bs-toggle="modal" data-bs-target="#modal-boSungPhanCong" type="button" class="col-md-2 btn mb-3 btn-success button-mau">
+                    <i class="fa-solid fa-upload"></i>Tải File Bổ Sung
+                </button>
+                <button id="btnBoSungPhanCong" data-bs-toggle="modal" data-bs-target="#modalAddGiangVien" type="button" class="col-md-2 btn btn-success mb-3 button-mau">
+                    <i class="fas fa-calendar-plus"></i> Thêm Phân Công
+                </button>
+                <button id="btnXoaPhanCong" data-bs-toggle="modal" data-bs-target="#" type="button" class="col-md-2 btn btn-danger mb-3 button-mau">
+                    <i class="fa-solid fa-trash-can"></i> Xóa Phân Công
+                </button>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12 col-12 col-sm-12 col-lg-12">
+                    <div class="row">
+                        <div class="col-md-5 col-12 col-sm-12 col-lg-5">
+                            <strong>Năm học</strong>
+                            <select class="form-select" id="namPhanCong">
+                            </select>
+                        </div>
+                        <div class="col-md-7 col-12 col-sm-12 col-lg-7">
+                            <strong>Đợt phân công</strong>
+                            <div class="d-flex align-items-center gap-2">
+                                <select class="form-select" id="dotPhanCongHocPhan"></select>
+                                <button disabled class="btn btn-primary" id="btnXemPhanCongHocPhan">Xem</button>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+
+                <div class="col-md-12 col-12 col-sm-12 col-lg-12">
+                    <strong class="form-label active">Theo Khoa Công Tác</strong>
+                    <div class="row">
+                        <div class="col-md-5 col-12 col-sm-12 col-lg-5">
+                            <select class="form-select" id="khoa">
+                            </select>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-7 col-lg-7 ">
+                            <button class="btn btn-primary" disabled id="btnLocPhanTheoKhoa">
+                                <i class="fa fa-filter"></i> Lọc
+                            </button>
+                            <button id="btnLamMoi" class="btn btn-primary">
+                                <i class="fa fa-refresh"></i> Làm mới
+                            </button>
+                            <button style="display: none;" class="btn btn-danger">
+                                <i class="bi bi-file-earmark-pdf"></i> Xuất PDF
+                            </button>
+                            <button style="display: none;" class="btn btn-success">
+                                <i class="fa fa-file-excel"></i> Xuất Excel
+                            </button>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <strong class="form-label active">Tìm kiếm phân công / giảng viên</strong>
+
+
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="form-control d-flex align-items-center">
+                        <input id="txtChuoiTim" type="text" class="form-control me-2" placeholder="Nhập từ khóa">
+                        <button disabled id="btnTimKiemPhanCong" class="btn btn-primary">Tìm</button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+        <div class="row mb-5">
+            <h5 class="table-caption">Các Học Phần Chưa Kê Khai Giảng Dạy</h5>
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                    <strong>Số lượng: <span id="soLuongPhanCong"></span></strong>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6 col-sm-12 ms-auto">
+                    <ul class="pagination phantrang text-end">
+                    </ul>
+                </div>
+
+            </div>
+            <div class="table-phanCong-wrapper">
+
+                <table class="table table-bordered table-namhoc">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="selectAll"></th>
+                            <th>STT</th>
+                            <th>Mã Giảng Viên</th>
+                            <th>Tên Giảng Viên</th>
+                            <th>Mã Học Phần</th>
+                            <th>Tên Học Phần</th>
+                            <th>Tên Lớp</th>
+                            <th>Thời Gian Dạy</th>
+                            <th>Chi Tiết</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="maintableBoSungPhanCong">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="phancongbosung" class="table-bosungphancong mb-5">
+            <div id="mainTablePhanCongBoSungBody" class="tbsPhanCong-wrapper mb-5 hide">
+                <h5 class="tbsPhanCong-caption">Bảng Phân công học phần bổ sung đã tải lên</h5>
+                <table class="table tbsPhanCong table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">STT</th>
+                            <th scope="col">Mã Giảng Viên</th>
+                            <th scope="col">Tên Giảng Viên</th>
+                            <th scope="col">Mã Học Phần</th>
+                            <th scope="col">Tên Học Phần</th>
+                            <th scope="col">Tên Lớp</th>
+                            <th scope="col">Số Lượng</th>
+                            <th scope="col">Học Kỳ</th>
+                            <th scope="col">Năm Học</th>
+                            <th scope="col">Hình Thức Dạy</th>
+                            <th scope="col">Thời Gian Dạy</th>
+                            <th scope="col">Ghi Chú</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="tbsPhanCong-table">
+                        <!-- Dữ liệu sẽ được chèn ở đây -->
+                        <tr>
+                            <td colspan="12" class="text-center">Không có dữ liệu hiển thị</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal Them moi phan cong-->
+<div class="modal fade" id="modalAddGiangVien" tabindex="-1" aria-labelledby="modalAddGiangVienLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header title-modalThemGinagVien">
+                <h5 class="modal-title" id="modalAddGiangVienLabel">Thêm Phân Công Mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!-- Cột bên trái -->
+                    <div class="col-md-6">
+
+                        <div class="mb-3">
+                            <label for="namHocThenPhanCong" class="form-label">Năm học phân công</label>
+                            <select class="form-select" id="namHocThenPhanCong" required>
+                                <option selected value="">Chọn năm học
+                                <option>
+                            </select>
+                            <div id="namHocThenPhanCongError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+                        <hr />
+
+                        <div class="mb-3">
+                            <label for="khoaThemPhanCong" class="form-label">Khoa</label>
+                            <select class="form-select" id="khoaThemPhanCong" required>
+                                <option selected value="">Chọn khoa
+                                <option>
+                            </select>
+                            <div id="khoaThemPhanCongError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="giangVienThemPhanCong" class="form-label">Giảng viên dạy</label>
+                            <select class="form-select" id="giangVienThemPhanCong" required>
+                                <option selected value="">Chọn giảng viên
+                                <option>
+                            </select>
+                            <div id="giangVienThemPhanCongError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="namHocGiangDayThemPhanCong" class="form-label">Năm học giảng dạy</label>
+                            <input type="text" class="form-control" id="namHocGiangDayThemPhanCong" required>
+                            <div id="namHocGiangDayThemPhanCongError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="hocKyThemPhanCong" class="form-label">Học kỳ</label>
+                            <input type="text" class="form-control" id="hocKyThemPhanCong" required>
+
+                            <div id="hocKyThemPhanCongError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="hocPhanThemPhanCong" class="form-label">Học phần</label>
+                            <select class="form-select" id="hocPhanThemPhanCong" required>
+                                <option selected value="">Chọn học phần</option>
+
+                            </select>
+                            <div id="hocPhanThemPhanCongError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+
+                    </div>
+
+                    <!-- Cột bên phải -->
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="dotPhanCongThemMoi" class="form-label">Đợt phân công</label>
+                            <select class="form-select" id="dotPhanCongThemMoi" required>
+                                <option selected value="">Chọn học phần</option>
+                            </select>
+                            <div id="dotPhanCongThemMoiError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+                        <hr />
+                        <div class="mb-3">
+                            <label for="thoiGianDayThemPhanCong" class="form-label">Thời gian dạy</label>
+                            <input type="text" class="form-control" id="thoiGianDayThemPhanCong" required>
+                            <div id="thoiGianDayThemPhanCongError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="tenLopThemPhanCong" class="form-label">Tên lớp</label>
+                            <input type="text" class="form-control" id="tenLopThemPhanCong" required>
+                            <div id="tenLopThemPhanCongError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="siSoThemPhanCong" class="form-label">Sĩ số</label>
+                            <input type="number" step="1" min="1" class="form-control" id="siSoThemPhanCong" required>
+                            <div id="siSoThemPhanCongError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="hinhThucDayThemPhanCong" class="form-label">Hình thức dạy</label>
+                            <input type="text" class="form-control" id="hinhThucDayThemPhanCong" required>
+                            <div id="hinhThucDayThemPhanCongError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <!-- Nút Lưu -->
+                <div class="mb-3 text-end">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                    <button type="button" class="btn btn-primary" id="btnThemMoiPhanCong">Lưu</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal chinh sua-->
+<div class="modal fade" id="modalChinhSuaPhanCong" tabindex="-1" aria-labelledby="modalAddGiangVienLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header title-modalThemGinagVien">
+                <h5 class="modal-title" id="modalAddGiangVienLabel">Cập Nhật Phân Công </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!-- Cột bên trái -->
+                    <div class="col-md-6">
+
+                        <div class="mb-3">
+                            <label for="editKhoaThemPhanCong" class="form-label">Khoa</label>
+                            <select class="form-select" id="editKhoaThemPhanCong" required>
+                                <option selected value="">Chọn khoa
+                                <option>
+                            </select>
+                            <input type="hidden" id="editMaPhanCongHocPhan" />
+                            <div id="editKhoaThemPhanCongError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="editGiangVienThemPhanCong" class="form-label">Giảng viên dạy</label>
+                            <select class="form-select" id="editGiangVienThemPhanCong" required>
+                                <option selected value="">Chọn giảng viên
+                                <option>
+                            </select>
+                            <div id="editGiangVienThemPhanCongError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="editNamHocGiangDayThemPhanCong" class="form-label">Năm học giảng dạy</label>
+                            <input type="text" class="form-control" id="editNamHocGiangDayThemPhanCong" required>
+                            <div id="editNamHocGiangDayThemPhanCongError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="editHocKyThemPhanCong" class="form-label">Học kỳ phân công</label>
+                            <input type="text" class="form-control" id="editHocKyThemPhanCong" required>
+
+                            <div id="editHocKyThemPhanCongError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="editHocPhanThemPhanCong" class="form-label">Học phần</label>
+                            <input type="hidden" id="editmaHocPhan" />
+                            <input readonly type="text" class="form-control" id="editHocPhanThemPhanCong" />
+                            <div id="editHocPhanThemPhanCongError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+
+                    </div>
+
+                    <!-- Cột bên phải -->
+                    <div class="col-md-6">
+
+
+                        <div class="mb-3">
+                            <label for="editThoiGianDayThemPhanCong" class="form-label">Thời gian dạy</label>
+                            <input type="text" class="form-control" id="editThoiGianDayThemPhanCong" required>
+                            <div id="editThoiGianDayThemPhanCongError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="editTenLopThemPhanCong" class="form-label">Tên lớp</label>
+                            <input type="text" class="form-control" id="editTenLopThemPhanCong" required>
+                            <div id="editTenLopThemPhanCongError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="editSiSoThemPhanCong" class="form-label">Sĩ số</label>
+                            <input type="number" step="1" min="1" class="form-control" id="editSiSoThemPhanCong" required>
+                            <div id="editSiSoThemPhanCongError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="editHinhThucDayThemPhanCong" class="form-label">Hình thức dạy</label>
+                            <input type="text" class="form-control" id="editHinhThucDayThemPhanCong" required>
+                            <div id="editHinhThucDayThemPhanCongError" class="error-message text-danger"></div> <!-- Thêm div lỗi -->
+                        </div>
+                    </div>
+                </div>
+                <!-- Nút Lưu -->
+                <div class="mb-3 text-end">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                    <button type="button" class="btn btn-primary" id="btnLuuCapNhatPhanCong">Lưu</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Modal xem phan cong-->
+<div class="modal fade" id="modalXemPhanCong" tabindex="-1" aria-labelledby="modalAddGiangVienLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header title-modalThemGinagVien">
+                <h5 class="modal-title" id="modalAddGiangVienLabel">Thông tin phân công</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!-- Cột bên trái -->
+                    <div class="col-md-6">
+
+                        <div class="mb-3">
+
+                            <span><strong>Mã giảng viên: </strong><span id="xemMaGV"></span></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <span><strong>Tên giảng viên: </strong><span id="xemTenGV"></span></span>
+                        </div>
+                        <div class="mb-3">
+                            <span><strong>Mã học phần: </strong><span id="xemMaHP"></span></span>
+                        </div>
+                        <div class="mb-3">
+                            <span><strong>Tên học phần: </strong><span id="xemTenHP"></span></span>
+                        </div>
+                        <div class="mb-3">
+                            <span><strong>Tên Lớp: </strong><span id="xemTenLop"></span></span>
+                        </div>
+
+
+                    </div>
+
+                    <!-- Cột bên phải -->
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <span><strong>Năm học: </strong><span id="xemNamHoc"></span></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <span><strong>học kỳ: </strong><span id="xemHocKy"></span></span>
+                        </div>
+                        <div class="mb-3">
+                            <span><strong>hình thức dạy: </strong><span id="xemHinhThuc"></span></span>
+                        </div>
+                        <div class="mb-3">
+                            <span><strong>Thời gian dạy: </strong><span id="xemThoiGian"></span></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <span><strong>Sĩ số: </strong><span id="xemSiSo"></span></span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Nút Lưu -->
+                <div class="mb-3 text-end">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Confirm khóa -->
+<div id="modalConfirmKhoa" class="modal-khoa">
+    <div class="modal-khoa-content">
+        <div class="modal-khoa-header">
+            <span>Thông báo</span>
+            <button type="button" class="btn-close" id="closeModalConfirm"></button>
+        </div>
+        <div class="modal-khoa-body">
+            <p>Bạn có chắc chắn muốn khóa không?</p>
+        </div>
+        <div class="modal-khoa-footer">
+            <button class="close-khoa-btn" id="cancelBtn">Hủy</button>
+            <button class="confirm-btn" id="confirmBtn">Xóa</button>
+        </div>
+    </div>
+</div>
+
+<!--Modal loi-->
+<div class="modal fade"
+     id="Modal-main-err"
+     tabindex="-1"
+     aria-labelledby="Modal-main-err-Label"
+     aria-hidden="true">
+    <div class="modal-dialog custom-modal-dialog">
+        <div class="modal-content Modal-main-err-content">
+            <div class="modal-header Modal-main-err-header">
+                <h5 class="modal-title" id="Modal-main-err-Label">Lỗi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body Modal-main-err-body">
+                <p id="text-main"></p>
+            </div>
+            <div class="modal-footer Modal-main-err-footer">
+                <button id="modalClosebtn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!--Modal bo sung phan cong-->
+<div class="modal fade" id="modal-boSungPhanCong" tabindex="-1" aria-labelledby="modalAddDepartmentLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAddDepartmentLabel">Bổ sung phân công</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <form id="formAddDepartment">
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="namHocPhanCong">Năm học:</label>
+                            <select id="namHocPhanCong">
+                            </select>
+                            <div class="error-message text text-danger mt-2" id="namHocError" style="display: none;">Vui lòng chọn năm học</div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="dotPhanCong">Đợt Phân Công:</label>
+                            <select id="dotPhanCong">
+                            </select>
+                            <div class="error-message text text-danger mt-2" id="dotPhanCongError" style="display: none;">Vui lòng chọn đợt phân công</div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Chọn file Excel</strong>
+                        <input type="file" class="form-control" id="tbsPhanCongHP-inputFile" name="tbsPhanCongHP-file" accept=".xls, .xlsx" required>
+                        <div class="error-message text text-danger mt-2" id="fileError" style="display: none;">Vui lòng chọn file phân công bổ sung</div>
+                    </div>
+
+                </form>
+            </div>
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                <button type="button" class="btn btn-primary" id="btnBoSung">Bổ sung</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    <script>
+        // Chọn hoặc bỏ chọn tất cả
+        document.getElementById("selectAll").addEventListener("change", function () {
+            const checkboxes = document.querySelectorAll(".rowCheckbox");
+            checkboxes.forEach(cb => cb.checked = this.checked);
+        });
+    </script>
+    <script src="~/Content/js/ModalKhoaDotKeKhai.js"></script>
+    <script src="~/Content/js/TaoDotKeKhai.js"></script>
+
+    <script src="~/Content/js/Kekhai/BoSungPhanCong.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+}

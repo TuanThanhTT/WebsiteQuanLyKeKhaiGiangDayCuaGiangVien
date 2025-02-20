@@ -1,0 +1,230 @@
+﻿
+@{
+    ViewBag.Title = "DuyetKeKhai";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section styles {
+    <link rel="stylesheet" href="~/Content/css/DuyetKeKhai.css" />
+    <link rel="stylesheet" href="~/Content/css/TaoDotKeKhai.css" />
+    <link rel="stylesheet" href="~/Content/css/ModalMainErr.css" />
+}
+
+
+<!-- Content -->
+<div class="content">
+    <div class="caption-tile">
+        <div class="row">
+            <h1>Duyệt Kê Khai Giảng Dạy</h1>
+        </div>
+
+    </div>
+
+    <hr>
+    <div class="form-main">
+
+        <div class="row">
+            <div class="mb-3 col-md-5 col-sm-12 col-12 col-lg-5">
+                <label class="form-label active">Khoa Công Tác</label>
+                <div class="row">
+                    <div class="col-md-6">
+                        <select class="form-select" id="khoa">
+                        </select>
+                    </div>
+                    <div class="col">
+                        <button id="btnLocKeKhaiTheoKhoa" class="btn btn-primary">
+                            <i class="fas fa-filter"></i> Lọc
+                        </button>
+                        <button id="lamMoiTrang" onclick="lamMoiTrang()" type="button" class="btn btn-primary">
+                            <i class="fas fa-sync-alt"></i> Làm mới
+                        </button>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="mb-3 col-md-2 col-12 col-sm-12 col-lg-2">
+
+                <label class="form-label active">Năm Học</label>
+                <div class="row">
+                    <div class="col">
+                        <select class="form-select" id="namHoc">
+                        </select>
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
+            <div class="mb-3 col-md-2 col-12 col-sm-12 col-lg-2">
+                <label class="form-label active">Học Kỳ</label>
+                <div class="row">
+                    <div class="col">
+                        <select class="form-select" id="hocKy">
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+            <div class="mb-3 col-12 col-sm-12 col-md-3 col-lg-3">
+                <label class="form-label active">Đợt Kê Khai</label>
+                <div class="row">
+                    <div class="col-md-8">
+                        <select class="form-select" id="dotKeKhai">
+                        </select>
+                    </div>
+                    <div class="col">
+                        <button id="xemKeKhaiTheoDot" class="btn btn-primary">Xem</button>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                <p>Số lượng kê khai: <span id="soLuongGiangVienChoDuyet"></span></p>
+            </div>
+            <div class="col-12 col-md-6 col-lg-6 col-sm-12 ms-auto">
+                <ul class="pagination phantrang text-end">
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-table">
+
+            <div class="table-phanCong-wrapper">
+                <div class="row">
+                    <h5 class="table-caption">Thông Tin Phân Công</h5>
+
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <button id="duyetTatCa" class="btn btn-success" style="display: none;">Duyệt tất cả</button>
+                    </div>
+                </div>
+                <table class="table table-phanCong table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">STT</th>
+                            <th scope="col">Mã Giảng Viên</th>
+                            <th scope="col">Tên Giảng Viên</th>
+                            <th scope="col">Khoa</th>
+                            <th scope="col">Số Lượng Môn</th>
+                            <th scope="col">Chức Năng</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableGiangVienChoDuyet">
+                        <tr>
+                            <td>1</td>
+                            <td>0022412706</td>
+                            <td>Nguyễn Anh Khoa</td>
+                            <td>Sư Phạm Toán-Tin</td>
+                            <td>20</td>
+                            <td>
+                                <button id="btn-duyetKK-openModal" class="btn btn-warning"
+                                        type="button">
+                                    Xem
+                                </button>
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="text-none" colspan="12">Không có dữ liệu hiện thị</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal-duyetKK" tabindex="-1" aria-labelledby="modal-duyetKK-label" aria-hidden="true" style="display: none;">
+
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-duyetKK-label">Duyệt Kê Khai</h5>
+                <button type="button" id="btnCloseModal" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Dòng thông tin giảng viên -->
+                <div class="mb-3">
+                    <p>
+                        <strong>Số lượng kê khai:</strong> <span id="modal-duyetKK-soLuongKeKhai">0</span>
+                        &nbsp;&nbsp;
+                        <strong>Mã giảng viên:</strong> <span id="modal-duyetKK-maGiangVien">--</span>
+                        &nbsp;&nbsp;
+                        <strong>Tên giảng viên:</strong> <span id="modal-duyetKK-tenGiangVien">--</span>
+                    </p>
+                </div>
+
+                <!-- Bảng thông tin kê khai -->
+                <div style="max-height: 400px; overflow-y: auto;">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>STT</th>
+                                <th>Mã Học Phần</th>
+                                <th>Tên Học Phần</th>
+                                <th>Tên Lớp</th>
+                                <th>Sĩ Số</th>
+                                <th>Học Kỳ</th>
+                                <th>Năm Học</th>
+                                <th>Hình Thức</th>
+                                <th>Thời Gian Dạy</th>
+                                <th>Trạng Thái</th>
+                                <th>Chức Năng</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modal-duyetKK-bangKeKhai">
+                            <!-- Dữ liệu sẽ được thêm ở đây -->
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="modal-duyetKK-duyetTatCa" class="btn btn-success" aria-label="Duyệt tất cả các kê khai">Duyệt Tất Cả</button>
+                <button type="button" id="closeBtnModal" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Đóng modal">Đóng</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--Modal loi-->
+<div class="modal fade"
+     id="Modal-main-err"
+     tabindex="-1"
+     aria-labelledby="Modal-main-err-Label"
+     aria-hidden="true">
+    <div class="modal-dialog custom-modal-dialog">
+        <div class="modal-content Modal-main-err-content">
+            <div class="modal-header Modal-main-err-header">
+                <h5 class="modal-title" id="Modal-main-err-Label">Lỗi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body Modal-main-err-body">
+                <p id="text-main"></p>
+            </div>
+            <div class="modal-footer Modal-main-err-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section scripts {
+
+    <script src="~/Content/js/ModalDuyetKeKhai.js"></script>
+    <script src="~/Content/js/Kekhai/DuyetKeKhai.js"></script>
+}

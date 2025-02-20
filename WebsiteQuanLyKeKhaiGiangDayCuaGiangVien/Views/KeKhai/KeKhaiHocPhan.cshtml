@@ -1,0 +1,252 @@
+﻿
+@{
+    ViewBag.Title = "KeKhaiHocPhan";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+@section styles {
+    <link rel="stylesheet" href="~/Content/css/ModalChinhSuaKeKhai.css" />
+    <link rel="stylesheet" href="~/Content/css/ModalXemKeKhai.css" />
+    <link rel="stylesheet" href="~/Content/css/KeKhaiHocPhan.css" />
+    <link rel="stylesheet" href="~/Content/css/ModalMainErr.css" />
+}
+<style>
+    .error {
+        border-color: red;
+    }
+
+    .error-message {
+        color: red;
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+</style>
+
+<div class="main-content">
+    <div class="main-content-head">
+        <h6>
+            <i class="fas fa-book"></i>
+            Kê Khai Học Phần
+        </h6>
+    </div>
+    <hr>
+    <div class="main-content-body">
+        <h6>Thông Tin Kê Khai</h6>
+        <div class="text-thongso row">
+
+
+
+            <p class="col-8 col-md-8 col-lg-8 col-sm-8">Số lượng: <span id="soLuong">10</span></p>
+
+            <div class="col-4 col-md-4 col-lg-4 col-sm-4 ms-auto">
+                <ul class="pagination phantrang text-end">
+                    <!-- Phân trang sẽ được tạo bởi JavaScript -->
+                </ul>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Mã Học Phần</th>
+                        <th>Tên Học Phần</th>
+                        <th>Lớp</th>
+                        <th>Sĩ Số</th>
+                        <th>Chức Năng</th>
+                    </tr>
+                </thead>
+                <tbody id="tableKeKhaiHocPhan">
+                    <!-- Dữ liệu mẫu -->
+                    <!-- Thêm nhiều dòng dữ liệu nếu cần -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="main-content-footer">
+        <h6>Kê Khai Chờ Duyệt</h6>
+        <div class="text-thongso row">
+            <p class="col">Số lượng: <span id="soLuongKeKhaiChoDuyet"></span></p>
+            <div class="col-4 col-md-4 col-lg-4 col-sm-4 ms-auto">
+                <ul id="phanTrangTableChoDuyet" class="phantrang text-end">
+                </ul>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Mã Học Phần</th>
+                        <th>Tên Học Phần</th>
+                        <th>Lớp</th>
+                        <th>Sĩ Số</th>
+                        <th>Chức Năng</th>
+                    </tr>
+                </thead>
+                <tbody id="tablePhanCongChoDuyet">
+                    <!-- Dữ liệu mẫu -->
+                    <!-- Thêm nhiều dòng dữ liệu nếu cần -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--Modal xem ke khai-->
+<div class="modal-xem-kekhai" id="modal-xem-kekhai">
+    <div class="modal-xem-kekhai-content">
+        <!-- Nút "X" đóng modal -->
+        <button class="modal-xem-kekhai-close" id="dongModal-icon">×</button>
+        <!-- Header -->
+        <div class="modal-xem-kekhai-header">
+            Thông Tin Kê Khai
+        </div>
+        <!-- Body -->
+        <hr>
+        <div class="modal-xem-kekhai-body">
+            <!-- Cột 1 -->
+            <div class="modal-xem-kekhai-column">
+                <div class="modal-xem-kekhai-row">
+                    <span class="modal-xem-kekhai-label">Tên Học Phần:</span>
+                    <span id="tenHocPhan" class="modal-xem-kekhai-value"></span>
+                </div>
+                <div class="modal-xem-kekhai-row">
+                    <span class="modal-xem-kekhai-label">Mã Học Phần:</span>
+                    <span id="maHocPhan" class="modal-xem-kekhai-value"></span>
+                </div>
+                <div class="modal-xem-kekhai-row">
+                    <span class="modal-xem-kekhai-label">Thời Gian Dạy:</span>
+                    <span id="thoiGianDay" class="modal-xem-kekhai-value"></span>
+                </div>
+                <div class="modal-xem-kekhai-row">
+                    <span class="modal-xem-kekhai-label">Học Kỳ:</span>
+                    <span id="hocKy" class="modal-xem-kekhai-value"></span>
+                </div>
+            </div>
+            <!-- Cột 2 -->
+            <div class="modal-xem-kekhai-column">
+                <div class="modal-xem-kekhai-row">
+                    <span class="modal-xem-kekhai-label">Tên Lớp:</span>
+                    <span id="tenLop" class="modal-xem-kekhai-value"></span>
+                </div>
+                <div class="modal-xem-kekhai-row">
+                    <span class="modal-xem-kekhai-label">Sĩ Số:</span>
+                    <span id="siSo" class="modal-xem-kekhai-value"></span>
+                </div>
+                <div class="modal-xem-kekhai-row">
+                    <span class="modal-xem-kekhai-label">Năm Học:</span>
+                    <span id="namHoc" class="modal-xem-kekhai-value"></span>
+                </div>
+                <div class="modal-xem-kekhai-row">
+                    <span class="modal-xem-kekhai-label">Hình Thức Dạy:</span>
+                    <span id="hinhThucDay" class="modal-xem-kekhai-value"></span>
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        <div class="modal-xem-kekhai-footer">
+            <button id="dongModal-button">Đóng</button>
+        </div>
+    </div>
+</div>
+
+
+<!--Modal chinh sua ke khai-->
+<div class="modal-chinhsua-kekhai" id="modal-chinhsua-kekhai">
+    <div class="modal-chinhsua-kekhai-content">
+        <!-- Nút "X" đóng modal -->
+        <button class="modal-chinhsua-kekhai-close" onclick="closeModal()">×</button>
+        <!-- Header -->
+        <div class="modal-chinhsua-kekhai-header">
+            Chỉnh Sửa Kê Khai
+        </div>
+        <hr>
+        <!-- Body -->
+        <div class="modal-chinhsua-kekhai-body row">
+            <!-- Cột 1 -->
+            <div class="modal-chinhsua-kekhai-column">
+                <div class="modal-chinhsua-kekhai-row">
+                    <label class="modal-chinhsua-kekhai-label">Tên Học Phần:</label>
+                    <input id="edit-tenMonHoc" type="text" class="modal-chinhsua-kekhai-input" readonly>
+                </div>
+                <div class="modal-chinhsua-kekhai-row">
+                    <label class="modal-chinhsua-kekhai-label">Mã Học Phần:</label>
+                    <input id="edit-maMonHoc" type="text" class="modal-chinhsua-kekhai-input" readonly>
+                </div>
+
+                <div class="modal-chinhsua-kekhai-row">
+                    <label class="modal-chinhsua-kekhai-label">Ngày Dạy:</label>
+                    <input id="edit-ngayDay" type="date" class="modal-chinhsua-kekhai-input" readonly>
+                </div>
+                <div class="modal-chinhsua-kekhai-row">
+                    <label class="modal-chinhsua-kekhai-label">Học Kỳ:</label>
+                    <input id="edit-hocKy" type="text" class="modal-chinhsua-kekhai-input" readonly>
+                </div>
+            </div>
+            <div class="modal-chinhsua-kekhai-row" style="display: none">
+                <label class="modal-chinhsua-kekhai-label">Mã Học Phần:</label>
+                <input id="edit-maPhanCongHocPhan" type="text" class="modal-chinhsua-kekhai-input" readonly>
+            </div>
+            <!-- Cột 2 -->
+            <div class="modal-chinhsua-kekhai-column">
+                <div class="modal-chinhsua-kekhai-row">
+                    <label class="modal-chinhsua-kekhai-label">Tên Lớp:</label>
+                    <input id="edit-tenLop" type="text" class="modal-chinhsua-kekhai-input" required>
+
+                </div>
+                <div class="modal-chinhsua-kekhai-row">
+                    <label class="modal-chinhsua-kekhai-label">Sĩ Số:</label>
+                    <input id="edit-siSo" type="number" class="modal-chinhsua-kekhai-input">
+                </div>
+                <div class="modal-chinhsua-kekhai-row">
+                    <label class="modal-chinhsua-kekhai-label">Năm Học:</label>
+                    <input id="edit-namHoc" type="text" class="modal-chinhsua-kekhai-input" readonly>
+                </div>
+                <div class="modal-chinhsua-kekhai-row">
+                    <label class="modal-chinhsua-kekhai-label">Hình Thức Dạy:</label>
+                    <input id="edit-hinhThucDay" type="text" class="modal-chinhsua-kekhai-input">
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        <div class="modal-chinhsua-kekhai-footer">
+            <button onclick="closeModal()">Hủy</button>
+            <button>Lưu</button>
+        </div>
+    </div>
+</div>
+
+<!--Modal thong bao-->
+<div class="modal fade"
+     id="Modal-main-err"
+     tabindex="-1"
+     aria-labelledby="Modal-main-err-Label"
+     aria-hidden="true">
+    <div class="modal-dialog custom-modal-dialog">
+        <div class="modal-content Modal-main-err-content">
+            <div class="modal-header Modal-main-err-header">
+                <h5 class="modal-title" id="Modal-main-err-Label">Lỗi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body Modal-main-err-body">
+                <p id="text-main"></p>
+            </div>
+            <div class="modal-footer Modal-main-err-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section scripts {
+    <script src="~/Content/js/ModalXemKeKhai.js"></script>
+    <script src="~/Content/js/ModalChinhSuaKeKhai.js"></script>
+    <script src="~/Content/js/Kekhai/KeKhaiHocPhan.js"></script>
+}

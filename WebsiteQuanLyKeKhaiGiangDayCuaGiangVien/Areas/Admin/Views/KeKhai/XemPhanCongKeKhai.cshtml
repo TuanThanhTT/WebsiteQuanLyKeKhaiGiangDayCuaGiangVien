@@ -1,0 +1,192 @@
+﻿
+@{
+    ViewBag.Title = "XemPhanCongKeKhai";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+@section styles {
+    <link rel="stylesheet" href="~/Content/css/XemPhanCong.css" />
+    <link rel="stylesheet" href="~/Content/css/TaoDotKeKhai.css" />
+    <link rel="stylesheet" href="~/Content/css/ModalXemPhanCong.css" />
+}
+
+<!-- Content -->
+<div class="content">
+    <div class="caption-tile">
+        <div class="row">
+            <h1>Xem Phân Công Học Phần</h1>
+        </div>
+
+    </div>
+
+    <hr>
+    <div class="form-main">
+
+        <div class="row">
+
+            <div class="mb-3 col-md-3">
+                <label class="form-label active">Năm Học</label>
+                <div class="row">
+                    <select class="form-select" id="namHoc">
+                    </select>
+
+                </div>
+            </div>
+            <div class="mb-3 col-md-3">
+                <label class="form-label active">Học Kỳ</label>
+                <div class="row">
+                    <select class="form-select" id="hocKy">
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3 col-md-6">
+                <label class="form-label active">Chọn Đợt Kê Khai</label>
+                <div class="row">
+                    <div class="col-md-6">
+                        <select class="form-select" id="dotKeKhai">
+                        </select>
+                    </div>
+                    <div class="col">
+                        <button id="btnXemPhanCong" class="btn btn-primary">Xem</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-md-12 col-12 col-sm-12 col-lg-12">
+                <label class="form-label active">Theo Khoa Công Tác</label>
+                <div class="row">
+                    <div class="col-md-5 col-12 col-sm-12 col-lg-5">
+                        <select class="form-select" id="khoa">
+                        </select>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-7 col-lg-7 ">
+                        <button class="btn btn-primary" id="btnLocPhanTheoKhoa">
+                            <i class="fa fa-filter"></i> Lọc
+                        </button>
+                        <button onclick="LamMoiTrangWeb()" class="btn btn-primary">
+                            <i class="fa fa-refresh"></i> Làm mới
+                        </button>
+                        <button style="display: none;" class="btn btn-danger">
+                            <i class="bi bi-file-earmark-pdf"></i> Xuất PDF
+                        </button>
+                        <button style="display: none;" class="btn btn-success">
+                            <i class="fa fa-file-excel"></i> Xuất Excel
+                        </button>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="main-table">
+
+            <div class="table-phanCong-wrapper">
+                <h5 class="table-caption">Thông Tin Phân Công</h5>
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-3 col-lg-3">
+                        <strong>Đợt kê khai: </strong><span id="tenDotKeKhaiPhanCong">Kê khai năm học 2024 </span>
+                        <span style="display: none;" id="maDotKeKhai"></span>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-3 col-lg-3">
+                        <strong>Năm học: </strong><span id="namHocPhanCong">2024-2025 </span>
+
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-3 col-lg-3">
+                        <strong>Học kỳ: </strong><span id="hocKyPhanCong">Học kỳ 2 </span>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-3 col-lg-3">
+                        <strong>Số lượng: </strong><span id="soLuong">100</span>
+                    </div>
+
+
+
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-6 col-lg-6 col-sm-12 ms-auto">
+                        <ul class="pagination phantrang text-end">
+                        </ul>
+                    </div>
+                </div>
+                <table class="table table-phanCong table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">STT</th>
+                            <th scope="col">Mã Giảng Viên</th>
+                            <th scope="col">Tên Giảng Viên</th>
+                            <th scope="col">Khoa</th>
+                            <th scope="col">Số Lượng Môn</th>
+                            <th scope="col">Chức Năng</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablePhanCongKeKhai">
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal-XPC-giangVienThongTin" tabindex="-1" aria-labelledby="modal-XPC-label"
+     aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-XPC-label">Thông Tin Giảng Viên</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Thông tin giảng viên -->
+                <div class="mb-3">
+                    <p>
+                        <strong>Số phân công:</strong> <span id="modal-XPC-soLuongMon"></span> &nbsp;&nbsp;
+                        <strong>Mã số giảng viên:</strong> <span id="modal-XPC-maSoGV"></span> &nbsp;&nbsp;
+                        <strong>Tên giảng viên:</strong> <span id="modal-XPC-tenGV"></span>
+                        &nbsp;&nbsp;
+                        <strong>Khoa:</strong> <span id="modal-XPC-khoa"></span>
+                    </p>
+                </div>
+
+                <!-- Bảng thông tin môn học -->
+                <div style="max-height: 400px; overflow-y: auto;">
+                    <table class="table table-xem-pc table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Mã Học Phần</th>
+                                <th>Tên Học Phần</th>
+                                <th>Thời Gian Dạy</th>
+                                <th>Hình Thức</th>
+                                <th>Tên Lớp</th>
+                                <th>Số Lượng</th>
+                                <th>Học Kỳ</th>
+                                <th>Năm Học</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modal-XPC-bangHocPhan">
+                            <!-- Dữ liệu mẫu -->
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+
+    <script src="~/Content/js/ModalXemPhanCong.js"></script>
+    <script src="~/Content/js/KeKhai/XemPhanCongKeKhaiAdmin.js"></script>
+}

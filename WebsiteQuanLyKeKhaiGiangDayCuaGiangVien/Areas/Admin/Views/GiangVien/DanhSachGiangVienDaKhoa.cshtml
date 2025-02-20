@@ -1,0 +1,159 @@
+﻿
+@{
+    ViewBag.Title = "DanhSachGiangVienDaKhoa";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section styles{
+    <link rel="stylesheet" href="~/Content/css/CaiDatNamHoc.css" />
+    <link rel="stylesheet" href="~/Content/css/CaiDatKhoa.css" />
+    <link rel="stylesheet" href="~/Content/css/CaiDatGiangVien.css" />
+    <link rel="stylesheet" href="~/Content/css/ModalKhoaDotKeKhai.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+}
+
+
+<!-- Content -->
+<div class="content">
+    <div class="row captionKhoa">
+        <h6>Quản lý thông tin giảng viên</h6>
+        <hr>
+    </div>
+    <div class="row main-button">
+        <div class="col-12 col-md-12 col-sm-12 col-lg-12">
+            <button type="button" class="btn btn-primary" id="btnmoKhoaGiangVien">
+                <i class="fa-solid fa-unlock"></i> Mở khóa
+            </button>
+
+            <button id="btnXuatDanhSachGiangVienDaKhoa" class="btn btn-success" disabled>
+                <i class="fa-solid fa-download"></i>Xuất danh sách
+            </button>
+        </div>
+
+    </div>
+    <div class="row">
+        <h6 class="table-title">Thông tin giảng viên</h6>
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-6 col-sm-12 ms-auto">
+                <ul class="pagination phantrang text-end">
+                </ul>
+            </div>
+        </div>
+        <div class="panel-table-namhoc ">
+            <div class="panel-table-namhoc panel-table-GiangVien">
+                <table class="table table-bordered table-namhoc">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="selectAll"></th>
+                            <th>STT</th>
+                            <th>Mã giảng viên</th>
+                            <th>Họ Tên</th>
+                            <th>Khoa</th>
+                            <th>Ngày sinh</th>
+                            <th>Chi tiết</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="maintableGiangVien">
+                        <tr>
+                            <td><input type="checkbox" class="rowCheckbox"></td>
+                            <td colspan="6" style="text-align: center">Không có dữ liệu hiện thị</td>
+
+                        </tr>
+
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Modal xem chi tiet giang vien-->
+<div class="modal fade" id="modalXemChiTiet" tabindex="-1" aria-labelledby="modalGiangVienLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalGiangVienLabel">Thông tin giảng viên</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!-- Bên trái -->
+                    <div class="col-md-6">
+                        <p><strong>Mã giảng viên:</strong> <span id="xemMaGiangVien"></span></p>
+                        <p><strong>Tên giảng viên:</strong> <span id="xemTenGiangVien"></span></p>
+                        <p><strong>Ngày sinh:</strong> <span id="xemNgaySinh"></span></p>
+                        <p><strong>Khoa:</strong> <span id="xemTenKhoa"></span></p>
+                        <p><strong>Chuyên ngành:</strong> <span id="xemChuyenNghanh"></span></p>
+                        <p><strong>Trình độ:</strong> <span id="xemTrinhDo"></span></p>
+                    </div>
+                    <!-- Bên phải -->
+                    <div class="col-md-6">
+                        <p><strong>Hệ số lương:</strong> <span id="xemHeSoLuong"></span></p>
+                        <p><strong>Giới tính:</strong> <span id="xemGioiTinh"></span></p>
+                        <p><strong>Chức vụ:</strong> <span id="xemChucVu"></span></p>
+                        <p><strong>Email:</strong> <span id="xemEmail"></span></p>
+                        <p><strong>Số điện thoại:</strong> <span id="xemSoDienThoai"></span></p>
+                        <p><strong>Địa chỉ:</strong> <span id="xemDiaChi"></span></p>
+                        <p><strong>Loại hình đào tạo:</strong> <span id="xemLoaiHinhDaoTao"></span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal loi -->
+<div class="modal fade modal-mess" id="custom-error-modal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-mess-header">
+                <h5 class="modal-title" id="errorModalLabel">Thông Báo</h5>
+                <button id="iconModalErr" type="button" class="btn-close btn-close-mess" data-bs-dismiss="modal" aria-label="Close" style="color:#ffff"></button>
+            </div>
+            <div class="modal-body modal-mess-body" id="text-main">
+                <!-- Thông báo sẽ được hiển thị tại đây -->
+            </div>
+            <div class="modal-footer modal-mess-footer">
+                <button type="button" class="btn btn-secondary btn-secondary-mess" id="dongModalBaoLoi" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal xac nhan mo khoa-->
+<div id="modalConfirmKhoa" class="modal-khoa">
+    <div class="modal-khoa-content">
+        <div class="modal-khoa-header">
+            <span>Thông báo</span>
+            <button type="button" class="btn-close" id="closeModalConfirm"></button>
+        </div>
+        <div class="modal-khoa-body">
+            <p>Bạn có chắc chắn muốn mở khóa không?</p>
+        </div>
+        <div class="modal-khoa-footer">
+            <button class="close-khoa-btn" id="cancelBtn">Hủy</button>
+            <button class="confirm-btn" id="confirmBtn">OK</button>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+            // Chọn hoặc bỏ chọn tất cả
+            document.getElementById("selectAll").addEventListener("change", function () {
+                const checkboxes = document.querySelectorAll(".rowCheckbox");
+                checkboxes.forEach(cb => cb.checked = this.checked);
+            });
+    </script>
+    <script src="~/Content/js/GiangVien/DanhSachGiangVienDaKhoa.js"></script>
+    <script src="~/Content/js/ModalKhoaDotKeKhai.js"></script>
+}
+
+
