@@ -246,11 +246,11 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Controllers
         }
 
         [HttpPost]
-        public IActionResult loadHocPhanKeKhaiTheoDot(int maDotKeKhai, int page = 1, int pageSize = 5)
+        public ActionResult loadHocPhanKeKhaiTheoDot(int maDotKeKhai, int page = 1, int pageSize = 5)
         {
             try
             {
-                string? maGV = HttpContext.Session.GetString("UserName");
+                string maGV = Session["UserName"] as string;
                 KeKhaiHocPhan keKhaiHocPhan = new KeKhaiHocPhan();
 
                 List<XemThongTinKeKhaiDaDuyet> dsKeKhai = new List<XemThongTinKeKhaiDaDuyet>();
