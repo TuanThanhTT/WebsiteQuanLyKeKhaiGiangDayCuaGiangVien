@@ -1,13 +1,210 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/Content/css/Dashborad.css" />
+    <link rel="stylesheet" href="~/Content/css/Footer.css" />
+    @RenderSection("styles", required: false)
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </head>
 <body>
-    <div>
-        @RenderBody()
+    <div class="layout">
+        <!-- Navbar -->
+        <div class="navbar">
+            <div class="logo">
+                <img src="~/Content/Img/dthu.png" alt="Logo">
+                <div class="title-logo">
+                    <a href="#" class="website-title">WEBSITE QUẢN LÝ KÊ KHAI GIẢNG DẠY</a>
+                    <a href="#" class="department-title">KHOA CÔNG NGHỆ VÀ KỸ THUẬT</a>
+                </div>
+
+            </div>
+            <div class="user-actions">
+                <form action="~/Login/Logout" method="post">
+                    @if (ViewBag.UserName != null)
+                    {
+                        <label>Xin chào: <strong style="color: blue;">@ViewBag.UserName</strong></label>
+                    }
+                    else
+                    {
+                        <label></label>
+                    }
+
+                    <button class="btn btn-danger"><i class="fa-solid fa-right-from-bracket"></i>Đăng Xuất</button>
+                </form>
+
+            </div>
+            <button class="btn btn-secondary d-lg-none" id="menu-toggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+        <!-- Main (Sidebar + Content) -->
+        <div class="main">
+            <!-- Sidebar -->
+            <div class="sidebar" id="sidebar">
+                <ul class="menu">
+                    <li>
+                        <span>ADMIN</span>
+                    </li>
+                    <li class="has-submenu">
+                        <i class="fa-solid fa-calendar-alt"></i> Đợt phân công
+                        <ul class="sub-menu">
+                            <li>
+                                <a class="item-menu-sub" href="~/Admin/KeKhai/TaoDotKeKhai">
+                                    <i class="fa-solid fa-plus-circle"></i> Tạo đợt mới
+                                </a>
+                            </li>
+                            <li>
+                                <a class="item-menu-sub" href="~/Admin/KeKhai/BoSungPhanCongHocPhan">
+                                    <i class="fa-solid fa-plus-circle"></i> Tạo đợt bổ sung
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="has-submenu">
+                        <i class="fa-solid fa-calendar-plus"></i> Đợt kê khai
+                        <ul class="sub-menu">
+                            <li> <a class="item-menu-sub" href="~/Admin/KeKhai/TaoDotKeKhaiBoSung"><i class="fa-solid fa-plus-circle"></i> Tạo đợt mới</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="~/Admin/ThongKe/ThongKe"><i class="fa-solid fa-chart-line"></i> Thống Kê</a></li>
+                    <li><a href="~/Admin/Account/QuanLyTaiKhoan"><i class="fa-solid fa-users"></i> Quản Lý Tài Khoản</a></li>
+                    <li class="has-submenu">
+                        <i class="fa-solid fa-clipboard-check"></i> Kê Khai
+                        <ul class="sub-menu">
+                            <li><a class="item-menu-sub" href="~/Admin/KeKhai/XemPhanCongKeKhai"><i class="fa-solid fa-eye"></i> Xem Phân Công</a></li>
+                            <li><a class="item-menu-sub" href="~/Admin/KeKhai/DuyetKeKhai"><i class="fa-solid fa-check-circle"></i> Duyệt Kê Khai </a></li>
+                        </ul>
+                    </li>
+                    <li class="has-submenu">
+                        <i class="fa-solid fa-cogs"></i> Cài Đặt
+                        <ul class="sub-menu">
+                            <li><a href="~/Admin/GiangVien/CaiDatGiangVien"><i class="fa-solid fa-chalkboard-teacher"></i> Giảng Viên</a></li>
+                            <li><a href="~/Admin/HocPhan/CaiDatHocPhan"><i class="fa-solid fa-book"></i> Học Phần</a></li>
+                            <li><a href="~/Admin/Khoa/CaiDatKhoa"><i class="fa-solid fa-building"></i> Khoa</a></li>
+                            <li><a class="item-menu-sub" href="~/Admin/NamHoc/CaiDatNamHoc"><i class="fa-solid fa-building"></i> Năm Học</a></li>
+
+                        </ul>
+                    </li>
+                    <li><a href="~/Home/Home"><i class="fa-solid fa-user"></i> Trang Người Dùng</a></li>
+
+                </ul>
+            </div>
+
+
+            @RenderBody()
+
+        </div>
+
     </div>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section about">
+                <h4>Về Chúng Tôi</h4>
+                <p>
+                    Chúng tôi cung cấp các giải pháp phần mềm quản lý giảng dạy hiệu quả, giúp giảng viên dễ dàng kê khai, theo dõi và quản lý quá trình giảng dạy và học tập của sinh viên.
+                </p>
+            </div>
+            <div class="footer-section links">
+                <h4>Liên Kết Quan Trọng</h4>
+                <ul>
+                    <li><a href="#home">Trang Chủ</a></li>
+                    <li><a href="#about">Giới Thiệu</a></li>
+                    <li><a href="#contact">Liên Hệ</a></li>
+                    <li><a href="#privacy">Chính Sách Bảo Mật</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h4>Liên Hệ</h4>
+                <ul>
+                    <li><i class="fas fa-phone"></i> Hotline: 039 3524 531</li>
+                    <li><i class="fas fa-envelope"></i> Email: tuanthanh1810547@gmail.com</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Địa chỉ: Phạm Hữu Lầu, P.6, TP. Cao Lãnh, Đồng Tháp</li>
+                </ul>
+            </div>
+            <div class="footer-section social">
+                <h4>Chúng Tôi Trên Mạng Xã Hội</h4>
+                <div class="social-icons">
+                    <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Nguyen Tuan Thanh. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    @RenderSection("scripts", required: false)
+    <script>
+        //// Lấy nút menu và sidebar
+        //const menuToggle = document.getElementById('menu-toggle');
+        //const sidebar = document.getElementById('sidebar');
+
+        //// Xử lý sự kiện khi nhấn nút
+        //menuToggle.addEventListener('click', () => {
+        //    sidebar.classList.toggle('active'); // Thêm hoặc gỡ bỏ lớp 'active'
+        //});
+        //// Sự kiện để hiển thị submenu khi nhấp vào danh mục
+        //document.querySelectorAll('.menu > li.has-submenu').forEach(menuItem => {
+        //    menuItem.addEventListener('click', (event) => {
+        //        // Chỉ mở/đóng submenu cho mục li này
+        //    });
+        //});
+
+        //// Ngừng sự kiện khi click vào submenu để không lan truyền lên li cha
+        //document.querySelectorAll('.sub-menu li').forEach(subMenuItem => {
+        //    subMenuItem.addEventListener('click', (event) => {
+        //        event.stopPropagation(); // Ngừng sự kiện lan truyền lên phần tử cha
+        //    });
+        //});
+        // Lấy nút menu và sidebar
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+
+        // Xử lý sự kiện khi nhấn nút menu-toggle
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active'); // Thêm hoặc gỡ bỏ lớp 'active'
+        });
+
+        // Sự kiện để hiển thị submenu khi nhấp vào danh mục
+        document.querySelectorAll('.menu > li.has-submenu').forEach(menuItem => {
+            menuItem.addEventListener('click', (event) => {
+                // Đóng các submenu khác nếu cần (nếu muốn chỉ một mục mở cùng lúc)
+                document.querySelectorAll('.menu > li.has-submenu').forEach(item => {
+                    if (item !== menuItem) {
+                        item.classList.remove('active'); // Đóng submenu khác
+                    }
+                });
+                // Chỉ mở/đóng submenu cho mục li này
+                menuItem.classList.toggle('active');
+            });
+        });
+
+        // Ngừng sự kiện khi click vào submenu để không lan truyền lên li cha
+        document.querySelectorAll('.sub-menu li').forEach(subMenuItem => {
+            subMenuItem.addEventListener('click', (event) => {
+                event.stopPropagation(); // Ngừng sự kiện lan truyền lên phần tử cha
+            });
+        });
+
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </body>
 </html>
+

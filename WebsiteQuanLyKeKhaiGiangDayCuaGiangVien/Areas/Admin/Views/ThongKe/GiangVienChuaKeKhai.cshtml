@@ -1,0 +1,151 @@
+﻿
+@{
+    ViewBag.Title = "GiangVienChuaKeKhai";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section styles{
+    <link rel="stylesheet" href="~/Content/css/CaiDatNamHoc.css" />
+    <link rel="stylesheet" href="~/Content/css/CaiDatKhoa.css" />
+    <link rel="stylesheet" href="~/Content/css/CaiDatGiangVien.css" />
+    <link rel="stylesheet" href="~/Content/css/ModalKhoaDotKeKhai.css" />
+
+    <link rel="stylesheet" href="~/Content/css/ModalXemChiTietThongKe.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <!-- Thêm JavaScript của flatpickr -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+}
+
+<!-- Content -->
+<div class="content">
+    <div class="row captionKhoa">
+        <div class="col-12 col-sm-12 col-mdl-9 col-lg-9">
+            <h6>Giảng Viên Chưa Hoàn Thành Kê Khai Đơt: <span>@ViewBag.TenDotKeKhai</span></h6>
+
+        </div>
+        <div class="col-12 col-sm-12 col-lg-3 col-md-3 text-end">
+            <button id="btnLamMoi" class="btn btn-primary"><i class="fa-solid fa-rotate-right"></i>Làm mới</button>
+
+        </div>
+        <hr>
+    </div>
+    <div class="row main-button">
+        <div class="col-12 col-md-3 col-sm-12 col-lg-3">
+            <button id="btnXuatDanhsach" type="button" class="btn btn-success">
+                <i class="fa-solid fa-file-export"></i>
+                Xuất Danh Sách
+            </button>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-9 col-lg-9 d-flex align-items-center">
+            <input type="text" class="border-dark form-control me-2" id="txtTimKiem" placeholder="Mã giảng viên/ tên giảng viên...">
+            <button id="btnTimKiem" class="btn btn-primary">
+                Tìm
+            </button>
+        </div>
+
+
+    </div>
+    <div class="row">
+        <h6 class="table-title">Thông tin giảng viên</h6>
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 d-flex align-items-center">
+                <select style="display: none;" class="form-select me-2" id="khoa">
+                </select>
+                <button style="display: none;" id="btnLocPhanTheoKhoa" class="btn btn-secondary">Lọc</button>
+            </div>
+            <div class="col-12 col-md-6 col-lg-6 col-sm-12 ms-auto">
+                <ul class="pagination phantrang text-end">
+                </ul>
+            </div>
+        </div>
+        <div class="panel-table-namhoc ">
+            <div class="panel-table-namhoc panel-table-GiangVien">
+                <table class="table table-bordered table-namhoc">
+                    <thead>
+                        <tr>
+
+                            <th>STT</th>
+                            <th>Mã giảng viên</th>
+                            <th>Họ Tên</th>
+                            <th>Khoa</th>
+                            <th>Tiến Độ</th>
+                            <th>Chi tiết</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="tableGiangVienChuaHoanThanh">
+                        <tr>
+
+                            <td>1</td>
+                            <td>1</td>
+                            <td>2024-2025</td>
+                            <td>2024-2025</td>
+                            <td>2024-2025</td>
+                            <td><button class="btn btn-warning">Xem chi tiết</button></td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Modal xem chi tiết-->
+<div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailsModalLabel">Thông Tin Chi Tiết</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <p><strong>Mã Giảng Viên:</strong> <span id="xemmaGV"></span></p>
+                    <p><strong>Tên Giảng Viên:</strong> <span id="xemTenGV"></span></p>
+                    <p><strong>Khoa:</strong>  <span id="xemKhoa"></span></p>
+                    <p><strong>Đợt Kê Khai:</strong> <span id="xemDotKeKhai"></span></p>
+                    <p><strong>Học Kỳ:</strong> <span id="xemHocKy"></span></p>
+                    <p><strong>Năm Học:</strong>  <span id="xemNamHoc"></span></p>
+                    <p><strong>Tổng số phân công:</strong> <span id="xemtongSoPhanCong"></span></p>
+                    <p><strong>Số Lượng Hoàn Thành:</strong> <span id="xemSoLuongHoanThanh"></span></p>
+                    <p><strong>Số Lượng Còn Lại:</strong>  <span id="xemSoLuongConLai"></span></p>
+                </div>
+                <div class="table-container">
+                    <div class="scrollable">
+                        <table class="table table-modal-XCT table-striped table-bordered">
+                            <thead class="table-modal-xemchitiet">
+                                <tr>
+                                    <th scope="col">STT</th>
+                                    <th scope="col">Mã Học Phần</th>
+                                    <th scope="col">Tên Học Phần</th>
+                                    <th scope="col">Ngày Dạy</th>
+                                    <th scope="col">Tên Lớp</th>
+                                    <th scope="col">Sĩ Số</th>
+                                    <th scope="col">Trạng Thái</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableXemChiTietTienDo">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts {
+    <script src="~/Content/js/ThongKe/GiangVienChuaHoanThanhKeKhai.js"></script>
+}
+

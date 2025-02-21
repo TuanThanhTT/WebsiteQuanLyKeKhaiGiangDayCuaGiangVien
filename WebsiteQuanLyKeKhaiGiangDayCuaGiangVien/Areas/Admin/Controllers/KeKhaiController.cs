@@ -1117,7 +1117,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Areas.Admin.Controllers
                 if (maDotKeKhai == 0)
                 {
                     var thongTinDotkeKhai = new ThongTinDotKeKhaiGanNhat();
-                    (dsPhanCong, tongSoLuong, idDotKeKhai, tenDotKeKhai, tenNamHoc, tenHocKy, thongTinDotkeKhai) = keKhaiHocPhan.getHocPhanPhanCongTheoDotGanNhat(page, pageSize).Result;
+                    (dsPhanCong, tongSoLuong, idDotKeKhai, tenDotKeKhai, tenNamHoc, tenHocKy, thongTinDotkeKhai) = keKhaiHocPhan.getHocPhanPhanCongTheoDotGanNhat(page, pageSize);
                     return Json(new
                     {
                         success = 1,
@@ -1136,7 +1136,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Areas.Admin.Controllers
                 }
                 else
                 {
-                    var result = keKhaiHocPhan.getHocPhanPhanCongTheoDot(maDotKeKhai, page, pageSize).Result;
+                    var result = keKhaiHocPhan.getHocPhanPhanCongTheoDot(maDotKeKhai, page, pageSize);
                     dsPhanCong = result.Item1;
                     tongSoLuong = result.Item2;
                     idDotKeKhai = result.Item3;
@@ -1186,7 +1186,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Areas.Admin.Controllers
 
                 if (maDotKeKhai == 0)
                 {
-                    var result = keKhaiHocPhan.getHocPhanPhanCongTheoDotVaKhoaGanNhat(maKhoa, page, pageSize).Result;
+                    var result = keKhaiHocPhan.getHocPhanPhanCongTheoDotVaKhoaGanNhat(maKhoa, page, pageSize);
                     dsPhanCong = result.Item1;
                     tongSoLuong = result.Item2;
                     idDotKeKhai = result.Item3;
@@ -1196,7 +1196,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Areas.Admin.Controllers
                 }
                 else
                 {
-                    var result = keKhaiHocPhan.getHocPhanPhanCongTheoDotVaKhoa(maKhoa, maDotKeKhai, page, pageSize).Result;
+                    var result = keKhaiHocPhan.getHocPhanPhanCongTheoDotVaKhoa(maKhoa, maDotKeKhai, page, pageSize);
                     dsPhanCong = result.Item1;
                     tongSoLuong = result.Item2;
                     idDotKeKhai = result.Item3;
@@ -1237,7 +1237,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Areas.Admin.Controllers
             try
             {
                 KeKhaiHocPhan keKhaiHocPhan = new KeKhaiHocPhan();
-                var result = keKhaiHocPhan.getDanhSachHocPhanDuocPhanCongCuaGiangVienTheoDot(maGV, maDotKeKhai).Result;
+                var result = keKhaiHocPhan.getDanhSachHocPhanDuocPhanCongCuaGiangVienTheoDot(maGV, maDotKeKhai);
 
                 var dsPhanCong = result.Item1;
                 var idGV = result.Item2;
@@ -1513,33 +1513,60 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult DuyetToanBoKeKhaiCuaGiangVien([FromBody] List<int> listIdKeKhai)
+        public ActionResult DuyetToanBoKeKhaiCuaGiangVien(FormCollection form)
         {
             try
             {
-                string maGV = HttpContext.Session["UserName"] as string;  // Lấy maGV từ session
-                KeKhaiHocPhan keKhaiHocPhan = new KeKhaiHocPhan();
+                string maGV = Session["UserName"] as string;  // Lấy maGV từ session
 
+                if (string.IsNullOrEmpty(maGV))
+                {
+                    return Json(new
+                    {
+                        success = 0,
+                        message = "Không tìm thấy thông tin giảng viên. Vui lòng đăng nhập lại!"
+                    }, JsonRequestBehavior.AllowGet);
+                }
+
+                // Lấy danh sách ID kê khai từ request
+                string listIdKeKhaiString = form["listIdKeKhai"];
+                List<int> listIdKeKhai = new List<int>();
+
+                if (!string.IsNullOrEmpty(listIdKeKhaiString))
+                {
+                    listIdKeKhai = listIdKeKhaiString.Split(',').Select(int.Parse).ToList();
+                }
+
+                if (listIdKeKhai.Count == 0)
+                {
+                    return Json(new
+                    {
+                        success = 0,
+                        message = "Danh sách kê khai không hợp lệ!"
+                    }, JsonRequestBehavior.AllowGet);
+                }
+
+                KeKhaiHocPhan keKhaiHocPhan = new KeKhaiHocPhan();
                 DotKeKhaiService dotKeKhaiService = new DotKeKhaiService();
 
                 // Kiểm tra xem đợt kê khai có đang mở không
-                if ( dotKeKhaiService.KiemTraDotKeKhaiDangMo())
+                if (dotKeKhaiService.KiemTraDotKeKhaiDangMo())
                 {
                     return Json(new
                     {
                         success = 0,
                         message = "Kê khai hiện đang mở, không thể duyệt học phần kê khai. Vui lòng chờ đợt kê khai kết thúc!"
-                    }, JsonRequestBehavior.AllowGet);  // Chỉ định JsonRequestBehavior.AllowGet
+                    }, JsonRequestBehavior.AllowGet);
                 }
 
                 // Duyệt danh sách kê khai hoàn thành
-                if ( keKhaiHocPhan.DuyetDanhSachKeKhaiHoanThanh(listIdKeKhai, maGV))
+                if (keKhaiHocPhan.DuyetDanhSachKeKhaiHoanThanh(listIdKeKhai, maGV))
                 {
                     return Json(new
                     {
                         success = 1,
                         message = "Duyệt kê khai học phần thành công!"
-                    }, JsonRequestBehavior.AllowGet);  // Chỉ định JsonRequestBehavior.AllowGet
+                    }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -1547,7 +1574,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Areas.Admin.Controllers
                     {
                         success = 0,
                         message = "Học phần kê khai không tồn tại!"
-                    }, JsonRequestBehavior.AllowGet);  // Chỉ định JsonRequestBehavior.AllowGet
+                    }, JsonRequestBehavior.AllowGet);
                 }
             }
             catch (Exception ex)
@@ -1560,8 +1587,9 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Areas.Admin.Controllers
             {
                 success = 0,
                 message = "Duyệt kê khai không thành công. Có lỗi xảy ra, vui lòng thử lại sau!"
-            }, JsonRequestBehavior.AllowGet);  // Chỉ định JsonRequestBehavior.AllowGet
+            }, JsonRequestBehavior.AllowGet);
         }
+
 
         [HttpPost]
         public ActionResult DuyetTatCaKeKhai()

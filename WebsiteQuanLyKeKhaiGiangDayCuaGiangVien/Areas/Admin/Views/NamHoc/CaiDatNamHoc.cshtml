@@ -1,0 +1,265 @@
+﻿
+@{
+    ViewBag.Title = "CaiDatNamHoc";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+@section styles{
+    <link rel="stylesheet" href="~/Content/css/CaiDatNamHoc.css" />
+    <link rel="stylesheet" href="~/Content/css/ModalThemNamHoc.css" />
+    <link rel="stylesheet" href="~/Content/css/MoadlNamHocMess.css" />
+    <link rel="stylesheet" href="~/Content/css/ModalThemHocKy.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* CSS Customizations */
+        .is-invalid {
+            border-color: #dc3545; /* Red border for invalid input */
+        }
+
+        .error-message {
+            font-size: 0.9rem; /* Smaller font size for error message */
+            display: none; /* Hide error by default */
+        }
+    </style>
+}
+
+
+<!-- Content -->
+<div class="content">
+
+    <div class="caption-title">
+        <div class="row">
+            <h6>
+                Cài đặt năm học
+            </h6>
+
+
+        </div>
+    </div>
+    <hr>
+
+    <div class="header-section d-flex align-items-center justify-content-start">
+        <button id="tbsPhanCongAddYear" class="btn btn-primary mr-2" data-toggle="modal"
+                data-target="#themNamHocModal">
+            <i class="fa-solid fa-plus"></i> Thêm năm học
+        </button>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#xoaNamHocModal">
+            <i class="fa-solid fa-trash"></i> Xóa nhiều dòng
+        </button>
+
+    </div>
+
+    <h6 class="table-title">Thông tin năm học</h6>
+    <div class="panel-table-namhoc">
+        <div class="panel-table-namhoc table-responsive">
+            <nav aria-label="Page navigation example">
+                <ul id="pagination" class="pagination">
+                    <!-- Các nút phân trang sẽ được thêm vào đây -->
+                </ul>
+            </nav>
+            <table class="table table-bordered table-namhoc">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" id="selectAll"></th>
+                        <th>STT</th>
+                        <th>Mã năm học</th>
+                        <th>Tên năm học</th>
+                        <th>Chức năng</th>
+                    </tr>
+                </thead>
+                <tbody id="mainTableNamHoc">
+                </tbody>
+            </table>
+        </div>
+
+
+
+    </div>
+
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="themNamHocModal" tabindex="-1" role="dialog" aria-labelledby="themNamHocModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content themNamHocModalContent">
+            <div class="modal-header">
+                <h5 class="modal-title" id="themNamHocModalLabel">Thêm Năm Học</h5>
+                <button id="dongModalThem" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i> <!-- Icon -->
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="tenNamHoc" class="col-form-label">Tên năm học:</label>
+                    <input type="text" class="form-control themNamHocInput" id="tenNamHoc" placeholder="Nhập tên năm học">
+                </div>
+                <!-- Nơi hiển thị lỗi -->
+                <div class="error-message text-danger mt-2" style="display: none;">Tên năm học không được để trống!</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger themNamHocBtnClear" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary themNamHocBtnSave">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Xóa nam hoc hang loat-->
+<div class="modal fade" id="xoaNamHocModal" tabindex="-1" role="dialog" aria-labelledby="xoaNamHocModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content themNamHocModalContent">
+            <div class="modal-header">
+                <h5 class="modal-title" id="xoaNamHocModalLabel">Xác Nhận Xóa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i> <!-- Icon đóng modal -->
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có chắc chắn muốn xóa năm học này không?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger" id="xoaNamHocBtnConfirm">Xóa</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Thêm Học Kỳ -->
+<div class="modal fade" id="themHocKyModal" tabindex="-1" role="dialog" aria-labelledby="themHocKyModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content themHocKyModalContent">
+            <div class="modal-header">
+                <h5 class="modal-title" id="themHocKyModalLabel">Thêm Học Kỳ</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeButton">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="tenHocKyMoi" class="themHocKyLabel">Tên học kỳ mới:</label>
+                    <input type="text" id="tenHocKyMoi" class="form-control themHocKyInput"
+                           placeholder="Nhập tên học kỳ">
+                    <!-- Dòng thông báo lỗi sẽ được thêm vào dưới đây -->
+                    <div id="loi-hocthemhocky" class="error-message text-danger" style="display: none;">Tên học kỳ không được để trống!</div>
+                </div>
+                <div class="themHocKyInfo">
+                    <p id="maNamHoc"><strong>Mã năm học:</strong> </p>
+                    <p id="tenNamHoc"><strong>Tên năm học:</strong> 2024-2025</p>
+
+                </div>
+                <div class="themHocKyTableContainer">
+                    <table class="table table-bordered themHocKyTable">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên học kỳ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableHocKy">
+                            <tr>
+                                <td>3</td>
+                                <td>Học kỳ III</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary themHocKyBtnClose" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary themHocKyBtnAdd">Thêm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Cập nhật năm học -->
+<div class="modal fade" id="editNamHocModal" tabindex="-1" role="dialog" aria-labelledby="editNamHocModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editNamHocModalLabel">Cập nhật năm học</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Ô nhập tên năm học -->
+                <div class="form-group">
+                    <p><strong>Mã năm học: </strong><span id="edit-manamhoc">2</span></p>
+                    <label for="luuNamHocInput">Tên năm học</label>
+                    <input type="text" class="form-control" id="luuNamHocInput" placeholder="Nhập lại tên năm học">
+                    <div id="loi-Edithocky" class="error-message text-danger" style="display: none;">Tên học kỳ không được để trống!</div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!-- Nút Đóng -->
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                        id="luuNamHocCloseButton">
+                    Đóng
+                </button>
+                <!-- Nút Lưu -->
+                <button type="button" class="btn btn-primary" id="luuNamHocSaveButton">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal xac nhan xoa-->
+<div class="modal fade" id="ModalXacNhanXoa">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Xác Nhận</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                Bạn có chắc chán xóa học kỳ này!
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Đóng</button>
+                <button id="XacNhanXoaHocKy" type="button" class="btn btn-danger">Xóa</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal loi -->
+<div class="modal fade modal-mess" id="custom-error-modal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-mess-header">
+                <h5 class="modal-title" id="errorModalLabel">Thông Báo</h5>
+                <button type="button" class="btn-close btn-close-mess" data-bs-dismiss="modal" aria-label="Close" style="color:#ffff"></button>
+            </div>
+            <div class="modal-body modal-mess-body" id="text-main">
+                <!-- Thông báo sẽ được hiển thị tại đây -->
+            </div>
+            <div class="modal-footer modal-mess-footer">
+                <button type="button" class="btn btn-secondary btn-secondary-mess" id="dongModalBaoLoi" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/Content/js/CaiDatNamHoc.js"></script>
+    <script src="~/Content/js/NamHoc/ThemNamHoc.js"></script>
+    <script src="~/Content/js/NamHoc/ModalMessNamHoc.js"></script>
+    <script src="~/Content/js/ModalThemHocKy.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+}

@@ -419,6 +419,14 @@
     <Content Include="Areas\Admin\Views\KeKhai\XemPhanCongKeKhai.cshtml" />
     <Content Include="Areas\Admin\Views\KeKhai\DuyetKeKhai.cshtml" />
     <Content Include="Areas\Admin\Views\Khoa\CaiDatKhoa.cshtml" />
+    <Content Include="Areas\Admin\Views\NamHoc\CaiDatNamHoc.cshtml" />
+    <Content Include="Areas\Admin\Views\ThongKe\ThongKe.cshtml" />
+    <Content Include="Areas\Admin\Views\ThongKe\GiangVienHoanThanhKeKhai.cshtml" />
+    <Content Include="Areas\Admin\Views\ThongKe\GiangVienChuaKeKhai.cshtml" />
+    <Content Include="Content\MauFile\MauDanhSachGiangVienEmpty.xlsx" />
+    <Content Include="Content\MauFile\MauDanhSachHocPhanEmpty.xlsx" />
+    <Content Include="Content\MauFile\MauDanhSachKhoaEmpty.xlsx" />
+    <Content Include="Content\MauFile\MauPhanCongHocPhanEmpty.xlsx" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -456,8 +464,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Views\NamHoc\" />
-    <Folder Include="Areas\Admin\Views\ThongKe\" />
     <Folder Include="Content\FileExport\" />
     <Folder Include="Content\FileUpload\" />
     <Folder Include="Content\ImgAvartar\" />

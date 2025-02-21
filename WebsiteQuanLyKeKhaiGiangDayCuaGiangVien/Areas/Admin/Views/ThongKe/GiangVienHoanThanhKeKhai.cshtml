@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewBag.Title = "GiangVienHoanThanhKeKhai";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+@section styles{
+    <link rel="stylesheet" href="~/Content/css/CaiDatNamHoc.css" />
+    <link rel="stylesheet" href="~/Content/css/CaiDatKhoa.css" />
+    <link rel="stylesheet" href="~/Content/css/CaiDatGiangVien.css" />
+    <link rel="stylesheet" href="~/Content/css/ModalKhoaDotKeKhai.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <!-- Thêm JavaScript của flatpickr -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+}
+
+<!-- Content -->
+<div class="content">
+    <div class="row captionKhoa">
+
+        <div class="col-12 col-sm-12 col-mdl-9 col-lg-9">
+            <h6>Giảng Viên Hoàn Thành Kê Khai Đơt: <span>@ViewBag.TenDotKeKhai</span></h6>
+
+        </div>
+        <div class="col-12 col-sm-12 col-lg-3 col-md-3 text-end">
+            <button id="btnLamMoi" class="btn btn-primary"><i class="fa-solid fa-rotate-right"></i>Làm mới</button>
+
+        </div>
+        <hr>
+
+        <hr>
+    </div>
+    <div class="row main-button">
+        <div class="col-12 col-md-3 col-sm-12 col-lg-3">
+            <button id="btnXuatDanhsach" type="button" class="btn btn-success">
+                <i class="fa-solid fa-file-export"></i>
+                Xuất Danh Sách
+            </button>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-9 col-lg-9 d-flex align-items-center">
+            <input type="text" class="border-dark form-control me-2" id="txtTimKiem" placeholder="Mã giảng viên/ tên giảng viên...">
+            <button id="btnTimKiem" class="btn btn-primary">
+
+                Tìm
+            </button>
+        </div>
+
+
+    </div>
+    <div class="row">
+        <h6 class="table-title">Thông tin giảng viên</h6>
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 d-flex align-items-center">
+                <select style="display: none;" class="form-select me-2" id="khoa">
+                </select>
+                <button style="display: none;" id="btnLocPhanTheoKhoa" class="btn btn-secondary">Lọc</button>
+            </div>
+            <div class="col-12 col-md-6 col-lg-6 col-sm-12 ms-auto">
+                <ul class="pagination phantrang text-end">
+                </ul>
+            </div>
+        </div>
+        <div class="panel-table-namhoc ">
+            <div class="panel-table-namhoc panel-table-GiangVien">
+                <table class="table table-bordered table-namhoc">
+                    <thead>
+                        <tr>
+
+                            <th>STT</th>
+                            <th>Mã giảng viên</th>
+                            <th>Họ Tên</th>
+                            <th>Khoa</th>
+                            <th>Tiến Độ</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="tableGiangVienHoanThanh">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section scripts {
+    <script src="~/Content/js/ThongKe/GiangVienHoanThanhKeKhai.js"></script>
+}
+

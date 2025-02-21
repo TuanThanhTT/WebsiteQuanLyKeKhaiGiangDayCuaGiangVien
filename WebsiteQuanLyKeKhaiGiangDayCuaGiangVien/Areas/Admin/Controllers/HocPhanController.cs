@@ -80,7 +80,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Areas.Admin.Controllers
                 }
 
                 // Thêm học phần mới
-                if (hocPhanService.ThemHocPhanMoi(maHocPhan, tenHocPhan, soTinChi, lyThuyet, thucHanh, ghiChu).Result == true) // Chuyển async thành đồng bộ
+                if (hocPhanService.ThemHocPhanMoi(maHocPhan, tenHocPhan, soTinChi, lyThuyet, thucHanh, ghiChu) == true) // Chuyển async thành đồng bộ
                 {
                     return Json(new
                     {

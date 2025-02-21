@@ -1,0 +1,233 @@
+﻿
+@{
+    ViewBag.Title = "ThongKe";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section styles {
+    <link rel="stylesheet" href="~/Content/css/ThongKe.css" />
+    <link rel="stylesheet" href="~/Content/css/ModalXemChiTietThongKe.css" />
+}
+
+<div class="content">
+    <div class="caption-tile row">
+        <div class="col-md-9 col-lg-9 col-9 col-sm-9">
+            <h1>Thống Kê Kê Khai</h1>
+        </div>
+        <div class="col-md-3 col-lg-3 col-sm-3 col-3 text-end">
+            <button id="btnLamMoiThongKe" class="btn btn-primary">Làm mới thống kê</button>
+        </div>
+    </div>
+
+    <hr>
+    <div class="main-form">
+        <div class="row">
+            <div class="col-md-7 col-12 col-sm-12 col-lg-7 main-chart">
+                <div class="main-chart-head row">
+
+                    <div class="col-md-3">
+                        <span class="active">Năm Học</span>
+                        <select class="form-select" id="namHoc">
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="active">Học Kỳ</span>
+                        <select class="form-select" id="hocKy">
+                        </select>
+                    </div>
+                    <div class="col">
+                        <span class="active">Đợt Kê Khai</span>
+                        <div class="row">
+                            <select class="form-select col" id="dotKeKhai">
+                            </select>
+                            <button id="btnXemThongKe" type="button" class="btn btn-primary col-md-3">Xem</button>
+                        </div>
+
+                    </div>
+                </div>
+                <hr>
+                <div class="main-chart-body row">
+                    <h6>Thống Kê Trạng Thái Kê Khai</h6>
+                    <canvas id="modal-duyetKK-pieChart" style="max-height: 200px;"></canvas>
+                </div>
+            </div>
+            <div class="col detail-number">
+                <div class="detail-number-head">
+                    <span class="active">Thống kê chi tiết</span>
+                </div>
+                <hr>
+                <div class="detail-number-body">
+                    <div class="row">
+                        <div class="col">
+                            <span>Giảng viên hoàn thành kê khai</span>
+                            <h1 id="soLuongGiangVienDaKeKhai">0</h1>
+                            <span class="link-pageItem" id="xemChiTietGiangVienHoanThanh">Xem chi tiết</span>
+                        </div>
+                        <div class="col">
+                            <span>Giảng viên chưa hoàn thành kê khai</span>
+                            <h1 id="soLuongGiangVienChuaKeKhai">0</h1>
+
+                            <span class="link-pageItem" id="xemChiTietGiangVienChuaHoanThanh">Xem chi tiết</span>
+                        </div>
+                        <div class="col">
+                            <span>Số lượng giảng viên phân công</span>
+                            <h1 id="soLuongGiangVienPhanCong">0</h1>
+                            <a href="~/Admin/KeKhai/XemPhanCongKeKhai">Xem chi tiết</a>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row detail-number-footer">
+                        <div class="col">
+
+                            <span>Số lượng học phần phân công</span>
+                            <h1 id="soLuongHocPhanPhanCong">0</h1>
+
+                        </div>
+                        <div class="col">
+
+                            <span>Số lượng học phần các đợt trước</span>
+                            <h1 id="soLuongHocPhanCacDotKhac">0</h1>
+
+                        </div>
+                        <div class="col">
+                            <span>Số lượng học phần đã kê khai</span>
+                            <h1 id="soLuongHocPhanDaKeKhai">0</h1>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row content-main-part2">
+            <div class="main-export col-md-9 col-lg-9 col-sm-12 col-12">
+                <div class="row main-export-head">
+                    <h6 class="active">Thống kê giảng viên</h6>
+                </div>
+                <hr>
+                <div class="row main-export-body">
+                    <div class="row">
+                        <div class="col">
+                            <p>Học kỳ: <span id="tabletenHocKy">Học kỳ 1</span></p>
+                        </div>
+                        <div class="col">
+                            <p>Năm học: <span id="tabletenNamHoc">2024-2025</span></p>
+
+                        </div>
+                        <div class="col">
+                            <p>Đợt kê khai: <span id="tabletenDotKeKhai">Kê khai lần 1</span></p>
+                        </div>
+                        <div class="col">
+                            <p>Số lượng giảng viên: <span id="tablesoLuongGiangVien">15</span></p>
+                        </div>
+                    </div>
+                    <div class="main-export-body-table row">
+                        <div class="table-container">
+                            <h6 class="active caption-table">Bảng thống kê tiến độ của giảng viên</h6>
+                            <div class="row">
+                                <div class="col-12 col-md-6 col-lg-6 col-sm-12 ms-auto">
+                                    <ul class="pagination phantrang text-end">
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="scrollable">
+                                <table class="table table-thongke table-striped table-bordered">
+                                    <thead class="table-primary">
+                                        <tr>
+                                            <th scope="col">STT</th>
+                                            <th scope="col">Mã Giảng Viên</th>
+                                            <th scope="col">Tên Giảng Viên</th>
+                                            <th scope="col">Khoa</th>
+                                            <th scope="col">Tiến Độ</th>
+                                            <th scope="col">Chức Năng</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tableTienDo">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main-table col">
+                <div class="row main-table-head">
+                    <h6 class="active">Xuất Báo Cáo</h6>
+                </div>
+                <hr>
+                <div class="row main-table-body">
+                    <div class="col">
+                        <p>Chọn khoa</p>
+                        <select class="form-select col" id="khoa">
+                        </select>
+                        <button id="btnXuatDanhSachTheoKhoa" class="btn btn-xuatfile btn-success">Xuất Excel</button>
+                    </div>
+
+                </div>
+                <div class="row main-table-body-xuatfile">
+                    <div class="col">
+                        <p>Xuất tất cả</p>
+
+                        <button id="btnXuatThongKeTatCa" class="btn btn-success">Xuất Excel</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!--Modal xem chi tiết-->
+<div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailsModalLabel">Thông Tin Chi Tiết</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <p><strong>Mã Giảng Viên:</strong> <span id="xemmaGV"></span></p>
+                    <p><strong>Tên Giảng Viên:</strong> <span id="xemTenGV"></span></p>
+                    <p><strong>Khoa:</strong>  <span id="xemKhoa"></span></p>
+                    <p><strong>Đợt Kê Khai:</strong> <span id="xemDotKeKhai"></span></p>
+                    <p><strong>Học Kỳ:</strong> <span id="xemHocKy"></span></p>
+                    <p><strong>Năm Học:</strong>  <span id="xemNamHoc"></span></p>
+                    <p><strong>Tổng số phân công:</strong> <span id="xemtongSoPhanCong"></span></p>
+                    <p><strong>Số Lượng Hoàn Thành:</strong> <span id="xemSoLuongHoanThanh"></span></p>
+                    <p><strong>Số Lượng Còn Lại:</strong>  <span id="xemSoLuongConLai"></span></p>
+                </div>
+                <div class="table-container">
+                    <div class="scrollable">
+                        <table class="table table-modal-XCT table-striped table-bordered">
+                            <thead class="table-modal-xemchitiet">
+                                <tr>
+                                    <th scope="col">STT</th>
+                                    <th scope="col">Mã Học Phần</th>
+                                    <th scope="col">Tên Học Phần</th>
+                                    <th scope="col">Ngày Dạy</th>
+                                    <th scope="col">Tên Lớp</th>
+                                    <th scope="col">Sĩ Số</th>
+                                    <th scope="col">Trạng Thái</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableXemChiTietTienDo">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="~/Content/js/ThongKe.js"></script>
+    <script src="~/Content/js/ThongKe/ThongKe.js"></script>
+}
