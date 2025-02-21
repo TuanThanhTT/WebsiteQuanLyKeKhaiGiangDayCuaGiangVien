@@ -138,7 +138,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.ThongKe
             return null;
         }
 
-        public Models.ThongKe ThongKeTheoDotKeKhai(int maDotKeKhai)
+        public Models.ModelCustom.ThogKe ThongKeTheoDotKeKhai(int maDotKeKhai)
         {
             try
             {
@@ -147,10 +147,27 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.ThongKe
                     var dotKeKhai = context.DotKeKhais.Find(maDotKeKhai);
                     if (dotKeKhai != null)
                     {
-                        var thongkecu = context.ThongKes.FirstOrDefault(op => op.MaDotKeKhai == maDotKeKhai && op.NgayTao > DateTime.UtcNow.AddHours(-24));
-                        if (thongkecu != null)
+                    DateTime timeThreshold = DateTime.UtcNow.AddHours(-24);
+                    var thongkecu = context.ThongKes
+                        .Where(op => op.MaDotKeKhai == maDotKeKhai && op.NgayTao > timeThreshold)
+                        .FirstOrDefault();
+
+                    //  var thongkecu = context.ThongKes.Where(op => op.MaDotKeKhai == maDotKeKhai && op.NgayTao > DateTime.UtcNow.AddHours(-24)).FirstOrDefault();
+                    if (thongkecu != null)
                         {
-                            return thongkecu;
+                            return new Models.ModelCustom.ThogKe { 
+                                ID = thongkecu.ID,
+                                MaDotKeKhai = thongkecu.MaDotKeKhai,
+                                NgayTao = thongkecu.NgayTao,
+                                SoLuongGiangVienChuaHoanThanh = thongkecu.SoLuongGiangVienChuaHoanThanh,
+                                SoLuongGiangVienDaHoanThanh = thongkecu.SoLuongGiangVienDaHoanThanh,
+                                SoLuongGiangVienPhanCong = thongkecu.SoLuongGiangVienPhanCong,
+                                SoLuongHocPhan = thongkecu.SoLuongHocPhan,
+                                SoLuongHocPhanCacDotTruoc = thongkecu.SoLuongHocPhanCacDotTruoc,
+                                SoLuongHocPhanDaDuocKeKhai = thongkecu.SoLuongHocPhanDaDuocKeKhai,
+                                SoLuongPhanCongChoDuyet = thongkecu.SoLuongPhanCongChoDuyet,
+                                
+                            };
                         }
                         else if (context.ThongKes.Any(op => op.MaDotKeKhai == maDotKeKhai))
                         {
@@ -167,7 +184,20 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.ThongKe
                             thongKeCu.SoLuongHocPhanCacDotTruoc = context.PhanCongHocPhans.Count(pc => pc.MaDotKeKhai > maDotKeKhai && pc.TrangThai == "Chưa Hoàn Thành");
                             thongKeCu.NgayTao = DateTime.Now;
                             context.SaveChanges();
-                            return thongKeCu;
+                            return new Models.ModelCustom.ThogKe
+                            {
+                                ID = thongKeCu.ID,
+                                MaDotKeKhai = thongKeCu.MaDotKeKhai,
+                                NgayTao = thongKeCu.NgayTao,
+                                SoLuongGiangVienChuaHoanThanh = thongKeCu.SoLuongGiangVienChuaHoanThanh,
+                                SoLuongGiangVienDaHoanThanh = thongKeCu.SoLuongGiangVienDaHoanThanh,
+                                SoLuongGiangVienPhanCong = thongKeCu.SoLuongGiangVienPhanCong,
+                                SoLuongHocPhan = thongKeCu.SoLuongHocPhan,
+                                SoLuongHocPhanCacDotTruoc = thongKeCu.SoLuongHocPhanCacDotTruoc,
+                                SoLuongHocPhanDaDuocKeKhai = thongKeCu.SoLuongHocPhanDaDuocKeKhai,
+                                SoLuongPhanCongChoDuyet = thongKeCu.SoLuongPhanCongChoDuyet,
+
+                            };
                         }
                         else
                         {
@@ -196,16 +226,35 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.ThongKe
                             };
                             context.ThongKes.Add(thongKeResult);
                             context.SaveChanges();
-                            return thongKeResult;
+                            return new Models.ModelCustom.ThogKe
+                            {
+                                ID = thongKeResult.ID,
+                                MaDotKeKhai = thongKeResult.MaDotKeKhai,
+                                NgayTao = thongKeResult.NgayTao,
+                                SoLuongGiangVienChuaHoanThanh = thongKeResult.SoLuongGiangVienChuaHoanThanh,
+                                SoLuongGiangVienDaHoanThanh = thongKeResult.SoLuongGiangVienDaHoanThanh,
+                                SoLuongGiangVienPhanCong = thongKeResult.SoLuongGiangVienPhanCong,
+                                SoLuongHocPhan = thongKeResult.SoLuongHocPhan,
+                                SoLuongHocPhanCacDotTruoc = thongKeResult.SoLuongHocPhanCacDotTruoc,
+                                SoLuongHocPhanDaDuocKeKhai = thongKeResult.SoLuongHocPhanDaDuocKeKhai,
+                                SoLuongPhanCongChoDuyet = thongKeResult.SoLuongPhanCongChoDuyet,
+
+                            };
+                          
                         }
+
+                       
                     }
+                   
                 }
+
             }
             catch (Exception ex)
             {
+                return new Models.ModelCustom.ThogKe();
                 Console.WriteLine(ex);
             }
-            return new Models.ThongKe();
+            return new Models.ModelCustom.ThogKe();
         }
 
 

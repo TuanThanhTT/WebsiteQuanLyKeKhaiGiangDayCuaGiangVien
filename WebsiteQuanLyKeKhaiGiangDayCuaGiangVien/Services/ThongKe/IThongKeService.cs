@@ -3,7 +3,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.ThongKe
 {
     public interface IThongKeService
     {
-        Models.ThongKe ThongKeTheoDotKeKhai(int maDotKeKhai);
+        Models.ModelCustom.ThogKe ThongKeTheoDotKeKhai(int maDotKeKhai);
         bool ThongKeTienDoTheoDotThongKe(int maThongKe);
         (List<Models.ModelCustom.ThongKeChiTiet> data, int soLuong) LoadThongTinThongKeTienDo(int maDotKeKhai, int page, int pageSize);
 

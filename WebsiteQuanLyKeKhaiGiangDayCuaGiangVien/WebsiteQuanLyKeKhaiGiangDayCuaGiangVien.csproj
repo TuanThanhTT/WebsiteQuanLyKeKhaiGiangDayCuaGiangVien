@@ -214,6 +214,7 @@
     <Compile Include="Models\ModelCustom\HocPhanDaPhanCong.cs" />
     <Compile Include="Models\ModelCustom\Khoa.cs" />
     <Compile Include="Models\ModelCustom\NamHoc.cs" />
+    <Compile Include="Models\ModelCustom\ThogKe.cs" />
     <Compile Include="Models\ModelCustom\ThongBaoDotKeKhai.cs" />
     <Compile Include="Models\ModelCustom\ThongKeChiTiet.cs" />
     <Compile Include="Models\ModelCustom\ThongTinChiTietTienDo.cs" />

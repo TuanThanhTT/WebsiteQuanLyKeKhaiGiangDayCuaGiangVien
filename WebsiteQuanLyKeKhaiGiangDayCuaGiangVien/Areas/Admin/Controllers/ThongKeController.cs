@@ -138,6 +138,8 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult ThongKeTheoDotMoiNhat()
         {
+            string maDotKeKhai = "";
+            string err = "";
             try
             {
                 DotKeKhaiService dotKeKhaiService = new DotKeKhaiService();
@@ -149,15 +151,16 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Areas.Admin.Controllers
                     return Json(new
                     {
                         success = 0,
-                        message = "Có lỗi xảy ra, vui lòng thử lại sau!"
+                        message = "Không có dữ liệu thống kê!"
                     }, JsonRequestBehavior.AllowGet);
                 }
 
                 WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.ThongKe.ThongKe thongKeservice = new WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.ThongKe.ThongKe();
                 var result = thongKeservice.ThongKeTheoDotKeKhai(thongTin.maDotKeKhai);
-
+               
                 if (result != null)
                 {
+                   
                     if (thongKeservice.ThongKeTienDoTheoDotThongKe(result.ID) == true)
                     {
                         return Json(new
@@ -173,12 +176,17 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine("Lỗi: " + ex.Message);
+                return Json(new
+                {
+                    success = 0,
+                    message = "Lỗi " + ex
+                }, JsonRequestBehavior.AllowGet) ;
             }
 
             return Json(new
             {
                 success = 0,
-                message = "Có lỗi xảy ra, vui lòng thử lại sau!"
+                message = "Không có dữ liệu! "+ err+" - "+maDotKeKhai
             }, JsonRequestBehavior.AllowGet);
         }
 
@@ -250,7 +258,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Areas.Admin.Controllers
                         }, JsonRequestBehavior.AllowGet);
                     }
 
-                    string fileUrl = Path.Combine("/FileExport", filePath).Replace("\\", "/");
+                    string fileUrl = Path.Combine("/Content/FileExport", filePath).Replace("\\", "/");
 
                     if (string.IsNullOrEmpty(fileUrl))
                     {
@@ -306,7 +314,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Areas.Admin.Controllers
                         }, JsonRequestBehavior.AllowGet);
                     }
 
-                    string fileUrl = Path.Combine("/FileExport", filePath).Replace("\\", "/");
+                    string fileUrl = Path.Combine("/Content/FileExport", filePath).Replace("\\", "/");
 
                     if (string.IsNullOrEmpty(fileUrl))
                     {

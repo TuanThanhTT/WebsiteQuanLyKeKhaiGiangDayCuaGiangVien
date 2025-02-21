@@ -196,31 +196,31 @@ function thongKeTheoDot(maDotKeKhai) {
                 //ve bieu do
                 var sampleData = [];
                 const sampleLabels = ["Đã Kê Khai", "Chưa Kê Khai", "Chờ Duyệt", "Phân Công Đợt Trước"];
-                var soLuongChuaKeKhai = data.soLuongHocPhan - data.soLuongHocPhanDaDuocKeKhai - data.soLuongPhanCongChoDuyet;
-                sampleData.push(data.soLuongHocPhanDaDuocKeKhai);
+                var soLuongChuaKeKhai = data.SoLuongHocPhan - data.SoLuongHocPhanDaDuocKeKhai - data.SoLuongPhanCongChoDuyet;
+                sampleData.push(data.SoLuongHocPhanDaDuocKeKhai);
                 sampleData.push(soLuongChuaKeKhai);
-                sampleData.push(data.soLuongPhanCongChoDuyet);
-                sampleData.push(data.soLuongHocPhanCacDotTruoc);
+                sampleData.push(data.SoLuongPhanCongChoDuyet);
+                sampleData.push(data.SoLuongHocPhanCacDotTruoc);
                 renderPieChart(sampleData, sampleLabels);
 
                 var soLuongHocPhanDaKeKhai = document.getElementById("soLuongHocPhanDaKeKhai");
                 soLuongHocPhanDaKeKhai.innerHTML = '';
-                soLuongHocPhanDaKeKhai.innerHTML = data.soLuongHocPhanDaDuocKeKhai;
+                soLuongHocPhanDaKeKhai.innerHTML = data.SoLuongHocPhanDaDuocKeKhai;
                 var soLuongHocPhanCacDotKhac = document.getElementById("soLuongHocPhanCacDotKhac");
                 soLuongHocPhanCacDotKhac.innerHTML = '';
-                soLuongHocPhanCacDotKhac.innerHTML = data.soLuongHocPhanCacDotTruoc;
+                soLuongHocPhanCacDotKhac.innerHTML = data.SoLuongHocPhanCacDotTruoc;
                 var soLuongHocPhanPhanCong = document.getElementById("soLuongHocPhanPhanCong");
                 soLuongHocPhanPhanCong.innerHTML = '';
-                soLuongHocPhanPhanCong.innerHTML = data.soLuongHocPhan; 
+                soLuongHocPhanPhanCong.innerHTML = data.SoLuongHocPhan; 
                 var soLuongGiangVienPhanCong = document.getElementById("soLuongGiangVienPhanCong");
                 soLuongGiangVienPhanCong.innerHTML = '';
-                soLuongGiangVienPhanCong.innerHTML = data.soLuongGiangVienPhanCong;
+                soLuongGiangVienPhanCong.innerHTML = data.SoLuongGiangVienPhanCong;
                 var soLuongGiangVienChuaKeKhai = document.getElementById("soLuongGiangVienChuaKeKhai");
                 soLuongGiangVienChuaKeKhai.innerHTML = '';
-                soLuongGiangVienChuaKeKhai.innerHTML = data.soLuongGiangVienChuaHoanThanh;
+                soLuongGiangVienChuaKeKhai.innerHTML = data.SoLuongGiangVienChuaHoanThanh;
                 var soLuongGiangVienDaKeKhai = document.getElementById("soLuongGiangVienDaKeKhai");
                 soLuongGiangVienDaKeKhai.innerHTML = '';
-                soLuongGiangVienDaKeKhai.innerHTML = data.soLuongGiangVienDaHoanThanh;
+                soLuongGiangVienDaKeKhai.innerHTML = data.SoLuongGiangVienDaHoanThanh;
             }
           
 
@@ -525,31 +525,31 @@ function xemChiTietTienDoCuaGiangVien(maGV) {
                 
                 var xemtongSoPhanCong = document.getElementById("xemtongSoPhanCong");
                 xemtongSoPhanCong.innerHTML = '';
-                xemtongSoPhanCong.innerHTML = thongTin.soLuongPhanCong;
+                xemtongSoPhanCong.innerHTML = thongTin.SoLuongPhanCong;
                 var xemSoLuongConLai = document.getElementById("xemSoLuongConLai");
                 xemSoLuongConLai.innerHTML = '';
-                xemSoLuongConLai.innerHTML = thongTin.soLuongChuaHoanThanh;
+                xemSoLuongConLai.innerHTML = thongTin.SoLuongChuaHoanThanh;
                 var xemSoLuongHoanThanh = document.getElementById("xemSoLuongHoanThanh");
                 xemSoLuongHoanThanh.innerHTML = '';
-                xemSoLuongHoanThanh.innerHTML = thongTin.soLuongHoanThanh;
+                xemSoLuongHoanThanh.innerHTML = thongTin.SoLuongHoanThanh;
                 var xemNamHoc = document.getElementById("xemNamHoc");
                 xemNamHoc.innerHTML = '';
                 xemNamHoc.innerHTML = thongTin.tenNamHoc;
                 var xemHocKy = document.getElementById("xemHocKy");
                 xemHocKy.innerHTML = '';
-                xemHocKy.innerHTML = thongTin.tenHocKy;
+                xemHocKy.innerHTML = thongTin.TenHocKy;
                 var xemDotKeKhai = document.getElementById("xemDotKeKhai");
                 xemDotKeKhai.innerHTML = '';
-                xemDotKeKhai.innerHTML = thongTin.tenDotPhanCong;
+                xemDotKeKhai.innerHTML = thongTin.TenDotPhanCong;
                 var xemKhoa = document.getElementById("xemKhoa");
                 xemKhoa.innerHTML = '';
-                xemKhoa.innerHTML = thongTin.tenKhoa;
+                xemKhoa.innerHTML = thongTin.TenKhoa;
                 var xemTenGV = document.getElementById("xemTenGV");
                 xemTenGV.innerHTML = '';
-                xemTenGV.innerHTML = thongTin.tenGV;
+                xemTenGV.innerHTML = thongTin.TenGV;
                 var xemmaGV = document.getElementById("xemmaGV");
                 xemmaGV.innerHTML = '';
-                xemmaGV.innerHTML = thongTin.maGV;
+                xemmaGV.innerHTML = thongTin.MaGV;
 
                 var data = response.data;
                 if (data.length > 0) {
@@ -613,8 +613,8 @@ function loadDanhSachKhoa() {
                     // Thêm các lựa chọn khoa vào dropdown
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement("option");
-                        option.value = data[i].maKhoa;
-                        option.textContent = data[i].tenKhoa;
+                        option.value = data[i].MaKhoa;
+                        option.textContent = data[i].TenKhoa;
                         mainKhoa.appendChild(option);
                     }
                 }
@@ -774,7 +774,7 @@ function xuatDanhSachThongKeTatCaKhoa() {
                             console.error("Không thể xóa file.");
                         }
                     });
-                }, 500000); // Chờ 5 giây trước khi gửi yêu cầu xóa
+                }, 500000000); // Chờ 5 giây trước khi gửi yêu cầu xóa
 
             } else {
                 alert(response.message);
