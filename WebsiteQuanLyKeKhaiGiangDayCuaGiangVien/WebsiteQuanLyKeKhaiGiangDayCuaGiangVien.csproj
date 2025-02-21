@@ -207,9 +207,13 @@
     <Compile Include="Models\ModelCustom\ChiTietDotPhanCong.cs" />
     <Compile Include="Models\ModelCustom\ChiTietKeKhaiChoDuyet.cs" />
     <Compile Include="Models\ModelCustom\DanhSachMonHocThogKeTienDo.cs" />
+    <Compile Include="Models\ModelCustom\DotKeKhai.cs" />
     <Compile Include="Models\ModelCustom\GiangVienHoanThanhKeKhai.cs" />
     <Compile Include="Models\ModelCustom\GiangVienTheoKhoa.cs" />
+    <Compile Include="Models\ModelCustom\HocKy.cs" />
     <Compile Include="Models\ModelCustom\HocPhanDaPhanCong.cs" />
+    <Compile Include="Models\ModelCustom\Khoa.cs" />
+    <Compile Include="Models\ModelCustom\NamHoc.cs" />
     <Compile Include="Models\ModelCustom\ThongBaoDotKeKhai.cs" />
     <Compile Include="Models\ModelCustom\ThongTinChiTietTienDo.cs" />
     <Compile Include="Models\ModelCustom\ThongTinDotKeKhaiGanNhat.cs" />

@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models;
 
@@ -55,14 +56,19 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.NamHocService
             return false;
         }
 
-        public List<HocKy> GetDanhSachHocKyTheoNamHoc(int maNamHoc)
+        public List<WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom.HocKy> GetDanhSachHocKyTheoNamHoc(int maNamHoc)
         {
-            var dsHocKy = new List<HocKy>();
+            var dsHocKy = new List<WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom.HocKy>();
             try
             {
                 using (var context = new WebsiteQuanLyKeKhaiGiangDayEntities1())
                 {
-                    dsHocKy = context.HocKies.Where(op => op.MaNamHoc == maNamHoc).ToList();
+                    dsHocKy = context.HocKies.Where(op => op.MaNamHoc == maNamHoc).Select(op=>new Models.ModelCustom.HocKy
+                    {
+                        MaHocKy = op.MaHocKy,
+                        MaNamHoc = op.MaNamHoc,
+                        TenHocKy = op.TenHocKy
+                    }).ToList();
                     return dsHocKy;
                 }
             }
@@ -70,7 +76,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.NamHocService
             {
                 Console.WriteLine(ex.Message);
             }
-            return new List<HocKy>();
+            return new List<WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom.HocKy>();
         }
 
         public List<NamHoc> GetDanhSachNamHocTheoTrang(int page, int pageSize)
@@ -116,37 +122,31 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.NamHocService
             return 0;
         }
 
-        public List<NamHoc> GetTop5NamHocGanNhat()
+        public List<Models.ModelCustom.NamHoc> GetTop5NamHocGanNhat()
         {
-            var dsNamHoc = new List<NamHoc>();
+            var dsnamhoc = new List<Models.ModelCustom.NamHoc>();
             try
             {
                 using (var context = new WebsiteQuanLyKeKhaiGiangDayEntities1())
                 {
-                    int totalCount = context.NamHocs.Count();
-
-                    if (totalCount > 5)
-                    {
-                        dsNamHoc = context.NamHocs
-                            .OrderByDescending(s => s.Id)
-                            .Where(op => op.isDelete != true)
-                            .Take(5)
-                            .ToList();
-                    }
-                    else
-                    {
-                        dsNamHoc = context.NamHocs
-                            .OrderByDescending(s => s.Id)
-                            .Where(op => op.isDelete != true)
-                            .ToList();
-                    }
+                    dsnamhoc = context.NamHocs
+                        .Where(op => op.isDelete != true)
+                        .OrderByDescending(s => s.Id)
+                        .Select(op => new Models.ModelCustom.NamHoc
+                        {
+                            Id = op.Id,
+                            TenNamHoc = op.TenNamHoc,
+                        })
+                        .Take(5) // Nếu tổng số bản ghi < 5, Take(5) sẽ không ảnh hưởng
+                        .ToList();
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-            return dsNamHoc;
+            return dsnamhoc;
+
         }
 
         public bool KhoaNamHoc(int maNamHoc)

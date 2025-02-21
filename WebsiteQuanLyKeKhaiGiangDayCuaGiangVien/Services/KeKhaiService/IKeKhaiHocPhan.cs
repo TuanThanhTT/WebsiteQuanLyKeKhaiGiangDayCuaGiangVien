@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models;
 using WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom;
 
 namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KeKhaiService
@@ -9,7 +8,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KeKhaiService
         (List<XemThongTinHocPhanDuocPhanCong>, int) getHocPhanDuocPhanCongChuaHoanThanhCuaGiangVien(string maGV, int page, int pageSize);
         XemThongTinHocPhanDuocPhanCong XemThongTinPhanCongHocPhanTheoMa(int maPhanCongHocPhan);
         bool HoanThanhKeKhai(int maPhanCongHocPhan, string maGV);
-        List<Khoa> getDanhSachKhoa();
+        List<WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom.Khoa> getDanhSachKhoa();
         bool CapNhatThongTinHocPhanPhanCong(int maHocPhanPhanCong, string tenLop, int soLuong, string hinhThucDay);
         (List<XemThongTinHocPhanDuocPhanCong>, int) getHocPhanDaKeKhaiChoDuyet(string maGV, int page, int pageSize);
         (List<XemThongTinKeKhaiDaDuyet>, int) getHocPhanDaDuyetTheoDot(string maGV, int maDotKeKhai, int page, int pageSize);

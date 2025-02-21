@@ -246,20 +246,24 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KeKhaiService
             return new List<ChiTietKeKhaiChoDuyet>();
         }
 
-        public List<Khoa> getDanhSachKhoa()
+        public List<WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom.Khoa> getDanhSachKhoa()
         {
             try
             {
                 using (var context = new WebsiteQuanLyKeKhaiGiangDayEntities1())
                 {
-                    return context.Khoas.ToList();
+                    return context.Khoas.Select(op => new Models.ModelCustom.Khoa
+                    {
+                        MaKhoa = op.MaKhoa,
+                        TenKhoa = op.TenKhoa
+                    }).ToList();
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-            return new List<Khoa>();
+            return new List<WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom.Khoa>();
         }
 
 

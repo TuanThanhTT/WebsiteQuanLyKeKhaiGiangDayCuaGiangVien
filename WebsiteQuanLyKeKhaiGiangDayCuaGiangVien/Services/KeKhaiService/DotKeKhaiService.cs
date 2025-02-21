@@ -40,7 +40,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KeKhaiService
             return false;
         }
 
-        public DotKeKhai GetDotKeKhaiDangMo()
+        public Models.ModelCustom.DotKeKhai GetDotKeKhaiDangMo()
         {
             try
             {
@@ -48,6 +48,19 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KeKhaiService
                 {
                     var dotKeKhaiHienTai = context.DotKeKhais
                         .OrderByDescending(s => s.MaDotKeKhai)
+                        .Select(op=>new Models.ModelCustom.DotKeKhai
+                        {
+                            GhiChu=op.GhiChu,
+                            KeKhaiMoi=op.KeKhaiMoi,
+                            MaDotKeKhai=op.MaDotKeKhai, 
+                            MaGV = op.MaGV,
+                            MaHocKy = op.MaHocKy,
+                            MaNamHoc = op.MaNamHoc,
+                            NgayBatDau = op.NgayBatDau,
+                            NgayKetThuc = op.NgayKetThuc,
+                            TenDotKeKhai = op.TenDotKeKhai,
+                            
+                        })
                         .FirstOrDefault();
 
                     return dotKeKhaiHienTai;
@@ -154,7 +167,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KeKhaiService
             return true;
         }
 
-        public bool KiemTraThoiGianKetThuc(DotKeKhai dotKeKhai, DateTime ngayKetThuc)
+        public bool KiemTraThoiGianKetThuc(Models.DotKeKhai dotKeKhai, DateTime ngayKetThuc)
         {
             if(ngayKetThuc < DateTime.Now) return false;
             if (ngayKetThuc < dotKeKhai.NgayKetThuc) return false;
@@ -213,7 +226,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KeKhaiService
                 {
                     using (var context = new WebsiteQuanLyKeKhaiGiangDayEntities1())
                     {
-                        var dotKeKhai = new DotKeKhai();
+                        var dotKeKhai = new Models.DotKeKhai();
 
                         // Tạo ID mới
                         int id = context.DotKeKhais.Count() + 1;
@@ -334,7 +347,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KeKhaiService
                 {
                     using (var context = new WebsiteQuanLyKeKhaiGiangDayEntities1())
                     {
-                        var dotKeKhai = new DotKeKhai();
+                        var dotKeKhai = new Models.DotKeKhai();
 
                         // Tạo mới ID
                         int id = context.DotKeKhais.Count() + 1;
@@ -554,7 +567,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KeKhaiService
             return null;
         }
 
-        public List<DotKeKhai> LoadDotKeKhaiTheoHocKyNamHoc(int maNamHoc, int maHocKy)
+        public List<WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom.DotKeKhai> LoadDotKeKhaiTheoHocKyNamHoc(int maNamHoc, int maHocKy)
         {
             try
             {
@@ -563,6 +576,18 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KeKhaiService
                     var dsDotKeKhai = context.DotKeKhais
                         .Where(op => op.MaHocKy == maHocKy && op.MaNamHoc == maNamHoc)
                         .OrderByDescending(op => op.MaDotKeKhai)
+                        .Select(op=>new Models.ModelCustom.DotKeKhai
+                        {
+                            KeKhaiMoi = op.KeKhaiMoi,
+                            GhiChu = op.GhiChu,
+                            MaDotKeKhai = op.MaDotKeKhai,
+                            MaGV = op.MaGV,
+                            MaHocKy= op.MaHocKy,
+                            MaNamHoc= op.MaNamHoc,
+                            NgayBatDau = op.NgayBatDau,
+                            NgayKetThuc = op.NgayKetThuc,
+                            TenDotKeKhai = op.TenDotKeKhai  
+                        })
                         .ToList(); // Sử dụng phương thức đồng bộ
 
                     return dsDotKeKhai;
@@ -571,7 +596,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KeKhaiService
             catch (Exception ex)
             {
                 Console.WriteLine($"Lỗi khi tải danh sách đợt kê khai: {ex.Message}");
-                return new List<DotKeKhai>();
+                return new List<Models.ModelCustom.DotKeKhai>();
             }
         }
 
@@ -613,7 +638,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KeKhaiService
             }
         }
 
-        public List<DotKeKhai> XemDanhSachDotKeKhaiTheoHocKyNamHoc(int maNamHoc, int maHocKy)
+        public List<WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom.DotKeKhai> XemDanhSachDotKeKhaiTheoHocKyNamHoc(int maNamHoc, int maHocKy)
         {
             try
             {
@@ -623,6 +648,19 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KeKhaiService
                         .Where(op => op.MaHocKy == maHocKy
                                      && op.MaNamHoc == maNamHoc)
                         .OrderByDescending(op => op.MaDotKeKhai)
+                        .Select(op=>new Models.ModelCustom.DotKeKhai
+                        {
+                            KeKhaiMoi = op.KeKhaiMoi,
+                            GhiChu = op.GhiChu,
+                            TenDotKeKhai = op.TenDotKeKhai,
+                            NgayKetThuc= op.NgayKetThuc,
+                            MaDotKeKhai = op.MaDotKeKhai,
+                            MaGV = op.MaGV,
+                            MaHocKy= op.MaHocKy,
+                            MaNamHoc= maNamHoc, 
+                            NgayBatDau = op.NgayBatDau,
+                            
+                        })
                         .ToList(); // Dùng phương thức đồng bộ
 
                     return dsDotKeKhai;
@@ -631,7 +669,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KeKhaiService
             catch (Exception ex)
             {
                 Console.WriteLine($"Lỗi khi tải danh sách đợt kê khai: {ex.Message}");
-                return new List<DotKeKhai>();
+                return new List<Models.ModelCustom.DotKeKhai>();
             }
         }
 

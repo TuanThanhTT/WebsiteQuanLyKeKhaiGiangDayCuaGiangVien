@@ -32,7 +32,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KhoaService
             return false;
         }
 
-        public List<Khoa> GetDanhSachKhoa(int page, int pageSize, out int tongSoLuong)
+        public List<WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom.Khoa> GetDanhSachKhoa(int page, int pageSize, out int tongSoLuong)
         {
             tongSoLuong = 0;
             try
@@ -42,6 +42,11 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KhoaService
                     tongSoLuong = context.Khoas.Count(op => !op.IsDelete); // Đồng bộ, không dùng CountAsync()
                     var danhSachKhoa = context.Khoas
                         .Where(op => !op.IsDelete)
+                        .Select(op=>new WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom.Khoa
+                        {
+                            MaKhoa= op.MaKhoa,  
+                            TenKhoa = op.TenKhoa,
+                        })
                         .Skip((page - 1) * pageSize)
                         .Take(pageSize)
                         .ToList(); // Đồng bộ, không dùng ToListAsync()
@@ -52,16 +57,20 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KhoaService
             {
                 Console.WriteLine(ex.Message);
             }
-            return new List<Khoa>();
+            return new List<WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom.Khoa>();
         }
 
-        public List<Khoa> GetDanhSachKhoa()
+        public List<WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom.Khoa> GetDanhSachKhoa()
         {
             try
             {
                 using (var context = new WebsiteQuanLyKeKhaiGiangDayEntities1())
                 {
-                    var danhSachKhoa = context.Khoas.ToList(); // Đồng bộ, không dùng ToListAsync()
+                    var danhSachKhoa = context.Khoas.Select(op=>new WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom.Khoa
+                    {
+                        MaKhoa = op.MaKhoa,
+                        TenKhoa = op.TenKhoa,   
+                    }).ToList(); // Đồng bộ, không dùng ToListAsync()
                     if (danhSachKhoa.Any())
                     {
                         return danhSachKhoa;
@@ -72,22 +81,27 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KhoaService
             {
                 Console.WriteLine(ex.Message);
             }
-            return new List<Khoa>();
+            return new List<WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom.Khoa>();
         }
 
 
-        public Khoa GetKhoaTheoMa(string maKhoa)
+        public WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom.Khoa GetKhoaTheoMa(string maKhoa)
         {
             try
             {
-                if (string.IsNullOrEmpty(maKhoa)) return new Khoa();
+                if (string.IsNullOrEmpty(maKhoa)) return new WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom.Khoa();
 
                 using (var context = new WebsiteQuanLyKeKhaiGiangDayEntities1())
                 {
                     var khoa = context.Khoas.Find(maKhoa); // Đồng bộ, không dùng FindAsync()
+
                     if (khoa != null)
                     {
-                        return khoa;
+                        
+                        return new Models.ModelCustom.Khoa { 
+                            MaKhoa = khoa.MaKhoa,
+                            TenKhoa = khoa.TenKhoa
+                        };
                     }
                 }
             }
@@ -95,7 +109,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KhoaService
             {
                 Console.WriteLine(ex.Message);
             }
-            return new Khoa();
+            return new WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom.Khoa();
         }
 
         public bool ThemDanhSachKhoaMoi(List<ThongTinKhoa> danhSachKhoa)
@@ -116,7 +130,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KhoaService
                                 id++;
                             }
 
-                            var khoa = new Khoa
+                            var khoa = new WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.Khoa
                             {
                                 MaKhoa = id.ToString(),
                                 TenKhoa = item.tenKhoa,
@@ -151,7 +165,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KhoaService
                     {
                         id++;
                     }
-                    var khoa = new Khoa
+                    var khoa = new WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.Khoa
                     {
                         MaKhoa = id.ToString(),
                         TenKhoa = tenKhoa,

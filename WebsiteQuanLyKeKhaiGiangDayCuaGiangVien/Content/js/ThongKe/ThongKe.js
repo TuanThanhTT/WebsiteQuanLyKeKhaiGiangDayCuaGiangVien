@@ -1,10 +1,12 @@
 ﻿//load hoc ky nam hoc dot ke khai
 function LoadNamHoc() {
-
     $.ajax({
         url: '/Admin/KeKhai/LoadNamHoc',
         type: 'POST',
+        dataType: 'json',
+        contentType: "application/json; charset=utf-8",
         success: function (response) {
+        
             var mainNamHoc = document.getElementById("namHoc");
             mainNamHoc.innerHTML = '';
             if (response.success) {
@@ -17,16 +19,16 @@ function LoadNamHoc() {
 
                 mainNamHoc.appendChild(chonNamHoc);
 
-
                 if (data.length > 0) {
+
+
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement("option");
 
-                        option.value = data[i].id;
-                        option.textContent = data[i].tenNamHoc;
+                        option.value = data[i].Id;
+                        option.textContent = data[i].TenNamHoc;
 
                         mainNamHoc.appendChild(option);
-
                     }
                 }
                 mainNamHoc.addEventListener('change', function () {
@@ -58,6 +60,7 @@ function loadHocKyTheoNamHoc(namHoc) {
         contentType: false,
         processData: false,
         success: function (response) {
+           
             var mainHocKy = document.getElementById("hocKy");
             mainHocKy.innerHTML = '';
             if (response.success) {
@@ -72,8 +75,8 @@ function loadHocKyTheoNamHoc(namHoc) {
                 if (data.length > 0) {
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement('option');
-                        option.value = data[i].maHocKy;
-                        option.textContent = data[i].tenHocKy;
+                        option.value = data[i].MaHocKy;
+                        option.textContent = data[i].TenHocKy;
                         mainHocKy.appendChild(option);
                     }
                 }
@@ -111,8 +114,8 @@ function loadDotKeKhaiTheoHocKyNamHoc(maNamHoc, maHocKy) {
                 if (data.length > 0) {
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement('option');
-                        option.value = data[i].maDotKeKhai;
-                        option.textContent = data[i].tenDotKeKhai;
+                        option.value = data[i].MaDotKeKhai;
+                        option.textContent = data[i].TenDotKeKhai;
                         mainDotKeKhai.appendChild(option);
                     }
                 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models;
 using WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom;
 
 namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KhoaService
@@ -8,11 +7,11 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KhoaService
     {
         bool ThemKhoaMoi(string tenKhoa);
         bool CapNhatKhoa(string tenKhoa, string maKhoa);
-        Khoa GetKhoaTheoMa(string maKhoa);
-        List<Khoa> GetDanhSachKhoa(int page, int pageSize, out int tongSoLuong);
+        WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom.Khoa GetKhoaTheoMa(string maKhoa);
+        List<WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom.Khoa> GetDanhSachKhoa(int page, int pageSize, out int tongSoLuong);
 
         bool ThemDanhSachKhoaMoi(List<ThongTinKhoa> danhSachKhoa);
         bool XoaDanhSachKhoa(List<string> idKhoas);
-        List<Khoa> GetDanhSachKhoa();
+        List<WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom.Khoa> GetDanhSachKhoa();
     }
 }

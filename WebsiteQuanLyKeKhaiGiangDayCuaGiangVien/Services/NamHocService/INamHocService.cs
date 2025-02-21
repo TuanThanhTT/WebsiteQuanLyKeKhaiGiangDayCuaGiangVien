@@ -11,8 +11,8 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.NamHocService
         bool ThemHocKy(string tenHocKy, int maNamHoc);
         bool KhoaNamHoc(int maNamHoc);
         bool CapNhatNamHoc(int maNamHoc, string tenNamHoc);
-        List<NamHoc> GetTop5NamHocGanNhat();
-        List<HocKy> GetDanhSachHocKyTheoNamHoc(int maNamHoc);
+        List<WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom.NamHoc> GetTop5NamHocGanNhat();
+        List<WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom.HocKy> GetDanhSachHocKyTheoNamHoc(int maNamHoc);
         bool ThemHocKyMoiVaoNamHoc(int maNamHoc, string tenHocKy);
         bool ChinhSuaThongTinNamHoc(int maNamHoc, string tenNamHocMoi);
         bool XoaNamHoc(int maNamHoc);

@@ -103,13 +103,14 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Areas.Admin.Controllers
             });
         }
 
+       
         [HttpPost]
-        public ActionResult LoadNamHoc()
+        public JsonResult LoadNamHoc()
         {
             try
             {
                 NamHocService namHocService = new NamHocService();
-                var ds =  namHocService.GetTop5NamHocGanNhat();
+                var ds = namHocService.GetTop5NamHocGanNhat();
                 if (ds != null && ds.Any())
                 {
                     return Json(new
@@ -117,21 +118,27 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Areas.Admin.Controllers
                         success = 1,
                         data = ds,
                         message = "Lấy thông tin năm học thành công!"
-                    });
+                    }, JsonRequestBehavior.AllowGet);
                 }
-
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                // 🚀 Ghi log lỗi ra file hoặc hiển thị trong Debug
+                System.Diagnostics.Debug.WriteLine("Lỗi LoadNamHoc: " + ex.Message);
+
+                return Json(new
+                {
+                    success = 0,
+                    message = "Lỗi khi lấy thông tin năm học: " + ex.Message
+                }, JsonRequestBehavior.AllowGet);
             }
+
             return Json(new
             {
                 success = 0,
                 message = "Không có thông tin năm học"
-            });
+            }, JsonRequestBehavior.AllowGet);
         }
-
         [HttpPost]
         public  ActionResult LoadHocKyTheoNamHoc(int namHoc)
         {
