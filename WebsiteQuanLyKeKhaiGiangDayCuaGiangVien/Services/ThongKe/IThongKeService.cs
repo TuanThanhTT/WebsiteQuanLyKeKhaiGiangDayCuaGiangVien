@@ -5,7 +5,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.ThongKe
     {
         Models.ThongKe ThongKeTheoDotKeKhai(int maDotKeKhai);
         bool ThongKeTienDoTheoDotThongKe(int maThongKe);
-        (List<Models.ThongKeChiTiet> data, int soLuong) LoadThongTinThongKeTienDo(int maDotKeKhai, int page, int pageSize);
+        (List<Models.ModelCustom.ThongKeChiTiet> data, int soLuong) LoadThongTinThongKeTienDo(int maDotKeKhai, int page, int pageSize);
 
         WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ThongKe ThongKeMoiTheoDotKeKhai(int maDotKeKhai);
         bool ThongKeTienDoMoiTheoDotThongKe(int maThongKe);

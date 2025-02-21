@@ -247,6 +247,7 @@ function thongKeTienDoGiangVien(page = 1, pageSize = 5) {
         contentType: false,
         processData: false,
         success: function (response) {
+            console.log(JSON.stringify(response));
             if (response.success) {
                 var mainTable = document.getElementById("tableTienDo");
                 mainTable.innerHTML = '';
@@ -274,12 +275,12 @@ function thongKeTienDoGiangVien(page = 1, pageSize = 5) {
                     for (let i = 0; i < data.length; i++) {
                         var row = document.createElement('tr');
                         row.innerHTML = '<th scope="row">'+((page-1)*page+i+1)+'</th>'+
-                            '<td>'+data[i].maGv+'</td>' +
-                            '<td>'+data[i].tenGv+'</td>' +
-                            '<td>' + data[i].tenKhoa + '</td>' +
-                            '<td>' + data[i].daThuHien + '/' + data[i].soLuongPhanCong + '</td>' +
+                            '<td>'+data[i].MaGV+'</td>' +
+                            '<td>'+data[i].TenGV+'</td>' +
+                            '<td>' + data[i].TenKhoa + '</td>' +
+                            '<td>' + data[i].DaThuHien + '/' + data[i].SoLuongPhanCong + '</td>' +
                             '<td class=btnXem>'+
-                            '<button id="openDetailsModal" onclick="xemChiTietTienDoCuaGiangVien(\'' + data[i].maGv + '\')" class="btn btn-sm btn-primary">xem</button>'+
+                            '<button id="openDetailsModal" onclick="xemChiTietTienDoCuaGiangVien(\'' + data[i].MaGV + '\')" class="btn btn-sm btn-primary">xem</button>'+
                             '</td>';
                         mainTable.appendChild(row);
                     }

@@ -11,7 +11,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.ThongKe
 {
     public class ThongKe : IThongKeService
     {
-        public (List<ThongKeChiTiet>, int) LoadThongTinThongKeTienDo(int maDotKeKhai, int page, int pageSize)
+        public (List<Models.ModelCustom.ThongKeChiTiet>, int) LoadThongTinThongKeTienDo(int maDotKeKhai, int page, int pageSize)
         {
             try
             {
@@ -24,6 +24,17 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.ThongKe
                         var danhSachTienDo = context.ThongKeChiTiets
                             .Where(op => op.MaThongKe == thongKe.ID)
                             .OrderBy(op => op.Id)
+                            .Select(op=>new Models.ModelCustom.ThongKeChiTiet
+                            {
+                                DaThuHien = op.DaThuHien,
+                                Id = op.Id,
+                                MaGV = op.MaGV,
+                                MaThongKe = op.MaThongKe,
+                                SoLuongPhanCong = op.SoLuongPhanCong,
+                                TenGV = op.TenGV,
+                                TenKhoa = op.TenKhoa,
+                                
+                            })
                             .Skip((page - 1) * pageSize)
                             .Take(pageSize)
                             .ToList();
@@ -37,7 +48,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.ThongKe
             {
                 Console.WriteLine(ex.Message);
             }
-            return (new List<ThongKeChiTiet>(), 0);
+            return (new List<Models.ModelCustom.ThongKeChiTiet>(), 0);
         }
 
         public (List<GiangVienHoanThanhKeKhai>, int) ThongKeGiangVienHoanThanhKeKhaiTheoDot(int maDotKeKhai, int page, int pageSize)
