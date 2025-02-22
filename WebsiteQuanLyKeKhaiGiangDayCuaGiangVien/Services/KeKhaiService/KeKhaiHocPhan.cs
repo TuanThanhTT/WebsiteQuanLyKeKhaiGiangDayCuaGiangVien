@@ -976,7 +976,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KeKhaiService
                                          tenLop = phanCong.LopPhanCong,
                                          thoiGianDay = phanCong.ThoiGianDay,
                                          maPhanCongHocPhan = phanCong.MaPhanCongHocPhan
-                                     }).Distinct();
+                                     });
 
                         int soLuong = query.Count();
                         var danhSach = query.OrderBy(op => op.maGV)
@@ -991,6 +991,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KeKhaiService
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
+                return (new List<HocPhanDaPhanCong>(), 0);
             }
             return (new List<HocPhanDaPhanCong>(), 0);
         }

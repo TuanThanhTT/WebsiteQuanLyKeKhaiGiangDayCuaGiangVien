@@ -37,8 +37,8 @@ function LoadNamHoc() {
                         mainNamHoc.appendChild(option);
 
                         var optionNamHocPhanCong = document.createElement("option");
-                        optionNamHocPhanCong.value = data[i].id;
-                        optionNamHocPhanCong.textContent = data[i].tenNamHoc;
+                        optionNamHocPhanCong.value = data[i].Id;
+                        optionNamHocPhanCong.textContent = data[i].TenNamHoc;
 
                         namPhanCong.appendChild(optionNamHocPhanCong);
 
@@ -74,35 +74,32 @@ document.addEventListener("DOMContentLoaded", function () {
 //load dot phan cong theo nam hoc
 
 function loadDotPhanCongTheoNamHoc(namHoc) {
-    var formData = new FormData();
-    formData.append("maNamHoc", namHoc);
     console.log("co chay ham chon option");
     $.ajax({
         url: '/Admin/KeKhai/LoadDotPhanCongTheoNamHoc',
         type: 'POST',
-        data: formData,
-        contentType: false,
-        processData: false,
+        data: { maNamHoc: namHoc }, // Gửi như object thay vì FormData
         success: function (response) {
             console.log(JSON.stringify(response));
             var mainDotPhanCong = document.getElementById("dotPhanCong");
             mainDotPhanCong.innerHTML = '';
-            if (response.success) {
-                var data = response.data;
 
+            if (response.success) {
+              
+                var data = response.data;
                 var dotPhanCong = document.createElement('option');
                 dotPhanCong.selected = true;
                 dotPhanCong.value = "";
                 dotPhanCong.textContent = "Chọn học kỳ";
-
                 mainDotPhanCong.appendChild(dotPhanCong);
+
                 if (data.length > 0) {
-                    for (let i = 0; i < data.length; i++) {
+                    data.forEach(item => {
                         var option = document.createElement('option');
-                        option.value = data[i].id;
-                        option.textContent = data[i].tenDot;
+                        option.value = item.id;
+                        option.textContent = item.tenDot;
                         mainDotPhanCong.appendChild(option);
-                    }
+                    });
                 }
             }
         },
@@ -111,6 +108,7 @@ function loadDotPhanCongTheoNamHoc(namHoc) {
         }
     });
 }
+
 
 function loadDotPhanCongTheoNamHocTimKiem(namHoc) {
     var formData = new FormData();
@@ -399,17 +397,18 @@ function loadBangPhanCongHocPhanGanNhat(page=1, pageSize=5) {
                     updatePhanTrangTablePhanCongHocPhanTheoDotGanNhat(response.totalPages, response.currentPage);
                     var namPhanCong = document.getElementById("namPhanCong");
                     var dotPhanCongHocPhan = document.getElementById("dotPhanCongHocPhan");
-                 
+                    console.log("da chay ham lay du lieu gan nhat chua xong");
                     setTimeout(() => {
                         namPhanCong.value = response.maNamHoc;
                         namPhanCong.dispatchEvent(new Event("change"));
 
                         // Chờ tải danh sách đợt kê khai xong, sau đó mới chọn đợt kê khai
-                        setTimeout(() => {
+                        setTimeout(() => {  
                             dotPhanCongHocPhan.value = response.maDotPhanCong;
                             dotPhanCongHocPhan.dispatchEvent(new Event("change"));
                         }, 500);
-                    }, 500);
+                    }, 500);   
+                    console.log("da chay ham lay du lieu gan nhat xong");
                 } else {
                     var row = document.createElement('tr');
                     row.innerHTML = '<td colspan="8" style="text-align: center;">Không có sữ liệu hiện thị!</td>';
@@ -482,7 +481,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function handleButtonClick() {
         if (dotPhanCong.value) {
-            loadBangPhanCongHocPhanTheoMaPhanCong(dotPhanCong.value);
+            loadBangPhanCongHocPhanTheoMaPhanCong();
         }
     }
 
@@ -505,7 +504,8 @@ function loadBangPhanCongHocPhanTheoMaPhanCong(page = 1, pageSize = 5) {
     formData.append("page", page);
     formData.append("pageSize", pageSize);
     formData.append("maDotPhanCong", dotPhanCong.value);
-   
+    console.log("oage da gui ve may: " + page);
+    console.log("Ham xem phan cong theo dot phan cong co ma dot phan cong la: " + dotPhanCong.value);
     $.ajax({
         url: '/Admin/KeKhai/loadTableHocPhanDaPhanCongTheoDot',
         type: 'POST',
@@ -616,8 +616,8 @@ function loadDanhSachKhoa() {
                     // Thêm các lựa chọn khoa vào dropdown
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement("option");
-                        option.value = data[i].maKhoa;
-                        option.textContent = data[i].tenKhoa;
+                        option.value = data[i].MaKhoa;
+                        option.textContent = data[i].TenKhoa;
                         mainKhoa.appendChild(option);
                     }
                 }
@@ -695,8 +695,8 @@ function loadNamHocFormPhanCong() {
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement("option");
 
-                        option.value = data[i].id;
-                        option.textContent = data[i].tenNamHoc;
+                        option.value = data[i].Id;
+                        option.textContent = data[i].TenNamHoc;
 
                         mainNamHoc.appendChild(option);
 
@@ -781,8 +781,8 @@ function loadDanhSachKhoaFormPhanCong() {
                     // Thêm các lựa chọn khoa vào dropdown
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement("option");
-                        option.value = data[i].maKhoa;
-                        option.textContent = data[i].tenKhoa;
+                        option.value = data[i].MaKhoa;
+                        option.textContent = data[i].TenKhoa;
                         mainKhoa.appendChild(option);
                     }
                 }
@@ -832,8 +832,8 @@ function loadGiangVienTheoKhoa(maKhoa) {
                 if (data.length > 0) {
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement('option');
-                        option.value = data[i].maGV;
-                        option.textContent = data[i].tenGV;
+                        option.value = data[i].MaGV;
+                        option.textContent = data[i].TenGV;
                         mainGiangVien.appendChild(option);
                     }
                 }
@@ -868,8 +868,8 @@ function loadDanhSachHocPhanFormPhanCong() {
                     // Thêm các lựa chọn khoa vào dropdown
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement("option");
-                        option.value = data[i].maHP;
-                        option.textContent = data[i].tenHP;
+                        option.value = data[i].MaHP;
+                        option.textContent = data[i].TenHP;
                         mainHP.appendChild(option);
                     }
                 }

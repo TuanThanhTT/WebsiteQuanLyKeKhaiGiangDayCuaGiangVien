@@ -76,8 +76,8 @@ function laodNamHocDotPhanCongHocPhan() {
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement("option");
 
-                        option.value = data[i].id;
-                        option.textContent = data[i].tenNamHoc;
+                        option.value = data[i].Id;
+                        option.textContent = data[i].TenNamHoc;
 
                         mainNamHoc.appendChild(option);
 
@@ -557,6 +557,7 @@ function LoadNamHoc() {
         url: '/Admin/KeKhai/LoadNamHoc',
         type: 'POST',
         success: function (response) {
+            console.log(JSON.stringify(response))
             var mainNamHoc = document.getElementById("namHoc");
             mainNamHoc.innerHTML = '';
             if (response.success) {
@@ -574,9 +575,9 @@ function LoadNamHoc() {
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement("option");
                        
-                        option.value = data[i].id;
-                        option.textContent = data[i].tenNamHoc;
-                       
+                        option.value = data[i].Id;
+                        option.textContent = data[i].TenNamHoc;
+                        
                         mainNamHoc.appendChild(option);
 
                     }
@@ -626,8 +627,8 @@ function loadHocKyTheoNamHoc(namHoc) {
                 if (data.length > 0) {
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement('option');
-                        option.value = data[i].maHocKy;
-                        option.textContent = data[i].tenHocKy;
+                        option.value = data[i].MaHocKy;
+                        option.textContent = data[i].TenHocKy;
                         mainHocKy.appendChild(option);
                     }
                 }

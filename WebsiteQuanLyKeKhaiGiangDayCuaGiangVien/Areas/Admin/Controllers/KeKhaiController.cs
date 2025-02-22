@@ -337,8 +337,8 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Areas.Admin.Controllers
             return Json(new
             {
                 success = 0,
-                message = "Có lỗi xảy ra, vui lòng thử lại sau!"
-            });
+                message = "Có lỗi xảy ra, vui lòng thử lại sau! " + maNamHoc
+            }) ;
         }
 
         [HttpPost]
@@ -393,8 +393,8 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Areas.Admin.Controllers
                         totalRecords = tongSoLuong,
                         totalPages = (int)Math.Ceiling((double)tongSoLuong / pageSize),
                         currentPage = page,
-                        message = "Lấy dữ liệu thành công!"
-                    });
+                        message = "Lấy dữ liệu thành công!" + maDotPhanCong
+                    }) ;
                 }
             }
             catch (Exception ex)

@@ -12,9 +12,16 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.DotPhanCongServic
         {
             try
             {
+                if(maNamHoc == null || maNamHoc <= 0)
+{
+                    return new List<ChiTietDotPhanCong>(); // Trả về danh sách rỗng nếu giá trị không hợp lệ
+                }
+
                 using (var context = new WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.WebsiteQuanLyKeKhaiGiangDayEntities1())
                 {
-                    var namHoc = context.NamHocs.Find(maNamHoc);
+                    // var namHoc = context.NamHocs.Find(maNamHoc);
+                    var namHoc = context.NamHocs.FirstOrDefault(nh => nh.Id == maNamHoc);
+
                     if (namHoc != null)
                     {
                         var danhSachDotPhanCong = context.DotPhanCongs
