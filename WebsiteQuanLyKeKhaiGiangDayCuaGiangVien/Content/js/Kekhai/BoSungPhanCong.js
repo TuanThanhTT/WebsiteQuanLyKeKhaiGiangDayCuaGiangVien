@@ -1277,8 +1277,8 @@ function loadDanhSachKhoaFormCapNhat() {
                     // Thêm các lựa chọn khoa vào dropdown
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement("option");
-                        option.value = data[i].maKhoa;
-                        option.textContent = data[i].tenKhoa;
+                        option.value = data[i].MaKhoa;
+                        option.textContent = data[i].TenKhoa;
                         mainKhoa.appendChild(option);
                     }
                 }
@@ -1689,6 +1689,8 @@ function loadBangPhanCongHocPhanTheoChuoiTim(page = 1, pageSize = 5) {
         contentType: false,
         processData: false,
         success: function (response) {
+
+            console.log("load theo chuoi tim: " + JSON.stringify(response));
             var khoa = document.getElementById("khoa").value = "";
             if (response.success) {
                 var data = response.data;

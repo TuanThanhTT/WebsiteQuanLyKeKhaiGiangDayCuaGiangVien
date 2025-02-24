@@ -110,32 +110,97 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.ThongKe
                     var dotKeKhai = context.DotKeKhais.Find(maDotKeKhai);
                     if (dotKeKhai != null)
                     {
-                        var thongKeCu = context.ThongKes
-                            .FirstOrDefault(op => op.MaDotKeKhai == maDotKeKhai && op.NgayTao > DateTime.UtcNow.AddHours(-24));
+                        // Kiểm tra xem có thống kê trong vòng 24h không
+                        DateTime thoiGian24hTruoc = DateTime.UtcNow.AddHours(-24);
 
-                        if (thongKeCu != null)
+                        var thongkecu = context.ThongKes
+                                               .Where(op => op.MaDotKeKhai == maDotKeKhai && op.NgayTao > thoiGian24hTruoc)
+                                               .FirstOrDefault();
+
+                        if (thongkecu != null)
                         {
-                            return thongKeCu;
+                            var query = context.PhanCongHocPhans.Where(pc => pc.MaDotKeKhai == maDotKeKhai);
+
+                            int soLuongGiangVienPhanCong = query.Select(pc => pc.MaGV).Distinct().Count();
+
+                            int soLuongGiangVienDaHoanThanh = (from pc in query
+                                                               group pc by pc.MaGV into gvGroup
+                                                               where gvGroup.All(pc => pc.TrangThai == "Hoàn Thành")
+                                                               select gvGroup.Key).Count();
+
+                            int soLuongGiangVienChuaHoanThanh = soLuongGiangVienPhanCong - soLuongGiangVienDaHoanThanh;
+                            int soLuongHocPhan = query.Count();
+                            int soLuongHocPhanDaDuocKeKhai = query.Where(pc => pc.TrangThai == "Hoàn thành").Count();
+                            int soLuongPhanCongChoDuyet = query.Where(pc => pc.TrangThai == "Chờ duyệt").Count();
+
+                            int soLuongHocPhanCacDotTruoc = context.PhanCongHocPhans
+                                                                   .Where(pc => pc.MaDotKeKhai > maDotKeKhai && pc.TrangThai == "Chưa Hoàn Thành")
+                                                                   .Count();
+                            // Cập nhật thông kê cũ
+                            thongkecu.SoLuongGiangVienPhanCong = soLuongGiangVienPhanCong;
+                            thongkecu.SoLuongGiangVienDaHoanThanh = soLuongGiangVienDaHoanThanh;
+                            thongkecu.SoLuongGiangVienChuaHoanThanh = soLuongGiangVienChuaHoanThanh;
+                            thongkecu.SoLuongHocPhan = soLuongHocPhan;
+                            thongkecu.SoLuongHocPhanDaDuocKeKhai = soLuongHocPhanDaDuocKeKhai;
+                            thongkecu.SoLuongHocPhanCacDotTruoc = soLuongHocPhanCacDotTruoc;
+                            thongkecu.SoLuongPhanCongChoDuyet = soLuongPhanCongChoDuyet;
+                            thongkecu.NgayTao = DateTime.Now;
+
+                            context.SaveChanges();
+                            return thongkecu;
                         }
-
-                        var thongKeMoi = new Models.ThongKe
+                        else
                         {
-                            MaDotKeKhai = maDotKeKhai,
-                            NgayTao = DateTime.UtcNow
-                        };
+                            // Tạo mới thống kê
+                            int id = context.ThongKes.Count() + 1;
+                            while (context.ThongKes.Find(id) != null)
+                            {
+                                id++;
+                            }
 
-                        context.ThongKes.Add(thongKeMoi);
-                        context.SaveChanges();
+                            var query = context.PhanCongHocPhans.Where(pc => pc.MaDotKeKhai == maDotKeKhai);
+                            int soLuongGiangVienPhanCong = query.Select(pc => pc.MaGV).Distinct().Count();
+                            int soLuongGiangVienDaHoanThanh = (from pc in query
+                                                               group pc by pc.MaGV into gvGroup
+                                                               where gvGroup.All(pc => pc.TrangThai == "Hoàn Thành")
+                                                               select gvGroup.Key).Count();
 
-                        return thongKeMoi;
+                            int soLuongGiangVienChuaHoanThanh = soLuongGiangVienPhanCong - soLuongGiangVienDaHoanThanh;
+                            int soLuongHocPhan = query.Count();
+                            int soLuongHocPhanDaDuocKeKhai = query.Where(pc => pc.TrangThai == "Hoàn thành").Count();
+                            int soLuongPhanCongChoDuyet = query.Where(pc => pc.TrangThai == "Chờ duyệt").Count();
+                            int soLuongHocPhanCacDotTruoc = context.PhanCongHocPhans
+                                                                   .Where(pc => pc.MaDotKeKhai > maDotKeKhai && pc.TrangThai == "Chưa Hoàn Thành")
+                                                                   .Count();
+
+                            var thongKeResult = new Models.ThongKe
+                            {
+                                ID = id,
+                                MaDotKeKhai = maDotKeKhai,
+                                SoLuongGiangVienPhanCong = soLuongGiangVienPhanCong,
+                                SoLuongGiangVienDaHoanThanh = soLuongGiangVienDaHoanThanh,
+                                SoLuongGiangVienChuaHoanThanh = soLuongGiangVienChuaHoanThanh,
+                                SoLuongHocPhan = soLuongHocPhan,
+                                SoLuongHocPhanDaDuocKeKhai = soLuongHocPhanDaDuocKeKhai,
+                                SoLuongHocPhanCacDotTruoc = soLuongHocPhanCacDotTruoc,
+                                SoLuongPhanCongChoDuyet = soLuongPhanCongChoDuyet,
+                                NgayTao = DateTime.Now,
+                            };
+
+                            context.ThongKes.Add(thongKeResult);
+                            context.SaveChanges();
+                            return thongKeResult;
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                return new Models.ThongKe();
             }
-            return null;
+            return new Models.ThongKe();
+
         }
 
         public Models.ModelCustom.ThogKe ThongKeTheoDotKeKhai(int maDotKeKhai)
@@ -276,6 +341,8 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.ThongKe
                             {
                                 return false;
                             }
+                            //xoa cac thong ke cu
+                           // context.ThongKeChiTiets.RemoveRange(danhSachTienDo);
 
                             // Tính lại thống kê
                             int index = context.ThongKeChiTiets.Count();
@@ -484,7 +551,8 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.ThongKe
                                                      maGV = g.Key.MaGV,
                                                      tenGV = g.Key.TenGV,
                                                      tenKhoa = g.Key.TenKhoa,
-                                                     tienDo = $"{g.SoLuongHoanThanh}/{g.TongSoLuong}"
+                                                     tienDo = string.Concat(g.SoLuongHoanThanh, "/", g.TongSoLuong)
+
                                                  });
 
                         var chuoiTimKhongDau = RemoveDiacritics(chuoiTim).ToLower();
@@ -493,6 +561,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.ThongKe
                         var danhSach = danhSachAll
                             .Where(op => RemoveDiacritics(op.maGV).ToLower().Contains(chuoiTimKhongDau) ||
                                          RemoveDiacritics(op.tenGV).ToLower().Contains(chuoiTimKhongDau))
+                            .OrderBy(op=>op.maGV)
                             .Skip((page - 1) * pageSize)
                             .Take(pageSize)
                             .ToList();
@@ -748,11 +817,11 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.ThongKe
                                                      maGV = g.Key.MaGV,
                                                      tenGV = g.Key.TenGV,
                                                      tenKhoa = g.Key.TenKhoa,
-                                                     tienDo = $"{g.SoLuongHoanThanh}/{g.TongSoLuong}"
+                                                     tienDo = string.Concat(g.SoLuongHoanThanh, "/", g.TongSoLuong)
                                                  });
 
                         var soLuong =  queryFiltered.Count();
-                        var danhSach =  queryFiltered.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                        var danhSach =  queryFiltered.OrderBy(op=>op.maGV).Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
                         if (danhSach.Any())
                         {
@@ -764,6 +833,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.ThongKe
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                return (new List<GiangVienHoanThanhKeKhai>(), 0);
             }
             return (new List<GiangVienHoanThanhKeKhai>(), 0);
         }
@@ -797,7 +867,8 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.ThongKe
                                                      maGV = g.Key.MaGV,
                                                      tenGV = g.Key.TenGV,
                                                      tenKhoa = g.Key.TenKhoa,
-                                                     tienDo = $"{g.SoLuongHoanThanh}/{g.TongSoLuong}"
+                                                     tienDo = string.Concat(g.SoLuongHoanThanh, "/", g.TongSoLuong)
+
                                                  });
 
                         var danhSach =  queryFiltered.OrderBy(op => op.tenKhoa).ToList();
@@ -845,7 +916,8 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.ThongKe
                                                      maGV = g.Key.MaGV,
                                                      tenGV = g.Key.TenGV,
                                                      tenKhoa = g.Key.TenKhoa,
-                                                     tienDo = $"{g.SoLuongHoanThanh}/{g.TongSoLuong}"
+                                                     tienDo = string.Concat(g.SoLuongHoanThanh, "/", g.TongSoLuong)
+
                                                  });
 
                         var chuoiTimKhongDau = RemoveDiacritics(chuoiTim).ToLower();
@@ -854,6 +926,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.ThongKe
                         var danhSach = danhSachAll
                             .Where(op => RemoveDiacritics(op.maGV).ToLower().Contains(chuoiTimKhongDau) ||
                                          RemoveDiacritics(op.tenGV).ToLower().Contains(chuoiTimKhongDau))
+                            .OrderBy(op=>op.maGV)
                             .Skip((page - 1) * pageSize)
                             .Take(pageSize)
                             .ToList();
@@ -911,12 +984,13 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.ThongKe
                                                           maGV = g.Key.MaGV,
                                                           tenGV = g.Key.TenGV,
                                                           tenKhoa = g.Key.TenKhoa,
-                                                          tienDo = $"{g.SoLuongHoanThanh}/{g.TongSoLuong}"
+                                                          tienDo = string.Concat(g.SoLuongHoanThanh, "/", g.TongSoLuong)
+
                                                       });
 
                             int soLuong = queryFiltered.Count();
 
-                            var danhSach = queryFiltered.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                            var danhSach = queryFiltered.OrderBy(op=>op.maGV).Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
                             if (danhSach != null && danhSach.Any())
                             {
@@ -972,7 +1046,8 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.ThongKe
                                                           maGV = g.Key.MaGV,
                                                           tenGV = g.Key.TenGV,
                                                           tenKhoa = g.Key.TenKhoa,
-                                                          tienDo = $"{g.SoLuongHoanThanh}/{g.TongSoLuong}"
+                                                          tienDo = string.Concat(g.SoLuongHoanThanh, "/", g.TongSoLuong)
+
                                                       });
 
                             var chuoiTimKhongDau = RemoveDiacritics(chuoiTim).ToLower();
@@ -981,6 +1056,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.ThongKe
                             var danhSach = danhSachAll
                                 .Where(op => RemoveDiacritics(op.maGV).ToLower().Contains(chuoiTimKhongDau) ||
                                              RemoveDiacritics(op.tenGV).ToLower().Contains(chuoiTimKhongDau))
+                                .OrderBy(op=>op.maGV)
                                 .Skip((page - 1) * pageSize)
                                 .Take(pageSize)
                                 .ToList();
@@ -1036,7 +1112,8 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.ThongKe
                                                      maGV = g.Key.MaGV,
                                                      tenGV = g.Key.TenGV,
                                                      tenKhoa = g.Key.TenKhoa,
-                                                     tienDo = $"{g.SoLuongHoanThanh}/{g.TongSoLuong}"
+                                                     tienDo = string.Concat(g.SoLuongHoanThanh, "/", g.TongSoLuong)
+
                                                  });
 
                         var danhSach = queryFiltered.OrderBy(op => op.tenKhoa).ToList();
@@ -1095,11 +1172,12 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.ThongKe
                                                          maGV = g.Key.MaGV,
                                                          tenGV = g.Key.TenGV,
                                                          tenKhoa = g.Key.TenKhoa,
-                                                         tienDo = $"{g.SoLuongHoanThanh}/{g.TongSoLuong}"
+                                                         tienDo = string.Concat(g.SoLuongHoanThanh, "/", g.TongSoLuong)
+
                                                      });
 
                             int soLuong = queryFiltered.Count();
-                            var danhSach = queryFiltered.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                            var danhSach = queryFiltered.OrderBy(op=>op.maGV).Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
                             if (danhSach != null && danhSach.Any())
                             {
@@ -1157,7 +1235,8 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.ThongKe
                                                          maGV = g.Key.MaGV,
                                                          tenGV = g.Key.TenGV,
                                                          tenKhoa = g.Key.TenKhoa,
-                                                         tienDo = $"{g.SoLuongHoanThanh}/{g.TongSoLuong}"
+                                                         tienDo = string.Concat(g.SoLuongHoanThanh, "/", g.TongSoLuong)
+
                                                      });
 
                             var chuoiTimKhongDau = RemoveDiacritics(chuoiTim).ToLower();
@@ -1166,6 +1245,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.ThongKe
                             var danhSach = danhSachAll
                                 .Where(op => RemoveDiacritics(op.maGV).ToLower().Contains(chuoiTimKhongDau) ||
                                              RemoveDiacritics(op.tenGV).ToLower().Contains(chuoiTimKhongDau))
+                                .OrderBy(op=>op.maGV)
                                 .Skip((page - 1) * pageSize)
                                 .Take(pageSize)
                                 .ToList();

@@ -1176,7 +1176,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KeKhaiService
                                     tenHP = hocPhan.TenHP,
                                     tenLop = phanCong.LopPhanCong,
                                     thoiGianDay = phanCong.ThoiGianDay,
-                                    maPhanCongHocPhan = dotphancong.Id
+                                    maPhanCongHocPhan = phanCong.MaPhanCongHocPhan
                                 };
 
                     var danhSach = query.ToList();

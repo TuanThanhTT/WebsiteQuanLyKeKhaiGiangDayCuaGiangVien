@@ -410,7 +410,7 @@ function LamMoiThongKe(maDotKeKhai) {
         contentType: false,
         processData: false,
         success: function (response) {
-            console.log(JSON.stringify(response));
+            console.log("da lam moi thong ke: "+JSON.stringify(response));
             if (response.success) {
                 console.log("Co hay render");
                 var data = response.data;
@@ -461,44 +461,98 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function thongKeTheoDotGanNhat() {
+    //$.ajax({
+    //    url: '/Admin/ThongKe/ThongKeTheoDotMoiNhat',
+    //    type: 'POST',
+    //    success: function (response) {
+    //        console.log("chay ham thong ke thongKeTheoDotGanNhat "+JSON.stringify(response));
+    //        if (response.success) {
+    //            var thongTin = response.thongTin;
+    //            var namHoc = document.getElementById("namHoc");
+    //            var hocKyChon = document.getElementById("hocKy");
+    //            var dotKeKhai = document.getElementById("dotKeKhai");
+
+    //            // Đầu tiên, chọn năm học
+    //            namHoc.value = response.thongTin.maNamHoc;
+    //            namHoc.dispatchEvent(new Event("change"));
+
+    //            // Chờ tải danh sách học kỳ xong, sau đó mới chọn học kỳ
+    //            setTimeout(() => {
+    //                hocKyChon.value = response.thongTin.maHocKy;
+    //                hocKyChon.dispatchEvent(new Event("change"));
+
+    //                // Chờ tải danh sách đợt kê khai xong, sau đó mới chọn đợt kê khai
+    //                setTimeout(() => {
+    //                    dotKeKhai.value = response.thongTin.maDotKeKhai;
+    //                    dotKeKhai.dispatchEvent(new Event("change"));
+
+    //                    // Gọi thống kê
+    //                      thongKeTheoDot(dotKeKhai.value);
+    //                      thongKeTienDoGiangVien();
+    //                }, 2000); // Chờ 500ms để đảm bảo dữ liệu đã cập nhật
+    //            }, 2000);
+
+
+    //        } else {
+    //            alert("Có lỗi xảy ra trong ham thong ke theo dot gan nhat: "+response.message);
+    //        }
+    //    },
+    //    error: function (xhr, status, error) {
+    //        alert("Có lỗi xảy ra trong ham thong ke theo dot gan nhat: " + error);
+    //    }
+    //});
     $.ajax({
         url: '/Admin/ThongKe/ThongKeTheoDotMoiNhat',
         type: 'POST',
         success: function (response) {
-            console.log("chay ham thong ke thongKeTheoDotGanNhat "+JSON.stringify(response));
+            console.log("Dữ liệu từ server:", response);
             if (response.success) {
-                var thongTin = response.thongTin;
                 var namHoc = document.getElementById("namHoc");
                 var hocKyChon = document.getElementById("hocKy");
                 var dotKeKhai = document.getElementById("dotKeKhai");
-             
-                // Đầu tiên, chọn năm học
+
+                // Chọn năm học
                 namHoc.value = response.thongTin.maNamHoc;
                 namHoc.dispatchEvent(new Event("change"));
+                console.log("Đã chọn năm học:", namHoc.value);
 
-                // Chờ tải danh sách học kỳ xong, sau đó mới chọn học kỳ
-                setTimeout(() => {
-                    hocKyChon.value = response.thongTin.maHocKy;
-                    hocKyChon.dispatchEvent(new Event("change"));
+                // Sử dụng MutationObserver để theo dõi khi danh sách học kỳ thay đổi
+                let hocKyObserver = new MutationObserver(() => {
+                    if (hocKyChon.options.length > 0) {
+                        hocKyObserver.disconnect(); // Dừng theo dõi sau khi danh sách đã cập nhật
+                        hocKyChon.value = response.thongTin.maHocKy;
+                        hocKyChon.dispatchEvent(new Event("change"));
+                        console.log("Đã chọn học kỳ:", hocKyChon.value);
+                    }
+                });
 
-                    // Chờ tải danh sách đợt kê khai xong, sau đó mới chọn đợt kê khai
-                    setTimeout(() => {
+                // Theo dõi sự thay đổi của danh sách học kỳ
+                hocKyObserver.observe(hocKyChon, { childList: true });
+
+                // Sử dụng MutationObserver để theo dõi khi danh sách đợt kê khai thay đổi
+                let dotKeKhaiObserver = new MutationObserver(() => {
+                    if (dotKeKhai.options.length > 0) {
+                        dotKeKhaiObserver.disconnect();
                         dotKeKhai.value = response.thongTin.maDotKeKhai;
                         dotKeKhai.dispatchEvent(new Event("change"));
+                        console.log("Đã chọn đợt kê khai:", dotKeKhai.value);
 
                         // Gọi thống kê
-                          thongKeTheoDot(dotKeKhai.value);
-                          thongKeTienDoGiangVien();
-                    }, 500); // Chờ 500ms để đảm bảo dữ liệu đã cập nhật
-                }, 500);
-              
+                        thongKeTheoDot(dotKeKhai.value);
+                        thongKeTienDoGiangVien();
+                        console.log("day chay thong ke moi nhat")
+                    }
+                });
+
+                // Theo dõi sự thay đổi của danh sách đợt kê khai
+                dotKeKhaiObserver.observe(dotKeKhai, { childList: true });
 
             } else {
-                alert("Có lỗi xảy ra trong ham thong ke theo dot gan nhat: "+response.message);
+                alert("Có lỗi xảy ra: " + response.message);
             }
         },
         error: function (xhr, status, error) {
-            alert("Có lỗi xảy ra trong ham thong ke theo dot gan nhat: " + error);
+            alert("Lỗi khi gọi API: " + error);
         }
     });
 }

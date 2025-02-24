@@ -122,11 +122,24 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Areas.Admin.Controllers
                             message = "Thành công"
                         }, JsonRequestBehavior.AllowGet);
                     }
+                    else
+                    {
+                        return Json(new
+                        {
+                            success = 0,
+                            message = "Có lỗi xảy ra, vui lòng thử lại sau!"
+                        }, JsonRequestBehavior.AllowGet);
+                    }
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Lỗi: " + ex.Message);
+                return Json(new
+                {
+                    success = 0,
+                    message = "Có lỗi xảy ra, vui lòng thử lại sau!"
+                }, JsonRequestBehavior.AllowGet);
             }
 
             return Json(new
@@ -776,7 +789,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Areas.Admin.Controllers
                         });
                     }
 
-                    string fileUrl = Path.Combine("/FileExport", filePath).Replace("\\", "/");
+                    string fileUrl = Path.Combine("/Content/FileExport", filePath).Replace("\\", "/");
 
                     if (string.IsNullOrEmpty(fileUrl))
                     {
