@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models;
 using WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom;
+using WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Services.MD5Service;
 
 namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.GiangVien
 {
@@ -612,11 +613,13 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.GiangVien
                             {
                                 idAccount++;
                             }
+                            MD5Service mD5Service = new MD5Service();
+
                             var taiKhoan = new TaiKhoan
                             {
                                 MaTaiKhoan = idAccount,
                                 UserName = giangVien.MaGV,
-                                Passwords = giangVien.MaGV,
+                                Passwords = mD5Service.GetMd5Hash(giangVien.MaGV),
                                 MaGV = giangVien.MaGV,
                                 NgayTao = DateTime.Now,
                             };
@@ -672,13 +675,14 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.GiangVien
                     {
                         idAccount++;
                     }
+                    MD5Service mD5Service = new MD5Service();
 
                     var taiKhoan = new TaiKhoan
                     {
                         MaTaiKhoan = idAccount,
                         UserName = giangVien.MaGV,
                         MaGV = giangVien.MaGV,
-                        Passwords = giangVien.MaGV,
+                        Passwords = mD5Service.GetMd5Hash(giangVien.MaGV),
                         NgayTao = DateTime.Now
                     };
                     context.TaiKhoans.Add(taiKhoan);

@@ -16,15 +16,15 @@ function LoadBangThongTinNamHoc() {
                 if (data.length > 0) {
                     for (let i = 0; i < data.length; i++) {
                         var row = document.createElement("tr");
-                        row.innerHTML = '<td><input value="'+data[i].id+'" type="checkbox" class="rowCheckbox"></td>' +
+                        row.innerHTML = '<td><input value="'+data[i].Id+'" type="checkbox" class="rowCheckbox"></td>' +
                             '<td>' + (i + 1) + '</td>' +
-                            '<td>' + data[i].id + '</td>' + 
-                            '<td>' + data[i].tenNamHoc+'</td>' +
+                            '<td>' + data[i].Id + '</td>' + 
+                            '<td>' + data[i].TenNamHoc+'</td>' +
                             '<td>' +
-                            '<button class="btn btn-success" onclick="showModalThemHocKy('+data[i].id+')"> <i class="fa-solid fa-calendar-plus"></i> Học kỳ </button>' +
-                            '<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editNamHocModal" onclick="MoModalCapNhatNamHoc(' + data[i].id + ',\'' + data[i].tenNamHoc + '\')"> <i class="fa-solid fa-pen-to-square"></i> Cập nhật</button>'+
+                            '<button class="btn btn-success" onclick="showModalThemHocKy('+data[i].Id+')"> <i class="fa-solid fa-calendar-plus"></i> Học kỳ </button>' +
+                            '<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editNamHocModal" onclick="MoModalCapNhatNamHoc(' + data[i].Id + ',\'' + data[i].TenNamHoc + '\')"> <i class="fa-solid fa-pen-to-square"></i> Cập nhật</button>'+
 
-                            '<button type="button" onclick="XacNhanXoa(' + data[i].id +')" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i> Xóa </button>' +
+                            '<button type="button" onclick="XacNhanXoa(' + data[i].Id +')" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i> Xóa </button>' +
                             '</td>';
                         mainTableNamHoc.appendChild(row);
                     }
@@ -55,15 +55,15 @@ function LoadBangThongTinNamHoc(page = 1, pageSize = 10) {
                 if (data.length > 0) {
                     for (let i = 0; i < data.length; i++) {
                         var row = document.createElement("tr");
-                        row.innerHTML = '<td><input value="' + data[i].id + '" type="checkbox" class="rowCheckbox"></td>' +
+                        row.innerHTML = '<td><input value="' + data[i].Id + '" type="checkbox" class="rowCheckbox"></td>' +
                             '<td>' + (i + 1) + '</td>' +
-                            '<td>' + data[i].id + '</td>' +
-                            '<td>' + data[i].tenNamHoc + '</td>' +
+                            '<td>' + data[i].Id + '</td>' +
+                            '<td>' + data[i].TenNamHoc + '</td>' +
                             '<td>' +
-                            '<button class="btn btn-success" onclick="showModalThemHocKy(' + data[i].id + ')"> <i class="fa-solid fa-calendar-plus"></i> Học kỳ </button>' +
-                            '<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editNamHocModal" onclick="MoModalCapNhatNamHoc(' + data[i].id + ',\'' + data[i].tenNamHoc + '\')"> <i class="fa-solid fa-pen-to-square"></i> Cập nhật</button>' +
+                            '<button class="btn btn-success" onclick="showModalThemHocKy(' + data[i].Id + ')"> <i class="fa-solid fa-calendar-plus"></i> Học kỳ </button>' +
+                            '<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editNamHocModal" onclick="MoModalCapNhatNamHoc(' + data[i].Id + ',\'' + data[i].TenNamHoc + '\')"> <i class="fa-solid fa-pen-to-square"></i> Cập nhật</button>' +
 
-                            '<button type="button" onclick="XacNhanXoa(' + data[i].id + ')" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i> Xóa </button>' +
+                            '<button type="button" onclick="XacNhanXoa(' + data[i].Id + ')" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i> Xóa </button>' +
                             '</td>';
                         mainTableNamHoc.appendChild(row);
                     }
@@ -375,10 +375,10 @@ function showModalThemHocKy(maNamHoc) {
                     console.log(JSON.stringify(data));
                     for (let i = 0; i < data.length; i++) {
                         
-                        console.log("ten nam hoc la: " + data[i].tenNamHoc);
+                        console.log("ten nam hoc la: " + data[i].TenNamHoc);
                         var row = document.createElement('tr');
                         row.innerHTML = '<td>' + (i + 1) + '</td >' +
-                            '<td>' + data[i].tenHocKy + '</td>';
+                            '<td>' + data[i].TenHocKy + '</td>';
                         mainTable.append(row);
                     }
                          
@@ -505,7 +505,7 @@ function XoaNamHocDaChon(manMaHoc, modal) {
     //modal.dispose();
    
     var formData = new FormData();
-    formData.append("manMaHoc", manMaHoc);
+    formData.append("maNamHoc", manMaHoc);
     $.ajax({
         url: '/Admin/NamHoc/XoaNamHoc',
         data: formData,

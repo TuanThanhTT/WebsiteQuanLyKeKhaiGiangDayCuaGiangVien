@@ -79,31 +79,40 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.NamHocService
             return new List<WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom.HocKy>();
         }
 
-        public List<NamHoc> GetDanhSachNamHocTheoTrang(int page, int pageSize)
+        public List<Models.ModelCustom.NamHoc> GetDanhSachNamHocTheoTrang(int page, int pageSize)
         {
-            var dsNamHoc = new List<NamHoc>();
+            var dsNamHoc = new List<Models.ModelCustom.NamHoc>();
             try
             {
-                using (var context = new WebsiteQuanLyKeKhaiGiangDayEntities1())
-                {
-                    var ds = context.NamHocs
-                        .OrderByDescending(op => op.Id)
-                        .Where(op => op.isDelete != true)
-                        .Skip((page - 1) * pageSize)
-                        .Take(pageSize)
-                        .ToList();
+                var context = new WebsiteQuanLyKeKhaiGiangDayEntities1();
+
+
+                var ds = context.NamHocs
+                       .OrderByDescending(op => op.Id)
+                       .Where(op => op.isDelete != true)
+                        .Select(op => new Models.ModelCustom.NamHoc
+                        {
+                            Id = op.Id,
+                            TenNamHoc = op.TenNamHoc
+                        })
+                       .Skip((page - 1) * pageSize)
+                       .Take(pageSize)
+                       .ToList();
+
 
                     if (ds != null && ds.Any())
                     {
                         dsNamHoc.AddRange(ds);
                     }
-                }
+                    return dsNamHoc;
+
+                
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-            return dsNamHoc;
+            return new List<Models.ModelCustom.NamHoc>();
         }
 
         public int GetSoLuongNamHoc()

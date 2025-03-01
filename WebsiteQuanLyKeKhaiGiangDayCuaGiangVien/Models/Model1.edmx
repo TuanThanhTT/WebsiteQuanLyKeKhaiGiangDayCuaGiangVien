@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="WebsiteQuanLyKeKhaiGiangDayModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="WebsiteKeKhaiMVCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AccountRole">
           <Key>
             <PropertyRef Name="AccountRoleId" />
@@ -482,7 +482,7 @@
           <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <EntityContainer Name="WebsiteQuanLyKeKhaiGiangDayModelStoreContainer">
+        <EntityContainer Name="WebsiteKeKhaiMVCModelStoreContainer">
           <EntitySet Name="AccountRole" EntityType="Self.AccountRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DotKeKhai" EntityType="Self.DotKeKhai" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DotPhanCong" EntityType="Self.DotPhanCong" Schema="dbo" store:Type="Tables" />
@@ -590,7 +590,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="WebsiteQuanLyKeKhaiGiangDayModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="WebsiteKeKhaiMVCModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="AccountRole">
           <Key>
             <PropertyRef Name="AccountRoleId" />
@@ -1198,11 +1198,11 @@
             <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(WebsiteQuanLyKeKhaiGiangDayModel.sp_helpdiagramdefinition_Result)">
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(WebsiteKeKhaiMVCModel.sp_helpdiagramdefinition_Result)">
             <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(WebsiteQuanLyKeKhaiGiangDayModel.sp_helpdiagrams_Result)">
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(WebsiteKeKhaiMVCModel.sp_helpdiagrams_Result)">
             <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -1229,9 +1229,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="WebsiteQuanLyKeKhaiGiangDayModelStoreContainer" CdmEntityContainer="WebsiteQuanLyKeKhaiGiangDayEntities1">
+        <EntityContainerMapping StorageEntityContainer="WebsiteKeKhaiMVCModelStoreContainer" CdmEntityContainer="WebsiteQuanLyKeKhaiGiangDayEntities1">
           <EntitySetMapping Name="AccountRoles">
-            <EntityTypeMapping TypeName="WebsiteQuanLyKeKhaiGiangDayModel.AccountRole">
+            <EntityTypeMapping TypeName="WebsiteKeKhaiMVCModel.AccountRole">
               <MappingFragment StoreEntitySet="AccountRole">
                 <ScalarProperty Name="AccountRoleId" ColumnName="AccountRoleId" />
                 <ScalarProperty Name="AccountId" ColumnName="AccountId" />
@@ -1240,7 +1240,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DotKeKhais">
-            <EntityTypeMapping TypeName="WebsiteQuanLyKeKhaiGiangDayModel.DotKeKhai">
+            <EntityTypeMapping TypeName="WebsiteKeKhaiMVCModel.DotKeKhai">
               <MappingFragment StoreEntitySet="DotKeKhai">
                 <ScalarProperty Name="MaDotKeKhai" ColumnName="MaDotKeKhai" />
                 <ScalarProperty Name="TenDotKeKhai" ColumnName="TenDotKeKhai" />
@@ -1255,7 +1255,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DotPhanCongs">
-            <EntityTypeMapping TypeName="WebsiteQuanLyKeKhaiGiangDayModel.DotPhanCong">
+            <EntityTypeMapping TypeName="WebsiteKeKhaiMVCModel.DotPhanCong">
               <MappingFragment StoreEntitySet="DotPhanCong">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="TenDotPhanCong" ColumnName="TenDotPhanCong" />
@@ -1264,7 +1264,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="FilePhanCongs">
-            <EntityTypeMapping TypeName="WebsiteQuanLyKeKhaiGiangDayModel.FilePhanCong">
+            <EntityTypeMapping TypeName="WebsiteKeKhaiMVCModel.FilePhanCong">
               <MappingFragment StoreEntitySet="FilePhanCong">
                 <ScalarProperty Name="MaFilePhanCong" ColumnName="MaFilePhanCong" />
                 <ScalarProperty Name="UrlFile" ColumnName="UrlFile" />
@@ -1272,7 +1272,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="GiangViens">
-            <EntityTypeMapping TypeName="WebsiteQuanLyKeKhaiGiangDayModel.GiangVien">
+            <EntityTypeMapping TypeName="WebsiteKeKhaiMVCModel.GiangVien">
               <MappingFragment StoreEntitySet="GiangVien">
                 <ScalarProperty Name="MaGV" ColumnName="MaGV" />
                 <ScalarProperty Name="TenGV" ColumnName="TenGV" />
@@ -1293,7 +1293,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="HocKies">
-            <EntityTypeMapping TypeName="WebsiteQuanLyKeKhaiGiangDayModel.HocKy">
+            <EntityTypeMapping TypeName="WebsiteKeKhaiMVCModel.HocKy">
               <MappingFragment StoreEntitySet="HocKy">
                 <ScalarProperty Name="MaHocKy" ColumnName="MaHocKy" />
                 <ScalarProperty Name="TenHocKy" ColumnName="TenHocKy" />
@@ -1302,7 +1302,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="HocPhans">
-            <EntityTypeMapping TypeName="WebsiteQuanLyKeKhaiGiangDayModel.HocPhan">
+            <EntityTypeMapping TypeName="WebsiteKeKhaiMVCModel.HocPhan">
               <MappingFragment StoreEntitySet="HocPhan">
                 <ScalarProperty Name="MaHP" ColumnName="MaHP" />
                 <ScalarProperty Name="TenHP" ColumnName="TenHP" />
@@ -1315,7 +1315,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="KeKhais">
-            <EntityTypeMapping TypeName="WebsiteQuanLyKeKhaiGiangDayModel.KeKhai">
+            <EntityTypeMapping TypeName="WebsiteKeKhaiMVCModel.KeKhai">
               <MappingFragment StoreEntitySet="KeKhai">
                 <ScalarProperty Name="MaKeKhai" ColumnName="MaKeKhai" />
                 <ScalarProperty Name="MaGV" ColumnName="MaGV" />
@@ -1328,7 +1328,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Khoas">
-            <EntityTypeMapping TypeName="WebsiteQuanLyKeKhaiGiangDayModel.Khoa">
+            <EntityTypeMapping TypeName="WebsiteKeKhaiMVCModel.Khoa">
               <MappingFragment StoreEntitySet="Khoa">
                 <ScalarProperty Name="MaKhoa" ColumnName="MaKhoa" />
                 <ScalarProperty Name="TenKhoa" ColumnName="TenKhoa" />
@@ -1337,7 +1337,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="NamHocs">
-            <EntityTypeMapping TypeName="WebsiteQuanLyKeKhaiGiangDayModel.NamHoc">
+            <EntityTypeMapping TypeName="WebsiteKeKhaiMVCModel.NamHoc">
               <MappingFragment StoreEntitySet="NamHoc">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="TenNamHoc" ColumnName="TenNamHoc" />
@@ -1346,7 +1346,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PhanCongHocPhans">
-            <EntityTypeMapping TypeName="WebsiteQuanLyKeKhaiGiangDayModel.PhanCongHocPhan">
+            <EntityTypeMapping TypeName="WebsiteKeKhaiMVCModel.PhanCongHocPhan">
               <MappingFragment StoreEntitySet="PhanCongHocPhan">
                 <ScalarProperty Name="MaPhanCongHocPhan" ColumnName="MaPhanCongHocPhan" />
                 <ScalarProperty Name="MaGV" ColumnName="MaGV" />
@@ -1366,7 +1366,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Quyens">
-            <EntityTypeMapping TypeName="WebsiteQuanLyKeKhaiGiangDayModel.Quyen">
+            <EntityTypeMapping TypeName="WebsiteKeKhaiMVCModel.Quyen">
               <MappingFragment StoreEntitySet="Quyen">
                 <ScalarProperty Name="MaQuyen" ColumnName="MaQuyen" />
                 <ScalarProperty Name="TenQuyen" ColumnName="TenQuyen" />
@@ -1375,7 +1375,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RolePermissions">
-            <EntityTypeMapping TypeName="WebsiteQuanLyKeKhaiGiangDayModel.RolePermission">
+            <EntityTypeMapping TypeName="WebsiteKeKhaiMVCModel.RolePermission">
               <MappingFragment StoreEntitySet="RolePermission">
                 <ScalarProperty Name="RolePermission1" ColumnName="RolePermission" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
@@ -1384,7 +1384,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Roles">
-            <EntityTypeMapping TypeName="WebsiteQuanLyKeKhaiGiangDayModel.Role">
+            <EntityTypeMapping TypeName="WebsiteKeKhaiMVCModel.Role">
               <MappingFragment StoreEntitySet="Roles">
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
@@ -1392,7 +1392,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="WebsiteQuanLyKeKhaiGiangDayModel.sysdiagram">
+            <EntityTypeMapping TypeName="WebsiteKeKhaiMVCModel.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
@@ -1403,7 +1403,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TaiKhoans">
-            <EntityTypeMapping TypeName="WebsiteQuanLyKeKhaiGiangDayModel.TaiKhoan">
+            <EntityTypeMapping TypeName="WebsiteKeKhaiMVCModel.TaiKhoan">
               <MappingFragment StoreEntitySet="TaiKhoan">
                 <ScalarProperty Name="MaTaiKhoan" ColumnName="MaTaiKhoan" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
@@ -1414,7 +1414,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ThongKes">
-            <EntityTypeMapping TypeName="WebsiteQuanLyKeKhaiGiangDayModel.ThongKe">
+            <EntityTypeMapping TypeName="WebsiteKeKhaiMVCModel.ThongKe">
               <MappingFragment StoreEntitySet="ThongKe">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="MaDotKeKhai" ColumnName="MaDotKeKhai" />
@@ -1430,7 +1430,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ThongKeChiTiets">
-            <EntityTypeMapping TypeName="WebsiteQuanLyKeKhaiGiangDayModel.ThongKeChiTiet">
+            <EntityTypeMapping TypeName="WebsiteKeKhaiMVCModel.ThongKeChiTiet">
               <MappingFragment StoreEntitySet="ThongKeChiTiet">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="MaThongKe" ColumnName="MaThongKe" />
@@ -1442,20 +1442,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="WebsiteQuanLyKeKhaiGiangDayModel.Store.sp_alterdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="WebsiteQuanLyKeKhaiGiangDayModel.Store.sp_creatediagram" />
-          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="WebsiteQuanLyKeKhaiGiangDayModel.Store.sp_dropdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="WebsiteQuanLyKeKhaiGiangDayModel.Store.sp_helpdiagramdefinition">
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="WebsiteKeKhaiMVCModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="WebsiteKeKhaiMVCModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="WebsiteKeKhaiMVCModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="WebsiteKeKhaiMVCModel.Store.sp_helpdiagramdefinition">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="WebsiteQuanLyKeKhaiGiangDayModel.sp_helpdiagramdefinition_Result">
+              <ComplexTypeMapping TypeName="WebsiteKeKhaiMVCModel.sp_helpdiagramdefinition_Result">
                 <ScalarProperty Name="version" ColumnName="version" />
                 <ScalarProperty Name="definition" ColumnName="definition" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="WebsiteQuanLyKeKhaiGiangDayModel.Store.sp_helpdiagrams">
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="WebsiteKeKhaiMVCModel.Store.sp_helpdiagrams">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="WebsiteQuanLyKeKhaiGiangDayModel.sp_helpdiagrams_Result">
+              <ComplexTypeMapping TypeName="WebsiteKeKhaiMVCModel.sp_helpdiagrams_Result">
                 <ScalarProperty Name="Database" ColumnName="Database" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
@@ -1464,8 +1464,8 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="WebsiteQuanLyKeKhaiGiangDayModel.Store.sp_renamediagram" />
-          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="WebsiteQuanLyKeKhaiGiangDayModel.Store.sp_upgraddiagrams" />
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="WebsiteKeKhaiMVCModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="WebsiteKeKhaiMVCModel.Store.sp_upgraddiagrams" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

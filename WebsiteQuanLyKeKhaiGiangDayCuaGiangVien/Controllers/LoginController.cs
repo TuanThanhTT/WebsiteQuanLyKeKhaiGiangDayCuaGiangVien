@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
+using WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Services.MD5Service;
 
 namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Controllers
 {
@@ -19,12 +20,15 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Controllers
             string errMessage = "";
             try
             {
+                MD5Service mD5Service = new MD5Service();
+
+
                 using (var context = new WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.WebsiteQuanLyKeKhaiGiangDayEntities1())
                 {
                     var user = context.TaiKhoans.Where(op => op.UserName == userName).FirstOrDefault();
                     if (user != null)
                     {
-                        if (user.Passwords == passWord)
+                        if (user.Passwords == mD5Service.GetMd5Hash(passWord))
                         {
                             Session["UserName"] = user.UserName;
                             Session["PassWord"] = user.Passwords;
@@ -116,6 +120,20 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Controllers
 
             // Chuyển hướng về trang đăng nhập
             return RedirectToAction("Login", "Login"); // Thay đổi tên controller/action nếu cần
+        }
+
+        public ActionResult Reset() {
+
+            MD5Service mD5Service = new MD5Service();   
+            var context = new WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.WebsiteQuanLyKeKhaiGiangDayEntities1();
+            var dsAcc = context.TaiKhoans.ToList();
+            foreach(var item in dsAcc)
+            {
+                item.Passwords = mD5Service.GetMd5Hash(item.MaGV);
+            }
+            context.SaveChanges();  
+
+            return Content("thanh cong");
         }
 
 
