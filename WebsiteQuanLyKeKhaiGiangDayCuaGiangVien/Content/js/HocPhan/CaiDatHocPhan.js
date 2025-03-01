@@ -275,22 +275,22 @@ function XemChiTietHocPhan(maHocPhan) {
                 var data = response.data;
                 var xemMaHocPhan = document.getElementById("xemMaHocPhan");
                 xemMaHocPhan.innerHTML = '';
-                xemMaHocPhan.innerHTML = data.maHp;
+                xemMaHocPhan.innerHTML = data.MaHP;
                 var xemTenHocPhan = document.getElementById("xemTenHocPhan");
                 xemTenHocPhan.innerHTML = '';
-                xemTenHocPhan.innerHTML = data.tenHp;
+                xemTenHocPhan.innerHTML = data.TenHP;
                 var xemSoTinChi = document.getElementById("xemSoTinChi");
                 xemSoTinChi.innerHTML = '';
-                xemSoTinChi.innerHTML = data.soTinChi;
+                xemSoTinChi.innerHTML = data.SoTinChi;
                 var xemLyThuyet = document.getElementById("xemLyThuyet");
                 xemLyThuyet.innerHTML = '';
-                xemLyThuyet.innerHTML = data.lyThuyet;
+                xemLyThuyet.innerHTML = data.LyThuyet;
                 var xemThucHanh = document.getElementById("xemThucHanh");
                 xemThucHanh.innerHTML = '';
-                xemThucHanh.innerHTML = data.thucHanh;
+                xemThucHanh.innerHTML = data.ThucHanh;
                 var xemGhiChu = document.getElementById("xemGhiChu");
                 xemGhiChu.innerHTML = '';
-                xemGhiChu.innerHTML = data.moTa;
+                xemGhiChu.innerHTML = data.MoTa;
                
             } else {
                 alert("Có lỗi xảy ra: " + response.message);
@@ -635,12 +635,12 @@ function loadThongTinCapNhatHocPhan(maHocPhan) {
                     var thucHanh = document.getElementById("editthucHanh");
                     var ghiChu = document.getElementById("editghiChu");
 
-                    maHocPhan.value = data.maHp;
-                    tenHocPhan.value = data.tenHp;
-                    soTinChi.value = data.soTinChi;
-                    lyThuyet.value = data.lyThuyet;
-                    thucHanh.value = data.thucHanh;
-                    ghiChu.value = data.moTa;
+                    maHocPhan.value = data.MaHP;
+                    tenHocPhan.value = data.TenHP;
+                    soTinChi.value = data.SoTinChi;
+                    lyThuyet.value = data.LyThuyet;
+                    thucHanh.value = data.ThucHanh;
+                    ghiChu.value = data.MoTa;
                   
                 }
 

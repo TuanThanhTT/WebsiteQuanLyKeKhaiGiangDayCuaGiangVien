@@ -226,6 +226,7 @@
     <Compile Include="Models\ModelCustom\GiangVienHoanThanhKeKhai.cs" />
     <Compile Include="Models\ModelCustom\GiangVienTheoKhoa.cs" />
     <Compile Include="Models\ModelCustom\HocKy.cs" />
+    <Compile Include="Models\ModelCustom\HocPhan.cs" />
     <Compile Include="Models\ModelCustom\HocPhanDaPhanCong.cs" />
     <Compile Include="Models\ModelCustom\Khoa.cs" />
     <Compile Include="Models\ModelCustom\NamHoc.cs" />

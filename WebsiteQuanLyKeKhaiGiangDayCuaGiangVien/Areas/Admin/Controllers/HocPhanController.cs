@@ -16,7 +16,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Areas.Admin.Controllers
         // GET: Admin/HocPhan
         public ActionResult CaiDatHocPhan()
         {
-            ViewBag.UserName = Session["FullName"].ToString();
+            ViewBag.UserName = Session["FullName"];
 
             return View();
         }

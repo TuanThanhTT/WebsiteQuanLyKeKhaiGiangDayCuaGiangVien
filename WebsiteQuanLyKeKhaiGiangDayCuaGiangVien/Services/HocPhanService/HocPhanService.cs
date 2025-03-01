@@ -57,22 +57,31 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.HocPhanService
             return new List<XemHocPhan>();
         }
 
-        public HocPhan GetHocPhanTheoMa(string maHocPhan)
+        public Models.ModelCustom.HocPhan GetHocPhanTheoMa(string maHocPhan)
         {
             try
             {
-                if (string.IsNullOrEmpty(maHocPhan)) return new HocPhan();
+                if (string.IsNullOrEmpty(maHocPhan)) return new Models.ModelCustom.HocPhan();
                 using (var context = new WebsiteQuanLyKeKhaiGiangDayEntities1())
                 {
                     var hocPhan = context.HocPhans.Find(maHocPhan);
-                    if (hocPhan != null) return hocPhan;
+                    if (hocPhan != null) return new Models.ModelCustom.HocPhan { 
+                        IsDelete = hocPhan.IsDelete,
+                        LyThuyet = hocPhan.LyThuyet,
+                        MaHP = hocPhan.MaHP,
+                        MoTa = hocPhan.MoTa,
+                        SoTinChi = hocPhan.SoTinChi,
+                        TenHP = hocPhan.TenHP,
+                        ThucHanh = hocPhan.ThucHanh,
+                        
+                    };
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-            return new HocPhan();
+            return new Models.ModelCustom.HocPhan();
         }
 
         public bool KiemTraMaHocPhanChuaTonTai(string maHocPhan)
@@ -101,6 +110,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.HocPhanService
                 {
                     var danhSachHocPhan = context.HocPhans
                                                 .Where(op => op.IsDelete == false)
+                                                .OrderBy(op=>op.MaHP)
                                                 .Skip((page - 1) * pageSize)
                                                 .Take(pageSize)
                                                 .Select(k => new ThongTinHocPhan
@@ -122,6 +132,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.HocPhanService
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+              
             }
             return (new List<ThongTinHocPhan>(), 0);
         }
@@ -134,7 +145,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.HocPhanService
                 {
                     foreach (var item in hocPhans)
                     {
-                        var hocPhan = new HocPhan
+                        var hocPhan = new Models.HocPhan
                         {
                             MaHP = item.maHP,
                             TenHP = item.tenHP,
@@ -162,7 +173,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.HocPhanService
             {
                 using (var context = new WebsiteQuanLyKeKhaiGiangDayEntities1())
                 {
-                    var hocPhan = new HocPhan
+                    var hocPhan = new Models.HocPhan
                     {
                         MaHP = maHocPhan,
                         TenHP = tenHocPhan,
