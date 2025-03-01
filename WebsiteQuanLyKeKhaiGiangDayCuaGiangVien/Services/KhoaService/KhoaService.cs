@@ -37,8 +37,8 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KhoaService
             tongSoLuong = 0;
             try
             {
-                using (var context = new WebsiteQuanLyKeKhaiGiangDayEntities1())
-                {
+                var context = new WebsiteQuanLyKeKhaiGiangDayEntities1();
+               
                     tongSoLuong = context.Khoas.Count(op => !op.IsDelete); // Đồng bộ, không dùng CountAsync()
                     var danhSachKhoa = context.Khoas
                         .Where(op => !op.IsDelete)
@@ -47,15 +47,17 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KhoaService
                             MaKhoa= op.MaKhoa,  
                             TenKhoa = op.TenKhoa,
                         })
+                        .OrderBy(op=>op.MaKhoa)
                         .Skip((page - 1) * pageSize)
                         .Take(pageSize)
                         .ToList(); // Đồng bộ, không dùng ToListAsync()
                     return danhSachKhoa;
-                }
+                
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+
             }
             return new List<WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Models.ModelCustom.Khoa>();
         }

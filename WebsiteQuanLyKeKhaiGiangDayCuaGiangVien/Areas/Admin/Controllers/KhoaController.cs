@@ -311,7 +311,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult DownloadMauFile()
         {
-            string filePath = Path.Combine(Server.MapPath("~/MauFile"), "MauDanhSachKhoaEmpty.xlsx");
+            string filePath = Path.Combine(Server.MapPath("/Content/MauFile"), "MauDanhSachKhoaEmpty.xlsx");
 
             if (!System.IO.File.Exists(filePath))
             {

@@ -152,11 +152,11 @@ function loadDanhSachKhoa(page = 1, pageSize = 5) {
                 if (data.length > 0) {
                     for (let i = 0; i < data.length; i++) {
                         var row = document.createElement('tr');
-                        row.innerHTML = '<td><input type="checkbox" value="' + data[i].maKhoa + '" class="rowCheckbox"></td>' +
+                        row.innerHTML = '<td><input type="checkbox" value="' + data[i].MaKhoa + '" class="rowCheckbox"></td>' +
                             '<td>' + ((page - 1) * pageSize+1+i) + '</td>' +
-                            '<td>' + data[i].maKhoa + '</td>' +
-                            '<td>' + data[i].tenKhoa + '</td>' +
-                            '<td> <button class="btn btn-warning" onclick="xemThongTinKhoa(' + data[i].maKhoa + ')" data-bs-toggle="modal" data-bs-target="#modal-messUpdateDepartment">Cập nhật</button></td>';
+                            '<td>' + data[i].MaKhoa + '</td>' +
+                            '<td>' + data[i].TenKhoa + '</td>' +
+                            '<td> <button class="btn btn-warning" onclick="xemThongTinKhoa(' + data[i].MaKhoa + ')" data-bs-toggle="modal" data-bs-target="#modal-messUpdateDepartment">Cập nhật</button></td>';
                         mainTable.appendChild(row);
                     }
                     updatePhanTrangTableKeKhai(response.totalPages, response.currentPage);
@@ -192,10 +192,10 @@ function xemThongTinKhoa(maKhoa) {
             if (response.success) {
                 var data = response.data;
                 var tenKhoa = document.getElementById("updateDepartmentName");
-                tenKhoa.value = data.tenKhoa;
+                tenKhoa.value = data.TenKhoa;
                 var editMaKhoa = document.getElementById("update-maKhoa");
                 editMaKhoa.innerHTML = '';
-                editMaKhoa.innerHTML = data.maKhoa;
+                editMaKhoa.innerHTML = data.MaKhoa;
 
               
                 modalXemChiTiet.show();
@@ -372,7 +372,7 @@ function uploadFileThemKhoa(file) {
                         mainTable.appendChild(row);
                     }
                 }
-                var saveFileData = document.getElementById("saveFileData"); b
+                var saveFileData = document.getElementById("saveFileData"); 
                 if (response.valid) {
 
                     saveFileData.style.display = 'block';
@@ -572,7 +572,7 @@ function XacNhanXoaKhoa() {
 
 function TaiMauFileKhoa() {
     $.ajax({
-        url: '/Admin/Khoa/DowloadMauFile',
+        url: '/Admin/Khoa/DownloadMauFile',
         type: 'POST',
         success: function (data) {
             var blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
