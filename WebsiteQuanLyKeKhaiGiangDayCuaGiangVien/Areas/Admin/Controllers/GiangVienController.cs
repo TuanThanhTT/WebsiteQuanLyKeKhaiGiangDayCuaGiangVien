@@ -566,7 +566,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Areas.Admin.Controllers
         {
             try
             {
-                string filePath = Server.MapPath("~/MauFile/MauDanhSachGiangVienEmpty.xlsx");
+                string filePath = Server.MapPath("/Content/MauFile/MauDanhSachGiangVienEmpty.xlsx");
 
                 if (!System.IO.File.Exists(filePath))
                 {

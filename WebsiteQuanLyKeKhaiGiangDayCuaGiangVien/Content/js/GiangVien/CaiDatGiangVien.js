@@ -1,4 +1,4 @@
-﻿
+﻿ 
 
 function convertDateFormat(dateString) {
     var parts = dateString.split("/");
@@ -9,8 +9,8 @@ function convertDateFormat(dateString) {
 }
 
 
-
 document.addEventListener("DOMContentLoaded", function () {
+    console.log("co chay load modal")
     loadModal();
 });
 
@@ -19,50 +19,43 @@ function loadModal() {
         url: '/Admin/GiangVien/loadDanhSachKhoa',
         type: 'POST',
         success: function (response) {
-           
+            console.log("Dữ liệu nhận về:", response);
+
             if (response.success) {
-                var data = response.data;
+                var data = response.data || []; // Đảm bảo không bị lỗi undefined
                 var khoa = document.getElementById("khoa");
                 var editKhoa = document.getElementById("edit-khoa");
+                var Addkhoa = document.getElementById("Addkhoa");
 
-                var op = document.createElement("option");
-                op.value ="";
-                op.textContent = "Chọn khoa";
-                op.selected = true;
-                var editop = document.createElement("option");
-                editop.value = "";
-                editop.textContent = "Chọn khoa";
-                editop.selected = true;
-                khoa.innerHTML = '';
-                khoa.appendChild(op);
-                editKhoa.innerHTML = '';
-                editKhoa.appendChild(editop);
-
-
-                if (data.length > 0) {
-                  
-                    for (let i = 0; i < data.length; i++) {
-                        var option = document.createElement("option");
-                        option.value = data[i].maKhoa;
-                        option.textContent = data[i].tenKhoa;
-                        khoa.appendChild(option);
-                        
-                        var optionedit = document.createElement("option");
-                        optionedit.value = data[i].maKhoa;
-                        optionedit.textContent = data[i].tenKhoa;
-                      ;
-                        editKhoa.appendChild(optionedit);
-                    }
+                if (!khoa || !editKhoa || !Addkhoa) {
+                    console.error("Không tìm thấy phần tử <select>");
+                    return;
                 }
-               
-            } else {
 
+                // Xóa danh sách cũ
+                khoa.innerHTML = '<option value="">Chọn khoa</option>';
+                editKhoa.innerHTML = '<option value="">Chọn khoa</option>';
+                Addkhoa.innerHTML = '<option value="">Chọn khoa</option>';
+                if (data.length > 0) {
+                    data.forEach(k => {
+                        let option = new Option(k.TenKhoa, k.MaKhoa);
+                        let optionEdit = new Option(k.TenKhoa, k.MaKhoa);
+                        khoa.appendChild(option);
+                        editKhoa.appendChild(optionEdit);
+                        Addkhoa.appendChild(optionEdit);
+                    });
+                } else {
+                    console.warn("Danh sách khoa rỗng.");
+                }
+            } else {
+                console.error("API trả về success = false");
             }
         },
         error: function (xhr, status, error) {
-            alert("Có lỗi xảy ra: " + error);
+            console.error("Lỗi AJAX:", error);
         }
     });
+
 }
 
 
@@ -76,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
         var fields = [
             { id: "maGiangVien", message: "Mã giảng viên không được để trống." },
             { id: "tenGiangVien", message: "Tên giảng viên không được để trống." },
-            { id: "khoa", message: "Khoa không được để trống." },
+            { id: "Addkhoa", message: "Khoa không được để trống." },
             { id: "ngaySinh", message: "Ngày sinh không được để trống." },
             { id: "chucVu", message: "Chức vụ không được để trống." },
             { id: "trinhDo", message: "Trình độ không được để trống." },
@@ -152,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             var maGV = document.getElementById("maGiangVien").value.trim();
             var tenGV = document.getElementById("tenGiangVien").value.trim();
-            var maKhoa = document.getElementById("khoa").value.trim();
+            var maKhoa = document.getElementById("Addkhoa").value.trim();
             var ngaysinh = document.getElementById("ngaySinh").value.trim();
             var chucVu = document.getElementById("chucVu").value.trim();
             var trinhDo = document.getElementById("trinhDo").value.trim();
@@ -316,7 +309,10 @@ function themGiangVienMoi(maGV, tenGV, maKhoa, ngaySinh, soDienThoai, trinhDo, e
     formData.append("soDienThoai", soDienThoai);
     formData.append("email", email);
     formData.append("diaChi", diaChi);
+    //formData.append("gioiTinh", gioiTinh);
+    gioiTinh = gioiTinh === "true" ? true : false;
     formData.append("gioiTinh", gioiTinh);
+
     formData.append("heSoLuong", heSoLuong);
     formData.append("chuyenNganh", chuyenNganh);
     formData.append("loaiHinhDaoTao", loaiHinhDaoTao);
@@ -422,7 +418,7 @@ function XemChiTietGiangVien(maGV) {
                 xemTenKhoa.innerHTML = data.tenKhoa;
                 var xemChuyenNghanh = document.getElementById("xemChuyenNghanh");
                 xemChuyenNghanh.innerHTML = '';
-                xemChuyenNghanh.innerHTML = data.chuyenNganh;
+                xemChuyenNghanh.innerHTML = data.chuyenNghanh;
                 var xemTrinhDo = document.getElementById("xemTrinhDo");
                 xemTrinhDo.innerHTML = '';
                 xemTrinhDo.innerHTML = data.trinhDo;
@@ -749,7 +745,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function capNhatThongTinGiangVien(maGV, tenGV, maKhoa, ngaySinh, soDienThoai, trinhDo, email, diaChi, gioiTinh, heSoLuong, chuyenNganh, loaiHinhDaoTao, chucVu) 
- {
+{
+    console.log("gioi tinh la: " + gioiTinh)
     var formData = new FormData();
     formData.append("maGV", maGV);
     formData.append("tenGV", tenGV);
@@ -760,7 +757,9 @@ function capNhatThongTinGiangVien(maGV, tenGV, maKhoa, ngaySinh, soDienThoai, tr
     formData.append("soDienThoai", soDienThoai);
     formData.append("email", email);
     formData.append("diaChi", diaChi);
-    formData.append("gioiTinh", gioiTinh);
+   // formData.append("gioiTinh", gioiTinh);
+    formData.append("gioiTinh", gioiTinh === "1" || gioiTinh === 1 ? true : false);
+
     formData.append("heSoLuong", heSoLuong);
     formData.append("chuyenNganh", chuyenNganh);
     formData.append("loaiHinhDaoTao", loaiHinhDaoTao);
@@ -772,6 +771,8 @@ function capNhatThongTinGiangVien(maGV, tenGV, maKhoa, ngaySinh, soDienThoai, tr
         contentType: false,
         processData: false,
         success: function (response) {
+            
+           
 
             var title = document.getElementById("errorModalLabel");
             var elements = document.getElementsByClassName("modal-mess-header");
@@ -882,18 +883,40 @@ function loadThongTinCapNhatGiangVien(maGV) {
                     console.log(data.maKhoa);
                     loaiHinhDaoTao.value = data.loaiHinhDaoTao;
 
+                    var timestampMatch = data.namSinh.match(/\d+/);
+
+                    if (timestampMatch) {
+                        var timestamp = parseInt(timestampMatch[0], 10);
+
+                      
+                        var dateTime = new Date(timestamp);
+
+                      
+                        var formattedDate = dateTime.toISOString().split("T")[0];
+
+                      
+                        document.getElementById("edit-ngaySinh").value = formattedDate;
+
+                        flatpickr("#edit-ngaySinh", {
+                            dateFormat: "d/m/Y",  
+                            defaultDate: formattedDate
+                        });
+                    } else {
+                        console.error("Lỗi: Định dạng namSinh không hợp lệ!", data.namSinh);
+                    }
+
              
-                    var dateTime = new Date(data.namSinh);
-                    var formattedDate = dateTime.toISOString().split("T")[0];
+                    //var dateTime = new Date(data.namSinh);
+                    //var formattedDate = dateTime.toISOString().split("T")[0];
 
 
-                    ngaySinh.value = formattedDate;
+                    //ngaySinh.value = formattedDate;
 
                  
-                    flatpickr("#edit-ngaySinh", {
-                        dateFormat: "d/m/Y",  // Hiển thị theo d/m/Y
-                        defaultDate: formattedDate
-                    });
+                    //flatpickr("#edit-ngaySinh", {
+                    //    dateFormat: "d/m/Y",  // Hiển thị theo d/m/Y
+                    //    defaultDate: formattedDate
+                    //});
 
                     
                 }
@@ -1090,8 +1113,8 @@ function loadDanhSachKhoa() {
                     // Thêm các lựa chọn khoa vào dropdown
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement("option");
-                        option.value = data[i].maKhoa;
-                        option.textContent = data[i].tenKhoa;
+                        option.value = data[i].MaKhoa;
+                        option.textContent = data[i].TenKhoa;
                         mainKhoa.appendChild(option);
                     }
                 }
@@ -1273,7 +1296,8 @@ function loadDanhSachGiangVienTheoChuoiTim(page = 1, pageSize = 5) {
 
                 } else {
                     var row = document.createElement('tr');
-                    row.innerHTML = '<td colspan= "7" style="text-align: center;">Không có dữ liệu hiện thị</td>'
+                    row.innerHTML = '<td colspan= "7" style="text-align: center;">Không có dữ liệu hiện thị</td>';
+                    mainTable.appendChild(row);
                 }
             }
         },
@@ -1369,7 +1393,8 @@ function loadDanhSachGiangVienTheoChuoiTimVaKhoa(page = 1, pageSize = 5) {
 
                 } else {
                     var row = document.createElement('tr');
-                    row.innerHTML = '<td colspan= "7" style="text-align: center;">Không có dữ liệu hiện thị</td>'
+                    row.innerHTML = '<td colspan= "7" style="text-align: center;">Không có dữ liệu hiện thị</td>';
+                    mainTable.appendChild(row);
                 }
             }
         },

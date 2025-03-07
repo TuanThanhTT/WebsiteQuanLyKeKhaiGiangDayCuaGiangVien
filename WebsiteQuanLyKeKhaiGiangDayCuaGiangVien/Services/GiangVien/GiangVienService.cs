@@ -96,26 +96,46 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.GiangVien
 
                 using (var context = new WebsiteQuanLyKeKhaiGiangDayEntities1())
                 {
-                    var query = from giangVien in context.GiangViens
-                                join khoa in context.Khoas on giangVien.MaKhoa equals khoa.MaKhoa
-                                select new XemChiTietThongTinGiangVien
-                                {
-                                    maGV = giangVien.MaGV,
-                                    gioiTinh = (giangVien.GioiTinh == true) ? "Nam" : "Nữ",
-                                    chucVu = giangVien.ChucVu,
-                                    diaChi = giangVien.DiaChi,
-                                    chuyenNghanh = giangVien.ChuyenNghanh,
-                                    email = giangVien.Email,
-                                    heSoLuong = (double)giangVien.HeSoLuong,
-                                    loaiHinhDaoTao = giangVien.LoaiHinhDaoTao,
-                                    maKhoa = giangVien.MaKhoa,
-                                    namSinh = giangVien.NgaySinh,
-                                    ngaySinh = giangVien.NgaySinh.ToString("dd/MM/yyyy"),
-                                    soDienThoai = giangVien.SoDienThoai,
-                                    tenGV = giangVien.TenGV,
-                                    tenKhoa = khoa.TenKhoa,
-                                    trinhDo = giangVien.TrinhDo
-                                };
+                    var query = (from giangVien in context.GiangViens
+                                 join khoa in context.Khoas on giangVien.MaKhoa equals khoa.MaKhoa
+                                 select new
+                                 {
+                                     maGV = giangVien.MaGV,
+                                     gioiTinh = (giangVien.GioiTinh == true) ? "Nam" : "Nữ",
+                                     chucVu = giangVien.ChucVu,
+                                     diaChi = giangVien.DiaChi,
+                                     chuyenNghanh = giangVien.ChuyenNghanh,
+                                     email = giangVien.Email,
+                                     heSoLuong = (double)giangVien.HeSoLuong,
+                                     loaiHinhDaoTao = giangVien.LoaiHinhDaoTao,
+                                     maKhoa = giangVien.MaKhoa,
+                                     namSinh = giangVien.NgaySinh,
+                                     ngaySinh = giangVien.NgaySinh, // Giữ nguyên DateTime
+                                     soDienThoai = giangVien.SoDienThoai,
+                                     tenGV = giangVien.TenGV,
+                                     tenKhoa = khoa.TenKhoa,
+                                     trinhDo = giangVien.TrinhDo
+                                 })
+               .AsEnumerable() // Chỉ sau đây mới xử lý định dạng ngày tháng
+               .Select(x => new XemChiTietThongTinGiangVien
+               {
+                   maGV = x.maGV,
+                   gioiTinh = x.gioiTinh,
+                   chucVu = x.chucVu,
+                   diaChi = x.diaChi,
+                   chuyenNghanh = x.chuyenNghanh,
+                   email = x.email,
+                   heSoLuong = x.heSoLuong,
+                   loaiHinhDaoTao = x.loaiHinhDaoTao,
+                   maKhoa = x.maKhoa,
+                   namSinh = x.namSinh,
+                   ngaySinh = x.ngaySinh.ToString("dd/MM/yyyy"), // Định dạng sau khi đã lấy về RAM
+                   soDienThoai = x.soDienThoai,
+                   tenGV = x.tenGV,
+                   tenKhoa = x.tenKhoa,
+                   trinhDo = x.trinhDo
+               });
+
 
                     var danhSach = query.ToList(); // Đổi từ ToListAsync() sang ToList()
 
@@ -157,28 +177,48 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.GiangVien
                         return (new List<XemChiTietThongTinGiangVien>(), 0);
                     }
 
-                    var query = from giangVien in context.GiangViens
-                                join khoa in context.Khoas
-                                on giangVien.MaKhoa equals khoa.MaKhoa
-                                where giangVien.MaKhoa == maKhoa
-                                select new XemChiTietThongTinGiangVien
-                                {
-                                    maGV = giangVien.MaGV,
-                                    gioiTinh = (giangVien.GioiTinh == true) ? "Nam" : "Nữ",
-                                    chucVu = giangVien.ChucVu,
-                                    diaChi = giangVien.DiaChi,
-                                    chuyenNghanh = giangVien.ChuyenNghanh,
-                                    email = giangVien.Email,
-                                    heSoLuong = (double)giangVien.HeSoLuong,
-                                    loaiHinhDaoTao = giangVien.LoaiHinhDaoTao,
-                                    maKhoa = giangVien.MaKhoa,
-                                    namSinh = giangVien.NgaySinh,
-                                    ngaySinh = giangVien.NgaySinh.ToString("dd/MM/yyyy"),
-                                    soDienThoai = giangVien.SoDienThoai,
-                                    tenGV = giangVien.TenGV,
-                                    tenKhoa = khoa.TenKhoa,
-                                    trinhDo = giangVien.TrinhDo
-                                };
+                    var query = (from giangVien in context.GiangViens
+                                 join khoa in context.Khoas
+                                 on giangVien.MaKhoa equals khoa.MaKhoa
+                                 where giangVien.MaKhoa == maKhoa
+                                 select new
+                                 {
+                                     maGV = giangVien.MaGV,
+                                     gioiTinh = (giangVien.GioiTinh == true) ? "Nam" : "Nữ",
+                                     chucVu = giangVien.ChucVu,
+                                     diaChi = giangVien.DiaChi,
+                                     chuyenNghanh = giangVien.ChuyenNghanh,
+                                     email = giangVien.Email,
+                                     heSoLuong = (double)giangVien.HeSoLuong,
+                                     loaiHinhDaoTao = giangVien.LoaiHinhDaoTao,
+                                     maKhoa = giangVien.MaKhoa,
+                                     namSinh = giangVien.NgaySinh,
+                                     ngaySinh = giangVien.NgaySinh, // Giữ nguyên DateTime
+                                     soDienThoai = giangVien.SoDienThoai,
+                                     tenGV = giangVien.TenGV,
+                                     tenKhoa = khoa.TenKhoa,
+                                     trinhDo = giangVien.TrinhDo
+                                 })
+                .AsEnumerable() // Sau đây mới xử lý ngày tháng
+                .Select(x => new XemChiTietThongTinGiangVien
+                {
+                    maGV = x.maGV,
+                    gioiTinh = x.gioiTinh,
+                    chucVu = x.chucVu,
+                    diaChi = x.diaChi,
+                    chuyenNghanh = x.chuyenNghanh,
+                    email = x.email,
+                    heSoLuong = x.heSoLuong,
+                    loaiHinhDaoTao = x.loaiHinhDaoTao,
+                    maKhoa = x.maKhoa,
+                    namSinh = x.namSinh,
+                    ngaySinh = x.ngaySinh.ToString("dd/MM/yyyy"), // Chuyển đổi ở đây
+                    soDienThoai = x.soDienThoai,
+                    tenGV = x.tenGV,
+                    tenKhoa = x.tenKhoa,
+                    trinhDo = x.trinhDo
+                });
+
 
                     var danhSach = query.ToList();
                     var chuoiTimKhongDau = RemoveDiacritics(chuoiTim).ToLower().Trim();
@@ -243,28 +283,47 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.GiangVien
                         return (new List<XemChiTietThongTinGiangVien>(), 0);
                     }
 
-                    var query = from giangVien in context.GiangViens
-                                join khoa in context.Khoas
-                                on giangVien.MaKhoa equals khoa.MaKhoa
-                                where giangVien.MaKhoa == maKhoa
-                                select new XemChiTietThongTinGiangVien
-                                {
-                                    maGV = giangVien.MaGV,
-                                    gioiTinh = (giangVien.GioiTinh == true) ? "Nam" : "Nữ",
-                                    chucVu = giangVien.ChucVu,
-                                    diaChi = giangVien.DiaChi,
-                                    chuyenNghanh = giangVien.ChuyenNghanh,
-                                    email = giangVien.Email,
-                                    heSoLuong = (double)giangVien.HeSoLuong,
-                                    loaiHinhDaoTao = giangVien.LoaiHinhDaoTao,
-                                    maKhoa = giangVien.MaKhoa,
-                                    namSinh = giangVien.NgaySinh,
-                                    ngaySinh = giangVien.NgaySinh.ToString("dd/MM/yyyy"),
-                                    soDienThoai = giangVien.SoDienThoai,
-                                    tenGV = giangVien.TenGV,
-                                    tenKhoa = khoa.TenKhoa,
-                                    trinhDo = giangVien.TrinhDo
-                                };
+                    var query = (from giangVien in context.GiangViens
+                                 join khoa in context.Khoas
+                                 on giangVien.MaKhoa equals khoa.MaKhoa
+                                 where giangVien.MaKhoa == maKhoa
+                                 select new
+                                 {
+                                     maGV = giangVien.MaGV,
+                                     gioiTinh = (giangVien.GioiTinh == true) ? "Nam" : "Nữ",
+                                     chucVu = giangVien.ChucVu,
+                                     diaChi = giangVien.DiaChi,
+                                     chuyenNghanh = giangVien.ChuyenNghanh,
+                                     email = giangVien.Email,
+                                     heSoLuong = (double)giangVien.HeSoLuong,
+                                     loaiHinhDaoTao = giangVien.LoaiHinhDaoTao,
+                                     maKhoa = giangVien.MaKhoa,
+                                     namSinh = giangVien.NgaySinh,
+                                     ngaySinh = giangVien.NgaySinh, // Giữ nguyên kiểu DateTime
+                                     soDienThoai = giangVien.SoDienThoai,
+                                     tenGV = giangVien.TenGV,
+                                     tenKhoa = khoa.TenKhoa,
+                                     trinhDo = giangVien.TrinhDo
+                                 }).AsEnumerable() // Đưa về bộ nhớ
+             .Select(x => new XemChiTietThongTinGiangVien
+             {
+                 maGV = x.maGV,
+                 gioiTinh = x.gioiTinh,
+                 chucVu = x.chucVu,
+                 diaChi = x.diaChi,
+                 chuyenNghanh = x.chuyenNghanh,
+                 email = x.email,
+                 heSoLuong = x.heSoLuong,
+                 loaiHinhDaoTao = x.loaiHinhDaoTao,
+                 maKhoa = x.maKhoa,
+                 namSinh = x.namSinh,
+                 ngaySinh = x.ngaySinh.ToString("dd/MM/yyyy"), // Đổi định dạng sau khi lấy về RAM
+                 soDienThoai = x.soDienThoai,
+                 tenGV = x.tenGV,
+                 tenKhoa = x.tenKhoa,
+                 trinhDo = x.trinhDo
+             });
+
 
                     var danhSach = query.ToList();
                     var soLuong = danhSach.Count;
@@ -276,6 +335,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.GiangVien
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
+                
             }
             return (new List<XemChiTietThongTinGiangVien>(), 0);
         }
@@ -288,35 +348,63 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.GiangVien
 
                 using (var context = new WebsiteQuanLyKeKhaiGiangDayEntities1())
                 {
-                    var giangVien = (from gv in context.GiangViens
-                                     join khoa in context.Khoas on gv.MaKhoa equals khoa.MaKhoa
-                                     where gv.MaGV == maGV
-                                     select new Models.ModelCustom.XemChiTietThongTinGiangVien
-                                     {
-                                         maGV = gv.MaGV,
-                                         tenGV = gv.TenGV,
-                                         tenKhoa = khoa.TenKhoa,
-                                         maKhoa = khoa.MaKhoa,
-                                         ngaySinh = gv.NgaySinh.ToString("dd/MM/yyyy"),
-                                         chucVu = gv.ChucVu,
-                                         chuyenNghanh = gv.ChuyenNghanh,
-                                         diaChi = gv.DiaChi,
-                                         email = gv.Email,
-                                         soDienThoai = gv.SoDienThoai,
-                                         gioiTinh = (gv.GioiTinh == true) ? "Nam" : "Nữ",
-                                         heSoLuong = (double)gv.HeSoLuong,
-                                         loaiHinhDaoTao = gv.LoaiHinhDaoTao,
-                                         trinhDo = gv.TrinhDo,
-                                         namSinh = gv.NgaySinh,
-                                         Avartar = gv.Avartar
-                                     }).FirstOrDefault();
+                    //var giangVien = (from gv in context.GiangViens
+                    //                 join khoa in context.Khoas on gv.MaKhoa equals khoa.MaKhoa
+                    //                 where gv.MaGV == maGV
+                    //                 select new Models.ModelCustom.XemChiTietThongTinGiangVien
+                    //                 {
+                    //                     maGV = gv.MaGV,
+                    //                     tenGV = gv.TenGV,
+                    //                     tenKhoa = khoa.TenKhoa,
+                    //                     maKhoa = khoa.MaKhoa,
+                    //                     ngaySinh = gv.NgaySinh.ToString("dd/MM/yyyy"),
+                    //                     chucVu = gv.ChucVu,
+                    //                     chuyenNghanh = gv.ChuyenNghanh,
+                    //                     diaChi = gv.DiaChi,
+                    //                     email = gv.Email,
+                    //                     soDienThoai = gv.SoDienThoai,
+                    //                     gioiTinh = (gv.GioiTinh == true) ? "Nam" : "Nữ",
+                    //                     heSoLuong = (double)gv.HeSoLuong,
+                    //                     loaiHinhDaoTao = gv.LoaiHinhDaoTao,
+                    //                     trinhDo = gv.TrinhDo,
+                    //                     namSinh = gv.NgaySinh,
+                    //                     Avartar = gv.Avartar
+                    //                 }).FirstOrDefault();
+                    var giangVien = context.GiangViens
+                       .Join(context.Khoas,
+                             gv => gv.MaKhoa,
+                             khoa => khoa.MaKhoa,
+                             (gv, khoa) => new { gv, khoa })
+                       .Where(x => x.gv.MaGV == maGV)
+                       .AsEnumerable() // Chuyển sang xử lý trên bộ nhớ
+                       .Select(x => new Models.ModelCustom.XemChiTietThongTinGiangVien
+                       {
+                           maGV = x.gv.MaGV,
+                           tenGV = x.gv.TenGV,
+                           tenKhoa = x.khoa.TenKhoa,
+                           maKhoa = x.khoa.MaKhoa,
+                           ngaySinh = x.gv.NgaySinh.ToString("dd/MM/yyyy"), // Định dạng ở bộ nhớ
+                           chucVu = x.gv.ChucVu,
+                           chuyenNghanh = x.gv.ChuyenNghanh,
+                           diaChi = x.gv.DiaChi,
+                           email = x.gv.Email,
+                           soDienThoai = x.gv.SoDienThoai,
+                           gioiTinh = (x.gv.GioiTinh == true) ? "Nam" : "Nữ",
+                           heSoLuong = (double)x.gv.HeSoLuong,
+                           loaiHinhDaoTao = x.gv.LoaiHinhDaoTao,
+                           trinhDo = x.gv.TrinhDo,
+                           namSinh = x.gv.NgaySinh,
+                           Avartar = x.gv.Avartar
+                       }).FirstOrDefault();
+
 
                     return giangVien;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                Console.WriteLine(ex.Message);
+                return null;
             }
 
             return null;
@@ -452,27 +540,53 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.GiangVien
             {
                 using (var context = new WebsiteQuanLyKeKhaiGiangDayEntities1())
                 {
-                    var query = from gv in context.GiangViens
-                                join khoa in context.Khoas
-                                on gv.MaKhoa equals khoa.MaKhoa
-                                where gv.IsDelete == false
-                                select new Models.ModelCustom.XemChiTietThongTinGiangVien
-                                {
-                                    maGV = gv.MaGV,
-                                    tenGV = gv.TenGV,
-                                    ngaySinh = gv.NgaySinh.ToString("dd/MM/yyyy"),
-                                    chucVu = gv.ChucVu,
-                                    diaChi = gv.DiaChi,
-                                    email = gv.Email,
-                                    gioiTinh = (gv.GioiTinh == true) ? "Nam" : "Nữ",
-                                    chuyenNghanh = gv.ChuyenNghanh,
-                                    tenKhoa = khoa.TenKhoa,
-                                    heSoLuong = (double)gv.HeSoLuong,
-                                    soDienThoai = gv.SoDienThoai,
-                                    trinhDo = gv.TrinhDo,
-                                    loaiHinhDaoTao = gv.LoaiHinhDaoTao,
-                                    maKhoa = khoa.MaKhoa
-                                };
+                    //var query = from gv in context.GiangViens
+                    //            join khoa in context.Khoas
+                    //            on gv.MaKhoa equals khoa.MaKhoa
+                    //            where gv.IsDelete == false
+                    //            select new Models.ModelCustom.XemChiTietThongTinGiangVien
+                    //            {
+                    //                maGV = gv.MaGV,
+                    //                tenGV = gv.TenGV,
+                    //                ngaySinh = gv.NgaySinh.ToString("dd/MM/yyyy"),
+                    //                chucVu = gv.ChucVu,
+                    //                diaChi = gv.DiaChi,
+                    //                email = gv.Email,
+                    //                gioiTinh = (gv.GioiTinh == true) ? "Nam" : "Nữ",
+                    //                chuyenNghanh = gv.ChuyenNghanh,
+                    //                tenKhoa = khoa.TenKhoa,
+                    //                heSoLuong = (double)gv.HeSoLuong,
+                    //                soDienThoai = gv.SoDienThoai,
+                    //                trinhDo = gv.TrinhDo,
+                    //                loaiHinhDaoTao = gv.LoaiHinhDaoTao,
+                    //                maKhoa = khoa.MaKhoa
+                    //            };
+
+                    var query = context.GiangViens
+            .Join(context.Khoas,
+                  gv => gv.MaKhoa,
+                  khoa => khoa.MaKhoa,
+                  (gv, khoa) => new { gv, khoa })
+            .Where(x => x.gv.IsDelete == false)
+            .AsEnumerable() // Chuyển sang xử lý trong bộ nhớ
+            .Select(x => new Models.ModelCustom.XemChiTietThongTinGiangVien
+            {
+                maGV = x.gv.MaGV,
+                tenGV = x.gv.TenGV,
+                ngaySinh = x.gv.NgaySinh.ToString("dd/MM/yyyy"), // Được gọi trong bộ nhớ
+                chucVu = x.gv.ChucVu,
+                diaChi = x.gv.DiaChi,
+                email = x.gv.Email,
+                gioiTinh = (x.gv.GioiTinh == true) ? "Nam" : "Nữ",
+                chuyenNghanh = x.gv.ChuyenNghanh,
+                tenKhoa = x.khoa.TenKhoa,
+                heSoLuong = (double)x.gv.HeSoLuong,
+                soDienThoai = x.gv.SoDienThoai,
+                trinhDo = x.gv.TrinhDo,
+                loaiHinhDaoTao = x.gv.LoaiHinhDaoTao,
+                maKhoa = x.khoa.MaKhoa
+            }).ToList();
+
 
                     var soLuong = query.Count(); // Đếm tổng số giảng viên
                     var danhSachGiangVien = query.Skip((page - 1) * pageSize).Take(pageSize).ToList(); // Lấy danh sách theo phân trang
@@ -486,6 +600,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.GiangVien
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                return (new List<Models.ModelCustom.XemChiTietThongTinGiangVien>(), 0);
             }
             return (new List<Models.ModelCustom.XemChiTietThongTinGiangVien>(), 0);
         }
@@ -709,6 +824,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.GiangVien
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
+                return false;
             }
             return false;
         }
