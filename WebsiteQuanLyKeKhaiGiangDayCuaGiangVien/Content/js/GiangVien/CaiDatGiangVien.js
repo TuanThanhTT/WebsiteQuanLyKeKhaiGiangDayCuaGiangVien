@@ -40,9 +40,10 @@ function loadModal() {
                     data.forEach(k => {
                         let option = new Option(k.TenKhoa, k.MaKhoa);
                         let optionEdit = new Option(k.TenKhoa, k.MaKhoa);
+                        let optionAdd = new Option(k.TenKhoa, k.MaKhoa);
                         khoa.appendChild(option);
                         editKhoa.appendChild(optionEdit);
-                        Addkhoa.appendChild(optionEdit);
+                        Addkhoa.appendChild(optionAdd);
                     });
                 } else {
                     console.warn("Danh sách khoa rỗng.");
@@ -661,6 +662,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     errorElement.textContent = field.message;
                 }
                 isValid = false;
+                console.log("loi ơ day: "+field.id);
             }
 
           
@@ -672,6 +674,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         errorElement.textContent = field.message;
                     }
                     isValid = false;
+                    console.log("loi ơ day: " + field.id);
                 }
             }
         });
@@ -695,6 +698,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     ngaySinhError.textContent = "Giảng viên phải đủ 24 tuổi.";
                 }
                 isValid = false;
+                console.log("loi ơ day");
             }
         } else {
             document.getElementById("edit-ngaySinh").classList.add("error");
@@ -702,11 +706,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 ngaySinhError.textContent = "Ngày sinh không được để trống.";
             }
             isValid = false;
+            console.log("loi ơ day");
         }
 
         // Nếu tất cả các trường hợp lệ, thực hiện xử lý khác
         if (isValid) {
-          
+
 
             var maGV = document.getElementById("edit-maGiangVien").value.trim();
             var tenGV = document.getElementById("edit-tenGiangVien").value.trim();
@@ -723,10 +728,13 @@ document.addEventListener("DOMContentLoaded", function () {
             var loaiHinhDaoTao = document.getElementById("edit-loaiHinhDaoTao").value.trim();
 
             var ngaySinhFormatted = convertDateFormat(ngaysinh);
+            console.log("ma khoa cap nhat moi la: " + maKhoa);
             console.log("Có cahy nut save");
             capNhatThongTinGiangVien(maGV, tenGV, maKhoa, ngaySinhFormatted, soDienThoai, trinhDo, email, diaChi, gioiTinh, heSoLuong, chuyenNganh,
                 loaiHinhDaoTao, chucVu);
 
+        } else {
+            console.log("Không hop le de luu thong tin cap nhat");
         }
     });
 
@@ -757,6 +765,7 @@ function capNhatThongTinGiangVien(maGV, tenGV, maKhoa, ngaySinh, soDienThoai, tr
     formData.append("soDienThoai", soDienThoai);
     formData.append("email", email);
     formData.append("diaChi", diaChi);
+    console.log("Ma khoa can cap nhat moi la: " + maKhoa);
    // formData.append("gioiTinh", gioiTinh);
     formData.append("gioiTinh", gioiTinh === "1" || gioiTinh === 1 ? true : false);
 
@@ -847,7 +856,7 @@ function loadThongTinCapNhatGiangVien(maGV) {
         processData: false,
         success: function (response) {
             if (response.success) {
-
+                console.log("thong tin xem cap nhat gv: " + JSON.stringify(response));
                 var data = response.data;
                 if (data) {
                     var maGV = document.getElementById("edit-maGiangVien");
@@ -880,8 +889,9 @@ function loadThongTinCapNhatGiangVien(maGV) {
                     }
                     chucVu.value = data.chucVu;
                     khoa.value = data.maKhoa;
-                    console.log(data.maKhoa);
+                    console.log("ma khoa xem cap nhat la: "+data.maKhoa);
                     loaiHinhDaoTao.value = data.loaiHinhDaoTao;
+                    console.log("loai hinh dao tao la: " + data.loaiHinhDaoTao);
 
                     var timestampMatch = data.namSinh.match(/\d+/);
 

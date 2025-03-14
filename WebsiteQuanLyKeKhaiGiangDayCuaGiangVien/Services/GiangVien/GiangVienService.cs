@@ -23,6 +23,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.GiangVien
                     var gv = context.GiangViens.Find(giangVien.MaGV); // Dùng phương thức đồng bộ
                     if (gv != null)
                     {
+                        gv.MaKhoa = giangVien.MaKhoa;
                         gv.TenGV = giangVien.TenGV;
                         gv.MaGV = giangVien.MaGV;
                         gv.ChucVu = giangVien.ChucVu;
@@ -98,6 +99,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.GiangVien
                 {
                     var query = (from giangVien in context.GiangViens
                                  join khoa in context.Khoas on giangVien.MaKhoa equals khoa.MaKhoa
+                                 where giangVien.IsDelete == false
                                  select new
                                  {
                                      maGV = giangVien.MaGV,
@@ -142,8 +144,9 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.GiangVien
                     // Lọc và tìm kiếm
                     var chuoiTimKhongDau = RemoveDiacritics(chuoiTim).ToLower().Trim();
                     var listFilter = danhSach
-                        .Where(op => RemoveDiacritics(op.maGV).Contains(chuoiTimKhongDau) ||
-                                     RemoveDiacritics(op.tenGV).Contains(chuoiTimKhongDau))
+                        .Where(op =>(RemoveDiacritics(op.maGV.ToLower()).Contains(chuoiTimKhongDau)||
+                                    RemoveDiacritics(op.tenGV.ToLower()).Contains(chuoiTimKhongDau))
+                                    )
                         .OrderBy(op => op.maGV)
                         .ToList();
 

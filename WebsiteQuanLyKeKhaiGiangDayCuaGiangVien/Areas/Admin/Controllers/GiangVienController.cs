@@ -400,6 +400,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Areas.Admin.Controllers
         {
             try
             {
+                Console.WriteLine(maKhoa);
                 GiangVienService giangVienService = new GiangVienService();
 
                 if (string.IsNullOrEmpty(maGV) || string.IsNullOrEmpty(maKhoa) || heSoLuong == 0 ||
