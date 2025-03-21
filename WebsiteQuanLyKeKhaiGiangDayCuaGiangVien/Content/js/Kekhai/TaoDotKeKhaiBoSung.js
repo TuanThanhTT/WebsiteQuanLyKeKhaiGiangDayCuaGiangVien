@@ -472,11 +472,11 @@ function HienThiModalChinhSua() {
                 var namHoc = document.getElementById("edit-namHoc");
                 var ghiChu = document.getElementById("edit-ghiChu");
                 console.log(JSON.stringify(data))
-                tenDot.value = data.tenDotKeKhai;
+                tenDot.value = data.TenDotKeKhai;
                 //ngayBatDau.value = data.ngayBatDau;
               //  ngayKetThuc.value = data.ngayKetThuc;
-                hocKy.value = data.hocKy;
-                namHoc.value = data.namHoc;
+                hocKy.value = data.HocKy;
+                namHoc.value = data.NamHoc;
 
                 // Dữ liệu từ hệ thống (ISO 8601)
                 const systemDate = data.ngayKetThuc;
@@ -604,8 +604,8 @@ function LoadNamHoc() {
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement("option");
 
-                        option.value = data[i].id;
-                        option.textContent = data[i].tenNamHoc;
+                        option.value = data[i].Id;
+                        option.textContent = data[i].TenNamHoc;
 
                         mainNamHoc.appendChild(option);
 
@@ -655,8 +655,8 @@ function loadHocKyTheoNamHoc(namHoc) {
                 if (data.length > 0) {
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement('option');
-                        option.value = data[i].maHocKy;
-                        option.textContent = data[i].tenHocKy;
+                        option.value = data[i].MaHocKy;
+                        option.textContent = data[i].TenHocKy;
                         mainHocKy.appendChild(option);
                     }
                 }

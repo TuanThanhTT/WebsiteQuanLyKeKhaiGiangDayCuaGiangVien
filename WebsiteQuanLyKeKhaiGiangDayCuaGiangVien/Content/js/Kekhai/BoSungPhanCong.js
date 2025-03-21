@@ -6,6 +6,8 @@ function LoadNamHoc() {
         url: '/Admin/KeKhai/LoadNamHoc',
         type: 'POST',
         success: function (response) {
+            console.log("nam hoc load la: " + JSON.stringify(response));
+
             var mainNamHoc = document.getElementById("namHocPhanCong");
             var namPhanCong = document.getElementById("namPhanCong");
             namPhanCong.innerHTML = '';
@@ -31,8 +33,8 @@ function LoadNamHoc() {
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement("option");
 
-                        option.value = data[i].id;
-                        option.textContent = data[i].tenNamHoc;
+                        option.value = data[i].Id;
+                        option.textContent = data[i].TenNamHoc;
 
                         mainNamHoc.appendChild(option);
 
@@ -759,6 +761,7 @@ function loadDotPhanCongTheoNamHocFormPhanCong(namHoc) {
 }
 
 
+
 function loadDanhSachKhoaFormPhanCong() {
     $.ajax({
         url: '/Admin/KeKhai/loadThongTinKhoa',
@@ -832,8 +835,8 @@ function loadGiangVienTheoKhoa(maKhoa) {
                 if (data.length > 0) {
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement('option');
-                        option.value = data[i].MaGV;
-                        option.textContent = data[i].TenGV;
+                        option.value = data[i].maGV;
+                        option.textContent = data[i].tenGV;
                         mainGiangVien.appendChild(option);
                     }
                 }
@@ -851,6 +854,7 @@ function loadDanhSachHocPhanFormPhanCong() {
         url: '/Admin/KeKhai/GetSanhSachHocPhan',
         type: 'POST',
         success: function (response) {
+            console.log(JSON.stringify(response));
             var mainHP = document.getElementById("hocPhanThemPhanCong");
             mainHP.innerHTML = ''; // Làm trống dropdown trước khi thêm mới
 
@@ -868,8 +872,8 @@ function loadDanhSachHocPhanFormPhanCong() {
                     // Thêm các lựa chọn khoa vào dropdown
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement("option");
-                        option.value = data[i].MaHP;
-                        option.textContent = data[i].TenHP;
+                        option.value = data[i].maHP;
+                        option.textContent = data[i].tenHP;
                         mainHP.appendChild(option);
                     }
                 }

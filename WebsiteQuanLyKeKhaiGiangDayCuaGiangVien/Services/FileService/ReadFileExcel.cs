@@ -653,7 +653,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.FileService
                         }
 
                         // Kiểm tra số tiết lý thuyết
-                        if (danhSachHocPhan[i].lyThuyet <= 0)
+                        if (danhSachHocPhan[i].lyThuyet < 0)
                         {
                             if (!string.IsNullOrEmpty(errMess))
                             {
@@ -663,7 +663,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.FileService
                         }
 
                         // Kiểm tra số tiết thực hành
-                        if (danhSachHocPhan[i].thucHanh <= 0)
+                        if (danhSachHocPhan[i].thucHanh < 0)
                         {
                             if (!string.IsNullOrEmpty(errMess))
                             {

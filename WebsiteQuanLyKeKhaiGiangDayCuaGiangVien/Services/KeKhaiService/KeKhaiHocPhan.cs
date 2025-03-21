@@ -695,34 +695,42 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KeKhaiService
                         tenDotKeKhai = dotKeKhai.TenDotKeKhai;
                     }
 
-                    var query = from phanCong in context.PhanCongHocPhans
-                                join hocphan in context.HocPhans on phanCong.MaHP equals hocphan.MaHP
-                                join giangVien in context.GiangViens on phanCong.MaGV equals giangVien.MaGV
-                                join khoa in context.Khoas on giangVien.MaKhoa equals khoa.MaKhoa
-                                where phanCong.MaDotKeKhai == maDotKeKhai
-                                group new { giangVien, khoa } by new
-                                {
-                                    giangVien.MaGV,
-                                    giangVien.TenGV,
-                                    khoa.TenKhoa
-                                } into grouped
-                                select new ThongTinPhanCongGiangVien
-                                {
-                                    id = grouped.Key.MaGV,
-                                    maGV = grouped.Key.MaGV,
-                                    tenGV = grouped.Key.TenGV,
-                                    khoa = grouped.Key.TenKhoa,
-                                    soLuong = grouped.Count()
-                                };
+                    var query = (from phanCong in context.PhanCongHocPhans
+                                 join hocphan in context.HocPhans on phanCong.MaHP equals hocphan.MaHP
+                                 join giangVien in context.GiangViens on phanCong.MaGV equals giangVien.MaGV
+                                 join khoa in context.Khoas on giangVien.MaKhoa equals khoa.MaKhoa
+                                 where phanCong.MaDotKeKhai == maDotKeKhai
+                                 group new { giangVien, khoa } by new
+                                 {
+                                     giangVien.MaGV,
+                                     giangVien.TenGV,
+                                     khoa.TenKhoa
+                                 } into grouped
+                                 select new ThongTinPhanCongGiangVien
+                                 {
+                                     id = grouped.Key.MaGV,
+                                     maGV = grouped.Key.MaGV,
+                                     tenGV = grouped.Key.TenGV,
+                                     khoa = grouped.Key.TenKhoa,
+                                     soLuong = grouped.Count()
+                                 });
 
-                    int soLuong = query.Count();
-                    var dsSachPhanCong = query.Distinct().Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                    int soLuong = query.Count(); // Đếm số lượng trước khi phân trang
+
+                    var dsSachPhanCong = query
+                        .OrderBy(x => x.tenGV)
+                        .Skip((page - 1) * pageSize)
+                        .Take(pageSize)
+                        .ToList();
+
                     return (dsSachPhanCong, soLuong, dotKeKhai.MaDotKeKhai, tenDotKeKhai, tenNamHoc, tenHocKy);
+
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                
             }
             return (new List<ThongTinPhanCongGiangVien>(), 0, 0, "", "", "");
         }
@@ -939,14 +947,19 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KeKhaiService
                                     };
 
                         var soLuong = query.Count();
-                        var dsSachPhanCong = query.Distinct().Skip((page - 1) * pageSize).Take(pageSize).ToList();
-                        return (dsSachPhanCong, soLuong, maDotKeKhai, tenDotKeKhai, tenNamHoc, tenHocKy);
+                    var dsSachPhanCong = query
+                        .OrderBy(x => x.tenGV) // Sắp xếp theo tên giảng viên (hoặc cột khác phù hợp)
+                        .Skip((page - 1) * pageSize)
+                        .Take(pageSize)
+                        .ToList();
+                    return (dsSachPhanCong, soLuong, maDotKeKhai, tenDotKeKhai, tenNamHoc, tenHocKy);
                     }
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                }
+              
+            }
                 return (new List<ThongTinPhanCongGiangVien>(), 0, 0, "", "", "");
             }
 

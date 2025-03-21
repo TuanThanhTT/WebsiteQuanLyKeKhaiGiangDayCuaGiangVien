@@ -21,8 +21,8 @@
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement("option");
 
-                        option.value = data[i].id;
-                        option.textContent = data[i].tenNamHoc;
+                        option.value = data[i].Id;
+                        option.textContent = data[i].TenNamHoc;
 
                         mainNamHoc.appendChild(option);
 
@@ -57,6 +57,7 @@ function loadHocKyTheoNamHoc(namHoc) {
         contentType: false,
         processData: false,
         success: function (response) {
+         
             var mainHocKy = document.getElementById("hocKy");
             mainHocKy.innerHTML = '';
             if (response.success) {
@@ -71,8 +72,8 @@ function loadHocKyTheoNamHoc(namHoc) {
                 if (data.length > 0) {
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement('option');
-                        option.value = data[i].maHocKy;
-                        option.textContent = data[i].tenHocKy;
+                        option.value = data[i].MaHocKy;
+                        option.textContent = data[i].TenHocKy;
                         mainHocKy.appendChild(option);
                     }
                 }
@@ -110,8 +111,8 @@ function loadDotKeKhaiTheoHocKyNamHoc(maNamHoc, maHocKy) {
                 if (data.length > 0) {
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement('option');
-                        option.value = data[i].maDotKeKhai;
-                        option.textContent = data[i].tenDotKeKhai;
+                        option.value = data[i].MaDotKeKhai;
+                        option.textContent = data[i].TenDotKeKhai;
                         mainDotKeKhai.appendChild(option);
                     }
                 }
@@ -199,7 +200,7 @@ function updatePhanTrangTableKeKhai(totalPages, currentPage) {
 
 document.addEventListener("DOMContentLoaded", function () {
     //load dot gần nhất
-    loadTablePhanCongTheoDotKeKhai();
+    //loadTablePhanCongTheoDotKeKhai();
 });
 
 
@@ -387,8 +388,8 @@ function loadDanhSachKhoa() {
                     // Thêm các lựa chọn khoa vào dropdown
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement("option");
-                        option.value = data[i].maKhoa;
-                        option.textContent = data[i].tenKhoa;
+                        option.value = data[i].MaKhoa;
+                        option.textContent = data[i].TenKhoa;
                         mainKhoa.appendChild(option);
                     }
                 }
