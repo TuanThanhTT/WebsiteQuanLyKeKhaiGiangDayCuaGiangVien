@@ -289,6 +289,8 @@
     <Compile Include="Services\AccountService\IAccountServic.cs" />
     <Compile Include="Services\DotPhanCongService\DotPhanCongService.cs" />
     <Compile Include="Services\DotPhanCongService\IDotPhanCongServic.cs" />
+    <Compile Include="Services\EmailService\EmailService.cs" />
+    <Compile Include="Services\EmailService\IEmailService.cs" />
     <Compile Include="Services\FileService\FileUpload.cs" />
     <Compile Include="Services\FileService\IFileUpload.cs" />
     <Compile Include="Services\FileService\IReadFileExcel.cs" />
@@ -303,6 +305,8 @@
     <Compile Include="Services\KeKhaiService\KeKhaiHocPhan.cs" />
     <Compile Include="Services\KhoaService\IKhoaService.cs" />
     <Compile Include="Services\KhoaService\KhoaService.cs" />
+    <Compile Include="Services\LoginService\ILoginService.cs" />
+    <Compile Include="Services\LoginService\LoginService.cs" />
     <Compile Include="Services\MD5Service\IMD5Service.cs" />
     <Compile Include="Services\MD5Service\MD5Service.cs" />
     <Compile Include="Services\NamHocService\INamHocService.cs" />
@@ -469,6 +473,8 @@
     <Content Include="Views\KeKhai\XemPhanCongHocPhan.cshtml" />
     <Content Include="Views\KeKhai\CacMonDaKeKhai.cshtml" />
     <Content Include="Views\KeKhai\KeKhaiHocPhan.cshtml" />
+    <Content Include="Views\Login\DatLaiMatKhau.cshtml" />
+    <Content Include="Views\Login\DoiMatKhauMoi.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

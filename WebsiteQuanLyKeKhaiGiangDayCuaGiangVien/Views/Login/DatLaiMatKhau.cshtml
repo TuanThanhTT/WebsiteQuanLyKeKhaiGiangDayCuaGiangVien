@@ -1,0 +1,143 @@
+﻿
+@model string
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt Lại Mật Khẩu</title>
+    <style>
+        /* Reset mặc định */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Căn giữa màn hình */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url(/img/nen.jpg);
+        }
+
+        /* Form container */
+        .reset-container {
+            background: white;
+            padding: 30px;
+            width: 350px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+            /* Tiêu đề */
+            .reset-container h2 {
+                color: #333;
+                margin-bottom: 10px;
+            }
+
+            .reset-container p {
+                font-size: 14px;
+                color: #666;
+                margin-bottom: 20px;
+            }
+
+        /* Input Group */
+        .input-group {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+
+            .input-group label {
+                display: block;
+                font-size: 14px;
+                font-weight: bold;
+                margin-bottom: 5px;
+                color: #333;
+            }
+
+            .input-group input {
+                width: 100%;
+                padding: 10px;
+                border: 2px solid #ddd;
+                border-radius: 8px;
+                font-size: 14px;
+                transition: border-color 0.3s;
+            }
+
+                .input-group input:focus {
+                    border-color: #4facfe;
+                    outline: none;
+                }
+
+        /* Nút Đặt lại mật khẩu */
+        .btn-reset {
+            width: 100%;
+            padding: 12px;
+            background: #4facfe;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+            .btn-reset:hover {
+                background: #00c6ff;
+            }
+    </style>
+    <script>
+        function validateForm() {
+            let password = document.getElementById("newPassword").value;
+            let confirmPassword = document.getElementById("confirmPassword").value;
+
+            if (password.length < 6) {
+                alert("Mật khẩu phải có ít nhất 6 ký tự!");
+                return false;
+            }
+
+            if (password !== confirmPassword) {
+                alert("Xác nhận mật khẩu không trùng khớp!");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <div class="reset-container">
+        <h2>Đặt Lại Mật Khẩu</h2>
+        <p>Vui lòng nhập mật khẩu mới để tiếp tục</p>
+
+        <form action="/Login/DoiMatKhauMoi" method="post" onsubmit="return validateForm()">
+            <input type="hidden" name="token" value="@Model">
+
+            <div class="input-group">
+                <label for="newPassword">Mật khẩu mới</label>
+                <input type="password" id="newPassword" name="newPassword" required>
+            </div>
+
+            <div class="input-group">
+                <label for="confirmPassword">Xác nhận mật khẩu mới</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+            </div>
+
+            <button type="submit" class="btn-reset">Đặt Lại Mật Khẩu</button>
+        </form>
+    </div>
+</body>
+</html>
+
+
+

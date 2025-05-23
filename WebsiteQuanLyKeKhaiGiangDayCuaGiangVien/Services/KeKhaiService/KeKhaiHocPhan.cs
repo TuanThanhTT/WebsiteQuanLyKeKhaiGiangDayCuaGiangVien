@@ -281,7 +281,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KeKhaiService
                                 join nguoiDuyet in context.GiangViens on keKhai.idNguoiDuyet equals nguoiDuyet.MaGV
                                 where gv.MaGV == maGV && dotKeKhai.MaDotKeKhai == maDotKeKhai
                                       && pc.TrangThai == "Hoàn Thành" && keKhai.idNguoiDuyet != null
-                                select new XemThongTinKeKhaiDaDuyet
+                                select new
                                 {
                                     Id = keKhai.MaKeKhai,
                                     hinhThucDay = pc.HinhThucDay,
@@ -291,21 +291,45 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KeKhaiService
                                     maPhanCongHocPhan = pc.MaPhanCongHocPhan,
                                     ngayDay = pc.ThoiGianDay,
                                     ngayDuyet = (DateTime)keKhai.NgayDuyetKeKhai,
-                                    ngayKeKhai = keKhai.NgayKeKhai.ToString("dd/MM/yyyy"),
+                                    ngayKeKhai = keKhai.NgayKeKhai,
                                     nguoiDuyet = nguoiDuyet.TenGV,
                                     soLuong = (int)pc.SiSo,
                                     tenHocPhan = hp.TenHP,
                                     tenLop = pc.LopPhanCong,
                                 };
 
-                    var dsKeKhaiDaDuyet = query.Skip((page - 1) * pageSize).Take(pageSize).Distinct().ToList();
+                    var result = query
+                        .AsEnumerable() // Chuyển truy vấn sang LINQ to Objects
+                        .Select(x => new XemThongTinKeKhaiDaDuyet
+                        {
+                            Id = x.Id,
+                            hinhThucDay = x.hinhThucDay,
+                            hocKy = x.hocKy,
+                            maHP = x.maHP,
+                            namHoc = x.namHoc,
+                            maPhanCongHocPhan = x.maPhanCongHocPhan,
+                            ngayDay = x.ngayDay,
+                            ngayDuyet = x.ngayDuyet,
+                            ngayKeKhai = x.ngayKeKhai.ToString("dd/MM/yyyy"), // Gọi ToString() sau khi đưa về .NET
+                            nguoiDuyet = x.nguoiDuyet,
+                            soLuong = x.soLuong,
+                            tenHocPhan = x.tenHocPhan,
+                            tenLop = x.tenLop,
+                        })
+                        .Skip((page - 1) * pageSize)
+                        .Take(pageSize)
+                        .Distinct()
+                        .ToList();
+
                     var soLuongKeKhai = query.Count();
-                    return (dsKeKhaiDaDuyet, soLuongKeKhai);
+                    return (result, soLuongKeKhai);
+
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                return (new List<XemThongTinKeKhaiDaDuyet>(), 0);
             }
             return (new List<XemThongTinKeKhaiDaDuyet>(), 0);
         }
@@ -423,7 +447,10 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KeKhaiService
                                 };
 
                     int tongSoLuong = query.Count();
-                    var dsHocPhanChuaHoanThanh = query.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                    var dsHocPhanChuaHoanThanh = query.OrderBy(pc => pc.ngayDay)
+                                  .Skip((page - 1) * pageSize)
+                                  .Take(pageSize)
+                                  .ToList();
                     return (dsHocPhanChuaHoanThanh, tongSoLuong);
                 }
             }
@@ -556,34 +583,80 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.KeKhaiService
             {
                 using (var context = new WebsiteQuanLyKeKhaiGiangDayEntities1())
                 {
-                    var query = from pc in context.PhanCongHocPhans
-                                join hp in context.HocPhans on pc.MaHP equals hp.MaHP
-                                join gv in context.GiangViens on pc.MaGV equals gv.MaGV
-                                join keKhai in context.KeKhais on pc.MaPhanCongHocPhan equals keKhai.MaPhanCongHocPhan
-                                join dotKeKhai in context.DotKeKhais on keKhai.MaDotKeKhai equals dotKeKhai.MaDotKeKhai
-                                join nguoiDuyet in context.GiangViens on keKhai.idNguoiDuyet equals nguoiDuyet.MaGV
-                                where gv.MaGV == maGV
-                                && pc.TrangThai == "Hoàn Thành"
-                                && keKhai.idNguoiDuyet != null
-                                && keKhai.MaKeKhai == maKeKhai
-                                select new XemThongTinKeKhaiDaDuyet
-                                {
-                                    Id = keKhai.MaKeKhai,
-                                    hinhThucDay = pc.HinhThucDay,
-                                    hocKy = pc.HocKy,
-                                    maHP = hp.MaHP,
-                                    namHoc = pc.NamHoc,
-                                    maPhanCongHocPhan = pc.MaPhanCongHocPhan,
-                                    ngayDay = pc.ThoiGianDay,
-                                    ngayDuyet = (DateTime)keKhai.NgayDuyetKeKhai,
-                                    ngayKeKhai = keKhai.NgayKeKhai.ToString("dd/MM/yyyy"),
-                                    nguoiDuyet = nguoiDuyet.TenGV,
-                                    soLuong = (int)pc.SiSo,
-                                    tenHocPhan = hp.TenHP,
-                                    tenLop = pc.LopPhanCong,
-                                };
+                    //var query = from pc in context.PhanCongHocPhans
+                    //            join hp in context.HocPhans on pc.MaHP equals hp.MaHP
+                    //            join gv in context.GiangViens on pc.MaGV equals gv.MaGV
+                    //            join keKhai in context.KeKhais on pc.MaPhanCongHocPhan equals keKhai.MaPhanCongHocPhan
+                    //            join dotKeKhai in context.DotKeKhais on keKhai.MaDotKeKhai equals dotKeKhai.MaDotKeKhai
+                    //            join nguoiDuyet in context.GiangViens on keKhai.idNguoiDuyet equals nguoiDuyet.MaGV
+                    //            where gv.MaGV == maGV
+                    //            && pc.TrangThai == "Hoàn Thành"
+                    //            && keKhai.idNguoiDuyet != null
+                    //            && keKhai.MaKeKhai == maKeKhai
+                    //            select new XemThongTinKeKhaiDaDuyet
+                    //            {
+                    //                Id = keKhai.MaKeKhai,
+                    //                hinhThucDay = pc.HinhThucDay,
+                    //                hocKy = pc.HocKy,
+                    //                maHP = hp.MaHP,
+                    //                namHoc = pc.NamHoc,
+                    //                maPhanCongHocPhan = pc.MaPhanCongHocPhan,
+                    //                ngayDay = pc.ThoiGianDay,
+                    //                ngayDuyet = (DateTime)keKhai.NgayDuyetKeKhai,
+                    //                ngayKeKhai = keKhai.NgayKeKhai.ToString("dd/MM/yyyy"),
+                    //                nguoiDuyet = nguoiDuyet.TenGV,
+                    //                soLuong = (int)pc.SiSo,
+                    //                tenHocPhan = hp.TenHP,
+                    //                tenLop = pc.LopPhanCong,
+                    //            };
 
-                    return query.FirstOrDefault() ?? new XemThongTinKeKhaiDaDuyet();
+                    //return query.FirstOrDefault() ?? new XemThongTinKeKhaiDaDuyet();
+                    var raw = (from pc in context.PhanCongHocPhans
+                               join hp in context.HocPhans on pc.MaHP equals hp.MaHP
+                               join gv in context.GiangViens on pc.MaGV equals gv.MaGV
+                               join keKhai in context.KeKhais on pc.MaPhanCongHocPhan equals keKhai.MaPhanCongHocPhan
+                               join dotKeKhai in context.DotKeKhais on keKhai.MaDotKeKhai equals dotKeKhai.MaDotKeKhai
+                               join nguoiDuyet in context.GiangViens on keKhai.idNguoiDuyet equals nguoiDuyet.MaGV
+                               where gv.MaGV == maGV
+                                   && pc.TrangThai == "Hoàn Thành"
+                                   && keKhai.idNguoiDuyet != null
+                                   && keKhai.MaKeKhai == maKeKhai
+                               select new
+                               {
+                                   keKhai.MaKeKhai,
+                                   pc.HinhThucDay,
+                                   pc.HocKy,
+                                   hp.MaHP,
+                                   pc.NamHoc,
+                                   pc.MaPhanCongHocPhan,
+                                   pc.ThoiGianDay,
+                                   keKhai.NgayDuyetKeKhai,
+                                   keKhai.NgayKeKhai,
+                                   nguoiDuyet.TenGV,
+                                   pc.SiSo,
+                                   hp.TenHP,
+                                   pc.LopPhanCong
+                               }).FirstOrDefault();
+
+                    if (raw == null) return new XemThongTinKeKhaiDaDuyet();
+
+                    return new XemThongTinKeKhaiDaDuyet
+                    {
+                        Id = raw.MaKeKhai,
+                        hinhThucDay = raw.HinhThucDay,
+                        hocKy = raw.HocKy,
+                        maHP = raw.MaHP,
+                        namHoc = raw.NamHoc,
+                        maPhanCongHocPhan = raw.MaPhanCongHocPhan,
+                        ngayDay = raw.ThoiGianDay,
+                        ngayDuyet = (DateTime)raw.NgayDuyetKeKhai,
+                        ngayKeKhai = raw.NgayKeKhai.ToString("dd/MM/yyyy"), // Format an toàn sau khi đã lấy từ DB
+                        nguoiDuyet = raw.TenGV,
+                        soLuong = (int)raw.SiSo,
+                        tenHocPhan = raw.TenHP,
+                        tenLop = raw.LopPhanCong
+                    };
+
                 }
             }
             catch (Exception ex)

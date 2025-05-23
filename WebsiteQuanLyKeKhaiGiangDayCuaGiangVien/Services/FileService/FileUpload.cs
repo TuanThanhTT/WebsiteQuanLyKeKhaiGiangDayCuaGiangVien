@@ -83,6 +83,8 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.FileService
         {
             try
             {
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
                 using (var context = new WebsiteQuanLyKeKhaiGiangDayEntities1())
                 {
                     var dataTable = new DataTable();
@@ -142,7 +144,10 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.FileService
                             worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
 
                             var fileName = $"PhanCong_{DateTime.Now:yyyyMMddHHmmss}.xlsx";
-                            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "Content", "FileExport");
+                            //var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "Content", "FileExport");
+                            //var folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "/Content/FileExport");
+                            var folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Content", "FileExport");
+
                             if (!Directory.Exists(folderPath))
                             {
                                 Directory.CreateDirectory(folderPath);
@@ -158,6 +163,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.FileService
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                return "";
             }
             return "";
         }

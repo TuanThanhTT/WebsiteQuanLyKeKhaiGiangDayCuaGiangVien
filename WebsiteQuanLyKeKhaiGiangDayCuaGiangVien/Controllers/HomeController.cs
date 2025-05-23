@@ -121,7 +121,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Controllers
                 }
 
                 // Lưu file vào thư mục Uploads
-                string folderPath = Server.MapPath("~/Uploads/ImgAvartar/");
+                string folderPath = Server.MapPath("~/Content/ImgAvartar ");
                 if (!Directory.Exists(folderPath))
                 {
                     Directory.CreateDirectory(folderPath);

@@ -21,8 +21,8 @@
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement("option");
 
-                        option.value = data[i].id;
-                        option.textContent = data[i].tenNamHoc;
+                        option.value = data[i].Id;
+                        option.textContent = data[i].TenNamHoc;
 
                         mainNamHoc.appendChild(option);
 
@@ -71,8 +71,8 @@ function loadHocKyTheoNamHoc(namHoc) {
                 if (data.length > 0) {
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement('option');
-                        option.value = data[i].maHocKy;
-                        option.textContent = data[i].tenHocKy;
+                        option.value = data[i].MaHocKy;
+                        option.textContent = data[i].TenHocKy;
                         mainHocKy.appendChild(option);
                     }
                 }
@@ -105,13 +105,13 @@ function loadDotKeKhaiTheoHocKyNamHoc(maNamHoc, maHocKy) {
                 dotkekhai.selected = true;
                 dotkekhai.value = "";
                 dotkekhai.textContent = "Chọn đợt kê khai";
-
+                console.log("log dot ke khai theo nam hoc: " + JSON.stringify(response));
                 mainDotKeKhai.appendChild(dotkekhai);
                 if (data.length > 0) {
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement('option');
-                        option.value = data[i].maDotKeKhai;
-                        option.textContent = data[i].tenDotKeKhai;
+                        option.value = data[i].MaDotKeKhai;
+                        option.textContent = data[i].TenDotKeKhai;
                         mainDotKeKhai.appendChild(option);
                     }
                 }
@@ -122,7 +122,6 @@ function loadDotKeKhaiTheoHocKyNamHoc(maNamHoc, maHocKy) {
         }
     });
 }
-
 
 function checkAndLoadDotKeKhai() {
     var mainNamHoc = document.getElementById("namHoc");
@@ -136,12 +135,12 @@ function checkAndLoadDotKeKhai() {
         loadDotKeKhaiTheoHocKyNamHoc(selectedNamHoc, selectedHocKy);
     }
 }
+
 document.addEventListener("DOMContentLoaded", function () {
     var DotKeKhai = document.getElementById("dotKeKhai");
     const selectedDotKeKhai = DotKeKhai.value;
-    loadDanhSachKeKhaiTheoDot();
+   // loadDanhSachKeKhaiTheoDot();
 });
-
 
 document.addEventListener("DOMContentLoaded", function () {
     const namHoc = document.getElementById("namHoc");
@@ -196,10 +195,9 @@ function updatePhanTrangTableKeKhai(totalPages, currentPage) {
     createPageItem(totalPages, "Sau", false, currentPage === totalPages);
 }
 
-
 function loadDanhSachKeKhaiTheoDot(page = 1, pageSize = 5) {
     var maDotKeKhai = document.getElementById("dotKeKhai").value;
-    
+    console.log("dợt kê khai dang chon là: " + maDotKeKhai);
     $.ajax({
         url: '/KeKhai/loadHocPhanKeKhaiTheoDot',
         type: 'POST',
@@ -261,7 +259,7 @@ function loadDanhSachKeKhaiTheoDot(page = 1, pageSize = 5) {
                             '<td>' + data[i].maHP+'</td>' +
                             '<td>' + data[i].tenHocPhan + '</td>' +
                             '<td>' + data[i].tenLop+'</td>' +
-                            '<td><button id="open-modal" onclick="xemThongTinKeKhai('+data[i].id+')" class="btn btn-primary">Xem</button></td>';
+                            '<td><button id="open-modal" onclick="xemThongTinKeKhai('+data[i].Id+')" class="btn btn-primary">Xem</button></td>';
                         mainTable.appendChild(row);
                     }
                 } else {
@@ -279,15 +277,10 @@ function loadDanhSachKeKhaiTheoDot(page = 1, pageSize = 5) {
           
         },
         error: function (xhr, status, error) {
-            alert("Có lỗi xảy ra: " + error);
+            alert("Có lỗi xảy ra:" + error);
         }
     });
 }
-
-
-
-
-
 
 document.addEventListener("DOMContentLoaded", function () {
     var btnXemKeKhai = document.getElementById("btnXemKeKhai");
@@ -311,7 +304,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
-
 
 function xemThongTinKeKhai(maKeKhai) {
     $.ajax({
@@ -377,15 +369,12 @@ function xemThongTinKeKhai(maKeKhai) {
     });
 }
 
-
 document.addEventListener("DOMContentLoaded", function () {
     var btnXuatFileKeKhai = document.getElementById("btnXuatFileKeKhai");
     if (btnXuatFileKeKhai) {
         btnXuatFileKeKhai.addEventListener("click", XuatFileKeKhaiTheoDot);
     }
 });
-
-
 
 function XuatFileKeKhaiTheoDot() {
     var dotKeKhai = document.getElementById("dotKeKhai");

@@ -47,7 +47,7 @@ function loadTableHocPhanDuocPhanCong(page = 1, pageSize = 5) {
         type: 'POST',
         data: { page: page, pageSize: pageSize },
         success: function (response) {
-         
+            console.log("Các học phần đã đc phân công la: " + JSON.stringify(response));
             var data = response.data;
             var soLuong = document.getElementById("soLuong");
             soLuong.innerHTML = '';
@@ -65,9 +65,9 @@ function loadTableHocPhanDuocPhanCong(page = 1, pageSize = 5) {
                             '<td>' + (data[i].siSo) + '</td>' +
                         '<td>'+
                             '<div class="action-buttons">' +
-                            '<button onclick="HienThiThongTinPhanCongHocPhan(\'' + data[i].id + '\')" class="btn-view">Xem</button>' +
-                            '<button onclick="hoanThanhKeKhai(\'' + data[i].id + '\')" class="btn-done">Hoàn Thành</button>'+
-                            '<button onclick="hienThongTinSuaPhanCongKeKhai(\'' + data[i].id + '\')" class="btn-edit">Sửa</button>'+
+                            '<button onclick="HienThiThongTinPhanCongHocPhan(\'' + data[i].Id + '\')" class="btn-view">Xem</button>' +
+                            '<button onclick="hoanThanhKeKhai(\'' + data[i].Id + '\')" class="btn-done">Hoàn Thành</button>'+
+                            '<button onclick="hienThongTinSuaPhanCongKeKhai(\'' + data[i].Id + '\')" class="btn-edit">Sửa</button>'+
                             '</div>'+
                             '</td >';
                         mainTable.appendChild(row);
@@ -160,8 +160,8 @@ function loadTablePhanCongChoDuyet(page = 1, pageSize = 5) {
                             '<td>' + (data[i].siSo) + '</td>' +
                             '<td>' +
                             '<div class="action-buttons">' +
-                            '<button onclick="HienThiThongTinPhanCongHocPhan(\'' + data[i].id + '\')" class="btn-view">Xem</button>' +
-                            '<button onclick="hienThongTinSuaPhanCongKeKhai(\'' + data[i].id + '\')" class="btn-edit">Sửa</button>' +
+                            '<button onclick="HienThiThongTinPhanCongHocPhan(\'' + data[i].Id + '\')" class="btn-view">Xem</button>' +
+                            '<button onclick="hienThongTinSuaPhanCongKeKhai(\'' + data[i].Id + '\')" class="btn-edit">Sửa</button>' +
                             '</div>' +
                             '</td >';
                         mainTable.appendChild(row);
@@ -187,6 +187,7 @@ function HienThiThongTinPhanCongHocPhan(maPhanCong) {
     var formData = new FormData();
     formData.append("maPhanCong", maPhanCong);
 
+    console.log("ma phan cong la: " + maPhanCong);
    
     $.ajax({
         url: '/KeKhai/XemThongTinPhanCongHocPhan',
@@ -196,7 +197,7 @@ function HienThiThongTinPhanCongHocPhan(maPhanCong) {
         processData: false,
         success: function (response) {
             var modalInfo = document.getElementById("modal-xem-kekhai");
-        
+            
 
             if (response.success) {
                 var data = response.data;

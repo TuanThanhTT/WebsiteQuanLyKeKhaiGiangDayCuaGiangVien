@@ -135,15 +135,17 @@
                 </div>
                 <div class="form-input">
                     <div class="input-box">
-                        <input type="text" class="input-field" placeholder="Mã giảng viên" required>
+                        <input id="maGVDatLai" type="text" class="input-field input-datlai" placeholder="Mã giảng viên" required>
                         <i class="bx bx-user icon"></i>
+
                     </div>
                     <div class="input-box">
-                        <input type="email" class="input-field" placeholder="email" required>
+                        <input id="EmailDatLai" type="email" class="input-field input-datlai" placeholder="email" required>
                         <i class="bx bx-envelope icon"></i>
+
                     </div>
                     <div class="input-box">
-                        <button class="input-submit">
+                        <button id="btnDatLaiMatKhau" class="input-submit">
                             <span>Đặt Lại</span>
                             <i class="bx bx-right-arrow-alt"></i>
 
@@ -229,6 +231,43 @@
                 }
             });
         });
+        document.addEventListener("DOMContentLoaded", function () {
+            const loginButton = document.getElementById("btnDatLaiMatKhau");
+            const inputs = document.querySelectorAll(".input-datlai");
+
+
+            loginButton.addEventListener("click", function (e) {
+                e.preventDefault(); // Ngăn việc submit form khi có lỗi
+
+                // Xóa thông báo lỗi cũ
+                document.querySelectorAll(".error-message").forEach((msg) => msg.remove());
+
+                let hasError = false;
+
+                inputs.forEach((input) => {
+                    if (!input.value.trim()) {
+                        hasError = true;
+
+                        // Tạo thông báo lỗi
+                        const errorMessage = document.createElement("span");
+                        errorMessage.classList.add("error-message");
+                        errorMessage.textContent = `Vui lòng nhập ${input.placeholder.toLowerCase()}!`;
+                        errorMessage.style.color = "red";
+                        errorMessage.style.fontSize = "12px";
+
+                        // Thêm thông báo lỗi ngay bên dưới input
+                        input.parentElement.appendChild(errorMessage);
+                    }
+                });
+
+                // Nếu không có lỗi, có thể xử lý đăng nhập tại đây
+                if (!hasError) {
+                    console.log("co chay");
+                    quenMatKhau();
+                }
+            });
+        });
+
         function dangnhap(){
             console.log("co chay ajax")
             var formData = new FormData();
@@ -260,6 +299,37 @@
                 }
             });
         }
+
+        function quenMatKhau() {
+            console.log("co chay ajax quen mat khau")
+            var formData = new FormData();
+            var maGV = document.getElementById("maGVDatLai").value;
+            var email = document.getElementById("EmailDatLai").value;
+            formData.append("maGV", maGV);
+            formData.append("email", email);
+
+            $.ajax({
+                url: '/Login/QuenMatKhau',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    console.log("co goi api quen mat khau")
+                    console.log(JSON.stringify(response))
+                    if (response.success) {
+                        showErrorModal(response.message);
+                    } else {
+                        showErrorModal(response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("Có lỗi xảy ra: " + error);
+                }
+            });
+        }
+
+
     </script>
 
 </body>

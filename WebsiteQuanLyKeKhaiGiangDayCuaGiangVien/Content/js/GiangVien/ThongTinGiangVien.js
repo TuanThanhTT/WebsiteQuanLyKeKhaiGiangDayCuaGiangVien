@@ -38,7 +38,7 @@ function CapNhatAnh(file) {
                 //cap nhat hien thi lai anh dai dien
                 var imgAvartar = document.getElementById("imgAvartar");
 
-                imgAvartar.src = "/ImgAvartar/" + data;
+                imgAvartar.src = "/Content/ImgAvartar/" + data;
                 var inputImg = document.getElementById("imgFile");
                 inputImg.value = "";
                 var btnLuuAvartar = document.getElementById("btnLuuAvartar");

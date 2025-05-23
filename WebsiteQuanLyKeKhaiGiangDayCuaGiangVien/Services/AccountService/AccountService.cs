@@ -97,7 +97,12 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.AccountService
                                 };
 
                     var soLuong = query.Count();
-                    var danhSach = query.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                    var danhSach = query
+    .OrderBy(gv => gv.maGV) // Sắp xếp theo trường nào đó, ví dụ maGV
+    .Skip((page - 1) * pageSize)
+    .Take(pageSize)
+    .ToList();
+                   
 
                     return (danhSach, soLuong);
                 }
@@ -105,8 +110,9 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.AccountService
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
+
             }
-            return (new List<ThongTinTaiKhoanGiangVien>(), 0);
+            return (new List<ThongTinTaiKhoanGiangVien>(), 100000);
         }
 
         public bool ThayDoiQuyenTruyCap(string maGV, int maQuyenTruyCap)
@@ -193,7 +199,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.AccountService
                     ).ToList();
 
                     var soLuong = queryFilter.Count();
-                    var danhSachTim = queryFilter.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                    var danhSachTim = queryFilter.OrderBy(op=>op.maGV).Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
                     return (danhSachTim, soLuong);
                 }
@@ -236,7 +242,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Service.AccountService
                                     };
 
                         int soLuong = query.Count(); // Đếm số lượng kết quả
-                        var danhsach = query.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                        var danhsach = query.OrderBy(op=>op.maGV).Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
                         return (danhsach, soLuong);
                     }

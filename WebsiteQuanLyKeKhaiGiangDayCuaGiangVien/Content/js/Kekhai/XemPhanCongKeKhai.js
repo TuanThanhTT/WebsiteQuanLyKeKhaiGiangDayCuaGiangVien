@@ -21,8 +21,8 @@
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement("option");
 
-                        option.value = data[i].id;
-                        option.textContent = data[i].tenNamHoc;
+                        option.value = data[i].Id;
+                        option.textContent = data[i].TenNamHoc;
 
                         mainNamHoc.appendChild(option);
 
@@ -71,8 +71,8 @@ function loadHocKyTheoNamHoc(namHoc) {
                 if (data.length > 0) {
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement('option');
-                        option.value = data[i].maHocKy;
-                        option.textContent = data[i].tenHocKy;
+                        option.value = data[i].MaHocKy;
+                        option.textContent = data[i].TenHocKy;
                         mainHocKy.appendChild(option);
                     }
                 }
@@ -110,8 +110,8 @@ function loadDotKeKhaiTheoHocKyNamHoc(maNamHoc, maHocKy) {
                 if (data.length > 0) {
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement('option');
-                        option.value = data[i].maDotKeKhai;
-                        option.textContent = data[i].tenDotKeKhai;
+                        option.value = data[i].MaDotKeKhai;
+                        option.textContent = data[i].TenDotKeKhai;
                         mainDotKeKhai.appendChild(option);
                     }
                 }
@@ -254,8 +254,8 @@ function loadPhanCongHienTai() {
                             dotKeKhai.dispatchEvent(new Event("change"));
 
                             // Gọi thống kê
-                            thongKeTheoDot(dotKeKhai.value);
-                            thongKeTienDoGiangVien();
+                            //thongKeTheoDot(dotKeKhai.value);
+                            //thongKeTienDoGiangVien();
                         }, 500); // Chờ 500ms để đảm bảo dữ liệu đã cập nhật
                     }, 500);
                 }
@@ -320,6 +320,7 @@ function XuatFilePhanCongTheoDot() {
     formData.append("maDotKeKhai", maDotKeKhai);
             $.ajax({
                 url: '/KeKhai/DowloadFilePhanCong', 
+                type: 'POST',
                 data: formData,
                 contentType: false,
                 processData: false,
@@ -332,7 +333,7 @@ function XuatFilePhanCongTheoDot() {
                         document.body.appendChild(link);
                         link.click();
                         document.body.removeChild(link);
-
+                        console.log("dowwn load file thanh cong!");
                         var fromDate = new FormData();
                         fromDate.append("fileName", response.fileUrl.split('/').pop());
                         setTimeout(() => {
@@ -351,7 +352,7 @@ function XuatFilePhanCongTheoDot() {
                                     console.error("Không thể xóa file.");
                                 }
                             });
-                        }, 500000); // Chờ 3 giây trước khi gửi yêu cầu xóa
+                        }, 5000000); // Chờ 3 giây trước khi gửi yêu cầu xóa
 
 
                     } else {

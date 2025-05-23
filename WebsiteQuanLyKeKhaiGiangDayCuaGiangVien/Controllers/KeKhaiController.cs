@@ -132,7 +132,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Controllers
         }
 
         [HttpPost]
-        public JsonResult loadDanhSachPhanCongHocPhanTheoDotGanNhat(int maDotKeKhai)
+        public JsonResult loadDanhSachPhanCongHocPhanTheoDotGanNhat()
         {
             try
             {
@@ -174,6 +174,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Controllers
         [HttpPost]
         public JsonResult DowloadFilePhanCong(int maDotKeKhai)
         {
+            
             try
             {
                 string maGV = Session["UserName"] as string; // Lấy Session trong ASP.NET MVC 5
@@ -215,7 +216,8 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Controllers
 
                         FileUpload fileUpload = new FileUpload();
                         string fileName = fileUpload.XuatFilePhanCongTheoGiangVien(dsPhanCongTheoDot);
-                        string fileUrl = Path.Combine("/FileExport", fileName).Replace("\\", "/");
+                       // string fileUrl = Path.Combine("~/Content/FileExport", fileName).Replace("\\", "/");
+                        string fileUrl = Url.Content("~/Content/FileExport/" + fileName);
 
                         if (string.IsNullOrEmpty(fileUrl))
                         {
@@ -226,6 +228,14 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Controllers
                             return Json(new { success = true, fileUrl = fileUrl }, JsonRequestBehavior.AllowGet);
                         }
                     }
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        success = 0,
+                        message = "Tải file thất bại!"
+                    }, JsonRequestBehavior.AllowGet);
                 }
             }
             catch (Exception ex)
@@ -290,16 +300,29 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Controllers
                         message = "Lấy danh sách kê khai thành công!"
                     });
                 }
+                else
+                {
+                    return Json(new
+                    {
+                        success = 0,
+                        message = "Có lỗi xảy ra, vui lòng thử lại sau!404"
+                    });
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                return Json(new
+                {
+                    success = 0,
+                    message = "Có lỗi xảy ra, vui lòng thử lại sau!500"
+                });
             }
 
             return Json(new
             {
                 success = 0,
-                message = "Có lỗi xảy ra, vui lòng thử lại sau!"
+                message = "Có lỗi xảy ra, vui lòng thử lại sau!400"
             });
         }
 
@@ -463,6 +486,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+              
             }
 
             return Json(new
@@ -492,6 +516,11 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                return Json(new
+                {
+                    success = 0,
+                    message = "Có lỗi xảy ra"
+                }, JsonRequestBehavior.AllowGet);
             }
 
             return Json(new

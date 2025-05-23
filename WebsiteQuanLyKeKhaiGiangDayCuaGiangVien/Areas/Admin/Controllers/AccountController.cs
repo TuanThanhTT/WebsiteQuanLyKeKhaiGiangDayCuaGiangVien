@@ -24,6 +24,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Areas.Admin.Controllers
                 {
                     var danhSachTaiKhoan = result.Item1;
                     var tongSoLuong = result.Item2;
+                
 
                     return Json(new
                     {
@@ -107,7 +108,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Areas.Admin.Controllers
                     return Json(new
                     {
                         success = 0,
-                        message = "Bạn không có quyền truy cập chức năng này!"
+                        message = "Bạn không có quyền truy cập chức năng này!" + currentUser
                     }, JsonRequestBehavior.AllowGet);
                 }
 

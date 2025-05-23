@@ -303,7 +303,7 @@ namespace WebsiteQuanLyKeKhaiGiangDayCuaGiangVien.Areas.Admin.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(tenHocPhan) || string.IsNullOrEmpty(maHocPhan) || soTinChi == 0 || lyThuyet == 0 || thucHanh == 0)
+                if (string.IsNullOrEmpty(tenHocPhan) || string.IsNullOrEmpty(maHocPhan) || soTinChi == 0 || lyThuyet == 0 || thucHanh <0)
                 {
                     return Json(new
                     {

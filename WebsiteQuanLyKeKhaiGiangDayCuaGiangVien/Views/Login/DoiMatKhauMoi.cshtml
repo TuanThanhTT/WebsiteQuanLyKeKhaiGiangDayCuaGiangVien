@@ -1,0 +1,77 @@
+﻿
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Thông báo đổi mật khẩu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 400px;
+        }
+
+        .success {
+            color: #28a745;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .error {
+            color: #dc3545;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+            .button:hover {
+                background-color: #0056b3;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        @if (ViewBag.thanhCong)
+        {
+            <p class="success">✅ @ViewBag.ThongBao</p>
+            <a href="~/Login/Login" class="button">Quay lại đăng nhập</a>
+        }
+        else
+        {
+            <p class="error">❌ @ViewBag.ThongBao</p>
+            <a href="javascript:history.back()" class="button">Thử lại</a>
+        }
+    </div>
+</body>
+</html>

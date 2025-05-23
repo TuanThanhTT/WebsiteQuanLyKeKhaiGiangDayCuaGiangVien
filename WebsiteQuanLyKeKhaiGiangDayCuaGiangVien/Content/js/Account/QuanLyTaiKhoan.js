@@ -8,6 +8,7 @@ function loadDanhSachKhoa() {
         url: '/Admin/KeKhai/loadThongTinKhoa',
         type: 'POST',
         success: function (response) {
+            console.log("danh sach khoa la: "+ JSON.stringify(response));
             var mainKhoa = document.getElementById("khoa");
             mainKhoa.innerHTML = ''; // Làm trống dropdown trước khi thêm mới
 
@@ -25,8 +26,8 @@ function loadDanhSachKhoa() {
                     // Thêm các lựa chọn khoa vào dropdown
                     for (let i = 0; i < data.length; i++) {
                         var option = document.createElement("option");
-                        option.value = data[i].maKhoa;
-                        option.textContent = data[i].tenKhoa;
+                        option.value = data[i].MaKhoa;
+                        option.textContent = data[i].TenKhoa;
                         mainKhoa.appendChild(option);
                     }
                 }
